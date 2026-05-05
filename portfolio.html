@@ -1079,12 +1079,12 @@ footer {
     <a href="tools.html" data-i18n="nav_tools">Tools</a>
     <a href="index.html#contact" data-i18n="nav_contact_link">Contact</a>
   </div>
-  <div class="hero-label" style="opacity:1;">// EQC Track Record</div>
+  <div class="hero-label" style="opacity:1;" data-i18n="portfolio_hero_label">// EQC Track Record</div>
   <h1 class="hero-title" style="opacity:1;font-size:clamp(38px,5vw,72px);">
-    Portfolio
-    <span class="gold-line" style="font-size:clamp(42px,5.5vw,80px);">Live</span>
+    <span data-i18n="portfolio_title">Portfólio</span>
+    <span class="gold-line" style="font-size:clamp(42px,5.5vw,80px);" data-i18n="portfolio_title_gold">Live</span>
   </h1>
-  <p class="hero-tagline" style="opacity:1;">Real trades. Verified data. 100% auditable performance — closed and open positions across all markets.</p>
+  <p class="hero-tagline" style="opacity:1;" data-i18n="portfolio_hero_tagline">Operações reais. Dados verificados. Performance 100% auditável — posições fechadas e abertas em todos os mercados.</p>
 
 </section>
 <div class="divider"></div>
@@ -1123,14 +1123,14 @@ footer {
     <table style="table-layout:fixed;width:100%">
       <thead>
         <tr>
-          <th style="width:12%">Ticker</th>
+          <th style="width:12%" data-i18n="th_ticker">Ticker</th>
           <th style="width:8%;text-align:center">TF</th>
-          <th style="width:13%;text-align:right" class="col-price">Avg Price IN</th>
-          <th style="width:13%;text-align:right" class="col-price">Avg Price OUT</th>
-          <th style="width:12%;text-align:right">PNL %</th>
-          <th style="width:14%;text-align:right">PNL ($)</th>
-          <th style="width:14%;text-align:right">Trade RR</th>
-          <th style="width:14%;text-align:right">MAE %</th>
+          <th style="width:13%;text-align:right" class="col-price" data-i18n="th_price_in">Preço Entrada Méd.</th>
+          <th style="width:13%;text-align:right" class="col-price" data-i18n="th_price_out">Preço Saída Méd.</th>
+          <th style="width:12%;text-align:right" data-i18n="th_pnl_pct">PNL %</th>
+          <th style="width:14%;text-align:right" data-i18n="th_pnl_usd">PNL ($)</th>
+          <th style="width:14%;text-align:right" data-i18n="th_rr">Trade RR</th>
+          <th style="width:14%;text-align:right" data-i18n="th_mae">MAE %</th>
         </tr>
       </thead>
       <tbody id="closed-tbody">
@@ -1166,10 +1166,10 @@ footer {
     <table style="table-layout:fixed;width:100%">
       <thead>
         <tr>
-          <th style="width:25%">Exchange</th>
-		  <th style="width:25%">Ticker</th>
-		  <th style="width:25%;text-align:center">PNL %</th>
-		  <th style="width:25%;text-align:center">PNL ($)</th>
+          <th style="width:25%" data-i18n="th_exchange">Exchange</th>
+		  <th style="width:25%" data-i18n="th_ticker">Ticker</th>
+		  <th style="width:25%;text-align:center" data-i18n="th_pnl_pct">PNL %</th>
+		  <th style="width:25%;text-align:center" data-i18n="th_pnl_usd">PNL ($)</th>
         </tr>
       </thead>
       <tbody id="live-tbody">
@@ -1911,7 +1911,7 @@ const TRANSLATIONS = {
     hero_tagline: 'Uma abordagem sistemática à preservação de capital e crescimento composto. O controlo do risco é primário. O retorno é uma consequência estrutural.',
     hero_cta1: 'Pedir Acesso', hero_cta2: 'Ver Historial', hero_scroll: 'Explorar',
     mandate_eyebrow: 'Mandato',
-    mandate_title: 'Preservação de Capital.<br>Retornos Estruturais.',
+    mandate_title: 'Preservação de Capital<br>Retornos Estruturais',
     mandate_p1: 'A Evolution Quantum Capital opera sob um mandato claro: <strong>proteger o capital primeiro, fazê-lo crescer depois.</strong> Os retornos não são perseguidos, emergem como consequência de uma gestão disciplinada do risco.',
     mandate_p2: 'Cada decisão decorre de regras predefinidas. Não há espaço para narrativa, opinião ou viés do momento. O modelo adapta-se; a disciplina não.',
     mandate_universe_label: 'UNIVERSO DE ATUAÇÃO —',
@@ -1949,14 +1949,14 @@ const TRANSLATIONS = {
     ri3_title: 'Execução Não Discricionária', ri3_text: 'Toda a execução segue regras do modelo. O julgamento humano limita-se à supervisão do modelo, não às decisões de operação.',
     ri4_title: 'Convexidade acima da frequência', ri4_text: 'A carteira está estruturada para beneficiar desproporcionalmente de grandes movimentos. A taxa de sucesso é secundária face ao rácio de recompensa.',
     phil_eyebrow: 'Filosofia',
-    phil_title: 'Três Princípios.<br>Sem Exceções.',
+    phil_title: 'Três Princípios<br>Sem Exceções',
     phil1_text: 'Disciplina acima da opinião.', phil1_label: 'O Sistema Decide',
     phil2_text: 'Processo acima da narrativa.', phil2_label: 'Regras Acima de Tudo',
     phil3_text: 'Assimetria acima do volume.', phil3_label: 'Qualidade acima da Quantidade',
     audit_stripe: '✓ TODAS AS OPERAÇÕES SÃO 100% AUDITÁVEIS E COMPROVÁVEIS',
     fala_connosco: 'Fala Connosco',
     cust_eyebrow: 'Confiança e Transparência',
-    cust_title: 'O Seu Capital.<br><span>Sempre Seu.</span>',
+    cust_title: 'O Seu Capital<br><span>Sempre Seu</span>',
     cust_text: 'Risco de custódia zero. Os seus fundos permanecem na sua própria <strong>conta Interactive Brokers</strong> em todo o momento. Operamos exclusivamente via acesso de investidor — <strong>visibilidade total, exposição zero ao risco de contraparte.</strong>',
     cp1_title: 'Sem Custódia de Fundos', cp1_text: 'Nunca detemos, movemos ou temos acesso para retirar o seu capital — em nenhum momento.',
     cp2_title: 'A Sua Conta IBKR', cp2_text: 'Todas as operações são executadas diretamente dentro da sua própria conta Interactive Brokers.',
@@ -1976,6 +1976,21 @@ const TRANSLATIONS = {
     contact_or: 'Ou contacte-nos diretamente em',
     footer_copy: '© 2026 Evolution Quantum Capital · Todos os Direitos Reservados',
     footer_disc: 'Este material destina-se apenas a investidores qualificados. Resultados passados não garantem resultados futuros. Não constitui oferta ou solicitação.',
+    portfolio_title: 'Portfólio',
+    portfolio_title_gold: 'Live',
+    portfolio_hero_label: '// EQC Historial',
+    portfolio_hero_tagline: 'Operações reais. Dados verificados. Performance 100% auditável — posições fechadas e abertas em todos os mercados.',
+    th_ticker: 'Ticker',
+    th_price_in: 'Preço Entrada Méd.',
+    th_price_out: 'Preço Saída Méd.',
+    th_pnl_pct: 'PNL %',
+    th_pnl_usd: 'PNL ($)',
+    th_rr: 'Trade RR',
+    th_mae: 'MAE %',
+    th_exchange: 'Exchange',
+    badge_hardcap: 'HARD CAP',
+    badge_active: 'ACTIVO',
+    badge_convex: 'CONVEXO',
   },
   en: {
     partial_title: 'TOP 10 POSITIONS IN PROGRESS — PARTIAL TPs',
@@ -2024,25 +2039,25 @@ const TRANSLATIONS = {
     hero_tagline: 'A systematic approach to capital preservation and compound growth. Risk control is primary. Return is a structural consequence.',
     hero_cta1: 'Request Access', hero_cta2: 'View Track Record', hero_scroll: 'Explore',
     mandate_eyebrow: 'Mandate',
-    mandate_title: 'Capital Preservation.<br>Structural Returns.',
+    mandate_title: 'Capital Preservation<br>Structural Returns',
     mandate_p1: 'Evolution Quantum Capital operates under a clear mandate: <strong>protect capital first, grow it after.</strong> Returns are not pursued — they emerge as a consequence of disciplined risk management.',
     mandate_p2: 'Every decision follows predefined rules. There is no room for narrative, opinion, or bias of the moment. The model adapts; the discipline does not.',
     mandate_universe_label: 'UNIVERSE OF OPERATION —',
-    mandate_universe_text: 'EQC operates across any market, instrument or asset class — equities, ETFs, futures, forex, crypto and more. If it has liquidity and technical structure, the system trades it.',
+    mandate_universe_text: 'EQC operates across any market, instrument or asset class — equities, ETFs, futures, forex, crypto and more. If it has liquidity and technical structure, EQC will trade it.',
     pillar1_title: 'Systematic Approach', pillar1_text: 'Fully rules-based execution across all market regimes. No exceptions, no overrides.',
     pillar2_title: 'Risk First', pillar2_text: 'Position sizing, entry and exit all derive from risk parameters — never from return objectives.',
     pillar3_title: 'Compound Growth', pillar3_text: 'Asymmetric positioning captures large moves while capping losses, enabling long-term compound growth.',
     track_eyebrow: 'Track Record',
     track_title: 'Real Results<br>Closed Trades',
     track_intro: 'All positions below are closed trades with verified entry/exit data. Each trade was executed non-discretionarily within the EQC model.',
-    kpi1_label: 'Total Closed Gains ($)', kpi1_sub: 'Across all closed positions',
+    kpi1_label: 'Total Closed Gain ($)', kpi1_sub: 'Across all closed positions',
     kpi2_label: 'Best Trade', kpi2_sub: 'IBRX — 163.64% gain',
-    kpi3_label: 'Average R-Ratio', kpi3_sub: 'Risk/Reward per trade',
+    kpi3_label: 'Average R-Ratio', kpi3_sub: 'Reward/risk per trade',
     closed_title: 'TOP 10 CLOSED POSITIONS 2026', open_title: 'TOP 10 OPEN POSITIONS',
     loading: 'Loading...',
     disc_closed: 'Past results do not guarantee future results. All data reflects closed positions executed under the EQC systematic model. Full documentation available upon request in private context.',
     disc_open: 'Open positions in real time. Data imported automatically via EQC Portfolio Live.',
-    audit1_title: '100% Auditable', audit1_text: 'Every trade is fully documented',
+    audit1_title: '100% Auditable', audit1_text: 'Every trade documented with entry, exit and date',
     audit2_title: 'Human & Proprietary Precision', audit2_text: 'Every decision is backed by an exclusive TA methodology, not algorithms',
     audit3_title: 'Full Transparency', audit3_text: 'Documentation available upon request',
     model_eyebrow: 'Investment Model',
@@ -2062,14 +2077,14 @@ const TRANSLATIONS = {
     ri3_title: 'Non-Discretionary Execution', ri3_text: 'All execution follows model rules. Human judgment is limited to model oversight, not trading decisions.',
     ri4_title: 'Convexity over Frequency', ri4_text: 'The portfolio is structured to benefit disproportionately from large moves. Win rate is secondary to reward ratio.',
     phil_eyebrow: 'Philosophy',
-    phil_title: 'Three Principles.<br>No Exceptions.',
+    phil_title: 'Three Principles<br>No Exceptions',
     phil1_text: 'Discipline over opinion.', phil1_label: 'The System Decides',
     phil2_text: 'Process over narrative.', phil2_label: 'Rules Above All',
     phil3_text: 'Asymmetry over volume.', phil3_label: 'Quality over Quantity',
     audit_stripe: '✓ ALL OPERATIONS ARE 100% AUDITABLE AND VERIFIABLE',
     fala_connosco: 'Talk to Us',
     cust_eyebrow: 'Trust & Transparency',
-    cust_title: 'Your Capital.<br><span>Always Yours.</span>',
+    cust_title: 'Your Capital<br><span>Always Yours</span>',
     cust_text: 'Zero custody risk. Your funds remain in your own <strong>Interactive Brokers account</strong> at all times. We operate exclusively via investor access — <strong>full visibility, zero counterparty risk exposure.</strong>',
     cp1_title: 'No Fund Custody', cp1_text: 'We never hold, move or have withdrawal access to your capital — at any time.',
     cp2_title: 'Your IBKR Account', cp2_text: 'All trades are executed directly within your own Interactive Brokers account.',
@@ -2089,6 +2104,21 @@ const TRANSLATIONS = {
     contact_or: 'Or contact us directly at',
     footer_copy: '© 2026 Evolution Quantum Capital · All Rights Reserved',
     footer_disc: 'This material is intended for qualified investors only. Past results do not guarantee future performance. This does not constitute an offer or solicitation.',
+    portfolio_title: 'Portfolio',
+    portfolio_title_gold: 'Live',
+    portfolio_hero_label: '// EQC Track Record',
+    portfolio_hero_tagline: 'Real trades. Verified data. 100% auditable performance — closed and open positions across all markets.',
+    th_ticker: 'Ticker',
+    th_price_in: 'Avg Price IN',
+    th_price_out: 'Avg Price OUT',
+    th_pnl_pct: 'PNL %',
+    th_pnl_usd: 'PNL ($)',
+    th_rr: 'Trade RR',
+    th_mae: 'MAE %',
+    th_exchange: 'Exchange',
+    badge_hardcap: 'HARD CAP',
+    badge_active: 'ACTIVE',
+    badge_convex: 'CONVEX',
   }
 };
 
