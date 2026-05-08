@@ -3356,11 +3356,10 @@ function loadInvestorMetrics() {
     try {
       const rows = data.table.rows;
 
-      // ── Performance row ──────────────────────────────────────────────────
-      let perfIdx = findRowByText(rows, 'retorno total');
-      if (perfIdx < 0) perfIdx = findRowByText(rows, 'total return');
-      if (perfIdx < 0) perfIdx = 4; // fallback: row 5 (0-indexed labels=4, values=5)
-      const perfVals = rows[perfIdx + 1];
+      // ── Performance (Sheet row 6 = 0-indexed row 5) ──────────────────────
+      // C6=RetornoTotal(c[2]), D6=RetornoAnualizado(c[3]),
+      // F6=WinRate(c[5]), G6=ProfitFactor(c[6])
+      const perfVals = rows[5];
       if (perfVals && perfVals.c) {
         setEl('val-perf-total',   perfVals.c[2], COLOR_RULES['val-perf-total']);
         setEl('val-perf-annual',  perfVals.c[3], COLOR_RULES['val-perf-annual']);
@@ -3368,40 +3367,38 @@ function loadInvestorMetrics() {
         setEl('val-perf-pf',      perfVals.c[6], COLOR_RULES['val-perf-pf']);
       }
 
-      // ── Benchmarks ───────────────────────────────────────────────────────
-      let benchIdx = findRowByText(rows, 'benchmark');
-      if (benchIdx < 0) benchIdx = findRowByText(rows, 'eqc vs');
-      if (benchIdx < 0) benchIdx = 8; // fallback: row 9 (labels), data starts at 9
-
-      // EQC row is the first data row after benchmark labels
-      const eqcRow = rows[benchIdx + 1];
+      // ── Benchmarks (labels=row10=idx9, EQC=row11=idx10, ..., TBill=row15=idx14) ──
+      // Columns: A(c[0])=name, B(c[1])=retorno, C(c[2])=alpha
+      const eqcRow = rows[10];
       if (eqcRow && eqcRow.c) {
         setEl('bench-eqc-ret',   eqcRow.c[1], v => v > 0 ? 'green' : 'red');
         setEl('bench-eqc-alpha', eqcRow.c[2], v => v > 0 ? 'green' : 'red');
       }
-      // S&P 500, NASDAQ 100, Russell 2000, US 10Y Treasury
       const benchDefs = [
-        {ret:'bench-sp500-ret', alpha:'bench-sp500-alpha', rowOff:2},
-        {ret:'bench-ndx-ret',   alpha:'bench-ndx-alpha',   rowOff:3},
-        {ret:'bench-rut-ret',   alpha:'bench-rut-alpha',   rowOff:4},
-        {ret:'bench-tbill-ret', alpha:'bench-tbill-alpha', rowOff:5},
+        {ret:'bench-sp500-ret', alpha:'bench-sp500-alpha', rowIdx:11},
+        {ret:'bench-ndx-ret',   alpha:'bench-ndx-alpha',   rowIdx:12},
+        {ret:'bench-rut-ret',   alpha:'bench-rut-alpha',   rowIdx:13},
+        {ret:'bench-tbill-ret', alpha:'bench-tbill-alpha', rowIdx:14},
       ];
-      benchDefs.forEach(({ret, alpha, rowOff}) => {
-        const row = rows[benchIdx + rowOff];
+      benchDefs.forEach(({ret, alpha, rowIdx}) => {
+        const row = rows[rowIdx];
         if (!row || !row.c) return;
         setEl(ret,   row.c[1], v => v > 0 ? 'green' : 'red');
         setEl(alpha, row.c[2], v => v > 0 ? 'green' : 'red');
       });
 
-      // ── Risk metrics row ─────────────────────────────────────────────────
-      let riskIdx = findRowByText(rows, 'sharpe');
-      if (riskIdx < 0) riskIdx = findRowByText(rows, 'métricas');
-      if (riskIdx < 0) riskIdx = 16; // fallback: labels row 17 (0-indexed 16)
-      const riskRow = rows[riskIdx + 1] || rows[riskIdx]; // values are next row
-      // Detect if riskIdx found the label row or value row
-      const riskData = (riskIdx >= 0 && rows[riskIdx] && rows[riskIdx].c &&
-                        typeof rows[riskIdx].c[0]?.v === 'number')
-        ? rows[riskIdx] : rows[riskIdx + 1];
+      // ── Risk metrics ─────────────────────────────────────────────────────
+      // Columns A-H (c[0]-c[7]): Sharpe, Sortino, Calmar, MaxDD,
+      //                           Recovery, PosMonths, AvgRatio, Expect
+      // Find the label row (has 'sharpe' in col A), values are on the next row
+      let riskValIdx = -1;
+      for (let i = 0; i < rows.length; i++) {
+        if (!rows[i] || !rows[i].c || !rows[i].c[0]) continue;
+        const txt = String(rows[i].c[0].v || rows[i].c[0].f || '').toLowerCase();
+        if (txt.includes('sharpe')) { riskValIdx = i + 1; break; }
+      }
+      if (riskValIdx < 0) riskValIdx = 19; // fallback: row 20 (0-indexed 19)
+      const riskData = rows[riskValIdx];
       if (riskData && riskData.c) {
         const RISK_MAP = ['val-sharpe','val-sortino','val-calmar','val-dd','val-recovery','val-posmonths','val-avgratio','val-expect'];
         RISK_MAP.forEach((id, ci) => setEl(id, riskData.c[ci], COLOR_RULES[id]));
