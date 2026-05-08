@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EQC — The System & Philosophy</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400&family=Cormorant+Garamond:ital,wght@1,300;1,400;1,500&display=swap" rel="stylesheet">
+<link id="favicon" rel="icon" type="image/png">
+<style>
+:root {
+  --bg:#050f1e; --bg2:#081628; --navy:#0b1e3a; --navy2:#0f2545;
+  --surface:#102040; --border:rgba(180,145,60,0.18); --borderb:rgba(74,130,200,0.14);
+  --gold:#c9a94a; --goldl:#e8cc7a; --goldd:rgba(201,169,74,0.10);
+  --blue:#2d6abf; --bluel:rgba(45,106,191,0.18);
+  --white:#e6eef8; --muted:rgba(230,238,248,0.45);
+  --green:#00e87a; --red:#ff4d6a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:'Syne',sans-serif;overflow-x:hidden;cursor:none;}
+body.rtl{direction:rtl;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(74,130,200,0.05)1px,transparent 1px),linear-gradient(90deg,rgba(74,130,200,0.05)1px,transparent 1px);
+  background-size:80px 80px;}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 15% 50%,rgba(20,60,150,0.18)0%,transparent 55%),
+             radial-gradient(ellipse at 85% 10%,rgba(20,60,150,0.12)0%,transparent 50%);}
+.cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s;}
+.cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(201,169,74,0.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:18px 60px;background:linear-gradient(to bottom,rgba(5,15,30,0.97)70%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid rgba(74,130,200,0.08);}
+.nav-brand{display:flex;align-items:center;gap:14px;}
+.nav-logo-img{width:48px;height:48px;object-fit:contain;}
+.nav-logo-text{font-family:'DM Serif Display',serif;font-size:13px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{color:var(--white);text-decoration:none;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;font-weight:600;transition:color .3s;}
+.nav-links a:hover{color:var(--goldl);}
+.nav-cta{border:1px solid var(--gold)!important;color:var(--gold)!important;padding:8px 20px;transition:all .3s!important;}
+.nav-cta:hover{background:var(--gold)!important;color:var(--bg)!important;}
+.nav-active{color:var(--goldl)!important;}
+.nav-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.nav-right-top{display:flex;align-items:center;gap:0;}
+.nav-right-social{display:flex;align-items:center;gap:10px;}
+.nav-right-social a{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border:1px solid rgba(201,169,74,0.25);color:var(--muted);text-decoration:none;font-size:12px;transition:all .3s;}
+.nav-right-social a:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,169,74,0.08);}
+.nav-fala{display:inline-flex;align-items:center;border:1px solid rgba(100,200,255,0.4);color:rgba(130,210,255,0.9);padding:6px 14px;margin-left:14px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;transition:all .3s;white-space:nowrap;}
+.nav-fala:hover{background:rgba(100,200,255,0.12);border-color:rgba(100,200,255,0.7);color:#a0e0ff;}
+/* Lang selector */
+.lang-selector{position:relative;margin-left:14px;}
+#lang-toggle{background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;padding:6px 12px;cursor:pointer;transition:all .3s;text-transform:uppercase;}
+#lang-toggle:hover{background:var(--gold);color:var(--bg);}
+.lang-dropdown{position:absolute;top:calc(100% + 6px);right:0;background:rgba(5,15,30,0.97);border:1px solid var(--border);backdrop-filter:blur(16px);z-index:200;display:none;flex-direction:column;min-width:120px;}
+.lang-dropdown.open{display:flex;}
+.lang-dropdown button{background:transparent;border:none;border-bottom:1px solid rgba(201,169,74,0.1);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;padding:10px 16px;cursor:pointer;text-align:left;transition:all .2s;text-transform:uppercase;}
+.lang-dropdown button:last-child{border-bottom:none;}
+.lang-dropdown button:hover{color:var(--gold);background:rgba(201,169,74,0.07);}
+.lang-dropdown button.active-lang{color:var(--goldl);}
+/* Mobile */
+.hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;background:transparent;border:1px solid rgba(201,169,74,0.35);cursor:pointer;padding:8px;transition:border-color .3s;flex-shrink:0;}
+.hamburger:hover{border-color:var(--gold);}
+.hamburger span{display:block;height:1px;background:var(--gold);transition:all .3s;transform-origin:center;}
+.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(5,15,30,0.97);backdrop-filter:blur(20px);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:32px;opacity:0;transition:opacity .3s;}
+.mobile-menu.open{opacity:1;}
+.mobile-menu a{font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:0.06em;color:var(--white);text-decoration:none;transition:color .3s;}
+.mobile-menu a:hover{color:var(--gold);}
+.mobile-menu a.nav-cta{font-family:'Syne',sans-serif;font-size:12px;letter-spacing:0.25em;text-transform:uppercase;border:1px solid var(--gold);color:var(--gold);padding:12px 28px;margin-top:8px;font-weight:700;}
+.mobile-menu-close{position:absolute;top:22px;right:22px;background:transparent;border:none;color:var(--muted);font-size:28px;cursor:pointer;line-height:1;transition:color .3s;}
+.mobile-menu-close:hover{color:var(--gold);}
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes orbFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-28px);}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.12s;} .d2{transition-delay:.24s;} .d3{transition-delay:.36s;}
+/* Hero */
+#hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 60px 80px;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(20,70,200,0.18)0%,transparent 70%);top:-100px;right:-80px;animation:orbFloat 9s ease-in-out infinite;}
+.orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(201,169,74,0.08)0%,transparent 70%);bottom:0;left:15%;animation:orbFloat 12s ease-in-out infinite reverse;}
+.hero-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:28px;display:flex;align-items:center;gap:14px;opacity:0;animation:fadeUp .8s ease forwards .3s;}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(52px,7vw,96px);line-height:1;letter-spacing:-0.02em;color:var(--white);opacity:0;animation:fadeUp .8s ease forwards .5s;}
+.hero-title .gold-line{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;color:var(--gold);font-size:clamp(58px,7.5vw,104px);letter-spacing:0.01em;display:block;}
+.hero-tagline{margin-top:40px;max-width:500px;font-size:15px;line-height:1.75;color:var(--muted);opacity:0;animation:fadeUp .8s ease forwards .7s;}
+.hero-cta{margin-top:56px;display:flex;gap:20px;align-items:center;opacity:0;animation:fadeUp .8s ease forwards .9s;}
+.btn-primary{background:var(--gold);color:var(--bg);padding:15px 34px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;border:none;cursor:none;text-decoration:none;display:inline-block;transition:all .3s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+.btn-primary:hover{background:var(--goldl);transform:translateY(-2px);}
+.btn-ghost{border:1px solid rgba(201,169,74,0.35);color:var(--muted);padding:15px 28px;font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .3s;cursor:none;}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+/* Sections */
+section{position:relative;z-index:1;padding:110px 60px;}
+.divider{position:relative;z-index:1;height:1px;background:linear-gradient(90deg,transparent,var(--border)30%,var(--border)70%,transparent);}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:inline-block;text-decoration:underline;text-underline-offset:5px;text-decoration-color:rgba(201,169,74,0.5);text-decoration-thickness:1px;}
+.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(32px,4vw,52px);line-height:1.1;}
+/* Investor Metrics */
+#investor-metrics{background:var(--bg2);}
+.metrics-header{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-bottom:70px;align-items:end;}
+.metrics-intro{font-size:15px;line-height:1.8;color:var(--muted);}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-bottom:36px;}
+.metric-card{background:var(--surface);padding:32px 24px;position:relative;overflow:hidden;transition:background .3s;cursor:default;}
+.metric-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+.metric-card:hover::after{transform:scaleX(1);}
+.metric-card:hover{background:rgba(201,169,74,0.06);}
+.metric-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.metric-value{font-family:'DM Serif Display',serif;font-size:32px;color:var(--goldl);line-height:1;margin-bottom:8px;transition:color .3s;}
+.metric-value.loading{color:var(--muted);font-size:20px;}
+.metric-benchmark{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;color:rgba(230,238,248,0.3);line-height:1.6;}
+.metric-context{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5;}
+.metrics-note{padding:20px 24px;border-left:2px solid rgba(201,169,74,0.3);background:rgba(201,169,74,0.03);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;line-height:1.9;color:rgba(230,238,248,0.3);}
+.metrics-note strong{color:rgba(201,169,74,0.65);}
+/* Philosophy */
+#philosophy{background:var(--navy);}
+.phil-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:60px;align-items:start;}
+.phil-text p{font-size:16px;line-height:1.85;color:var(--muted);margin-bottom:20px;}
+.phil-text p strong{color:var(--white);}
+.phil-principles{display:flex;flex-direction:column;gap:0;}
+.principle{padding:28px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start;transition:padding-left .3s;}
+.principle:first-child{border-top:1px solid var(--border);}
+.principle:hover{padding-left:10px;}
+.pnum{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);opacity:.5;padding-top:3px;flex-shrink:0;}
+.principle h4{font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
+.principle p{font-size:13px;color:var(--muted);line-height:1.6;}
+/* The System */
+#the-system{background:var(--bg2);}
+.mandate-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:60px;align-items:start;}
+.mandate-text p{font-size:16px;line-height:1.8;color:var(--muted);margin-bottom:20px;}
+.mandate-text p strong{color:var(--white);}
+.pillars{display:flex;flex-direction:column;}
+.pillar{padding:26px 0;border-bottom:1px solid var(--border);display:flex;gap:22px;align-items:flex-start;transition:padding-left .3s;}
+.pillar:first-child{border-top:1px solid var(--border);}
+.pillar:hover{padding-left:10px;}
+.pillar h4{font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px;}
+.pillar p{font-size:13px;color:var(--muted);line-height:1.6;}
+/* Model */
+#model{background:var(--navy);}
+.model-intro-row{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-bottom:60px;align-items:end;}
+.model-intro-text{font-size:15px;line-height:1.8;color:var(--muted);}
+.model-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);}
+.model-card{background:var(--surface);padding:36px 30px;position:relative;overflow:hidden;transition:background .4s;}
+.model-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+.model-card:hover::before{transform:scaleX(1);}
+.model-card:hover{background:rgba(45,106,191,0.12);}
+.model-icon{width:38px;height:38px;border:1px solid var(--borderb);display:flex;align-items:center;justify-content:center;margin-bottom:22px;color:var(--gold);font-size:16px;}
+.model-card h3{font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;}
+.model-card p{font-size:13px;color:var(--muted);line-height:1.7;}
+.model-card-accent{display:flex;flex-direction:column;justify-content:center;align-items:center;background:var(--goldd);border:1px solid rgba(201,169,74,0.22)!important;}
+.model-card-accent .big-num{font-family:'DM Serif Display',serif;font-size:48px;color:var(--goldl);line-height:1;}
+.model-card-accent .big-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);text-align:center;margin-top:6px;}
+/* Risk */
+#risk{background:var(--bg2);}
+.risk-layout{display:grid;grid-template-columns:1fr 1.3fr;gap:90px;margin-top:56px;align-items:center;}
+.risk-dial-wrap{display:flex;align-items:center;justify-content:center;padding:40px;}
+.risk-dial{position:relative;width:240px;height:240px;}
+.dial-ring{position:absolute;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);}
+.dial-ring:nth-child(1){width:240px;height:240px;border:1px solid var(--border);}
+.dial-ring:nth-child(2){width:185px;height:185px;border:1px solid rgba(74,130,200,0.25);}
+.dial-ring:nth-child(3){width:128px;height:128px;background:rgba(45,106,191,0.12);border:1px solid var(--gold);}
+.dial-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.dial-center .dn{font-family:'DM Serif Display',serif;font-size:28px;color:var(--goldl);display:block;}
+.dial-center .dl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;}
+.dial-dot{position:absolute;width:5px;height:5px;background:var(--gold);border-radius:50%;top:50%;left:50%;box-shadow:0 0 10px var(--gold);}
+.risk-items{display:flex;flex-direction:column;gap:20px;}
+.risk-item{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;padding:18px 22px;border:1px solid var(--borderb);background:rgba(12,31,56,0.6);transition:all .3s;}
+.risk-item:hover{border-color:rgba(201,169,74,0.38);background:rgba(201,169,74,0.06);}
+.risk-icon{width:30px;height:30px;border:1px solid var(--borderb);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:13px;flex-shrink:0;}
+.risk-text h4{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.risk-text p{font-size:12px;color:var(--muted);line-height:1.5;}
+.risk-badge{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);background:var(--goldd);padding:4px 8px;letter-spacing:0.1em;white-space:nowrap;border:1px solid rgba(201,169,74,0.2);}
+/* Investor Profile */
+#investor-profile{background:var(--navy);}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:60px;}
+.profile-ideal h3{font-family:'DM Serif Display',serif;font-size:24px;margin-bottom:24px;}
+.profile-item{display:flex;gap:16px;align-items:flex-start;padding:18px 0;border-bottom:1px solid rgba(201,169,74,0.1);}
+.profile-item:first-of-type{border-top:1px solid rgba(201,169,74,0.1);}
+.profile-icon{color:var(--green);font-size:14px;padding-top:2px;flex-shrink:0;}
+.profile-item h4{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.profile-item p{font-size:12px;color:var(--muted);line-height:1.6;}
+.profile-wrong{background:rgba(255,77,106,0.04);border:1px solid rgba(255,77,106,0.18);padding:28px;}
+.profile-wrong h3{font-family:'DM Serif Display',serif;font-size:20px;color:var(--red);margin-bottom:20px;}
+.profile-wrong-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,77,106,0.08);font-size:12px;color:var(--muted);}
+.profile-wrong-item span:first-child{color:var(--red);flex-shrink:0;}
+/* Transparency */
+#transparency{background:var(--bg);}
+.transparency-inner{max-width:800px;margin:0 auto;text-align:center;}
+.transparency-inner .sec-title{margin-bottom:32px;}
+.transparency-inner p{font-size:15px;line-height:1.85;color:var(--muted);margin-bottom:20px;}
+.transparency-inner p strong{color:var(--white);}
+.transparency-badge{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border:1px solid rgba(201,169,74,0.4);background:rgba(201,169,74,0.05);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-top:20px;}
+/* Audit stripe */
+.audit-stripe{position:relative;z-index:1;background:linear-gradient(90deg,transparent,rgba(201,169,74,0.07)20%,rgba(201,169,74,0.13)50%,rgba(201,169,74,0.07)80%,transparent);border-top:1px solid rgba(201,169,74,0.4);border-bottom:1px solid rgba(201,169,74,0.4);padding:18px 60px;text-align:center;overflow:hidden;}
+.audit-stripe::before{content:'';position:absolute;top:0;left:-100%;right:-100%;height:100%;background:linear-gradient(90deg,transparent 30%,rgba(201,169,74,0.06)50%,transparent 70%);animation:auditSweep 4s ease-in-out infinite;}
+@keyframes auditSweep{0%,100%{transform:translateX(-60%);}50%{transform:translateX(60%);}}
+.audit-stripe-text{font-family:'DM Mono',monospace;font-size:clamp(10px,1.2vw,14px);font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:var(--goldl);position:relative;z-index:1;}
+/* Footer */
+footer{position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding:32px 60px;border-top:1px solid var(--border);}
+.footer-brand{display:flex;align-items:center;gap:12px;}
+.footer-logo-img{width:28px;height:28px;object-fit:contain;opacity:.8;}
+.footer-logo-text{font-family:'DM Serif Display',serif;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);}
+.footer-copy{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--muted);}
+.footer-disc{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;color:rgba(230,238,248,0.2);max-width:500px;line-height:1.7;width:100%;}
+.footer-social{display:flex;align-items:center;gap:14px;}
+.footer-social a{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border:1px solid rgba(201,169,74,0.25);color:var(--muted);text-decoration:none;transition:all .3s;}
+.footer-social a:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,169,74,0.08);}
+/* Back to top */
+#back-to-top{position:fixed;bottom:32px;right:32px;width:44px;height:44px;background:var(--gold);color:var(--bg);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;opacity:0;pointer-events:none;transition:opacity 0.3s,transform 0.3s;z-index:9999;box-shadow:0 4px 16px rgba(201,169,74,0.4);}
+#back-to-top.visible{opacity:1;pointer-events:all;}
+#back-to-top:hover{transform:translateY(-3px);background:var(--goldl);}
+/* Responsive */
+@media(max-width:900px){
+  nav{padding:18px 22px;}
+  .nav-links{display:none;}
+  section{padding:72px 22px;}
+  #hero{padding:110px 22px 72px;}
+  .metrics-grid{grid-template-columns:repeat(2,1fr);}
+  .metrics-header,.mandate-grid,.phil-grid,.model-intro-row,.risk-layout,.profile-grid{grid-template-columns:1fr;gap:36px;}
+  .model-cards{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:16px;text-align:center;padding:32px 22px;}
+  .footer-disc{text-align:center;}
+  .nav-right-top .nav-links{display:none!important;}
+  .nav-right-top .nav-fala{display:none;}
+  .hamburger{display:flex;}
+  .audit-stripe{padding:18px 22px;}
+}
+@media(max-width:600px){
+  .metrics-grid{grid-template-columns:1fr;}
+}
+
+/* ===== SISTEMA R & CUSTOS (moved from Portfolio) ===== */
+#sistema-r { padding: 100px 5vw; max-width: 1100px; margin: 0 auto; }
+.r-intro { font-size: 15px; line-height: 1.8; color: var(--muted); max-width: 720px; margin: 30px 0 60px; }
+.r-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+.r-block h4 { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; }
+.r-rule { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; padding: 14px 18px; border: 1px solid rgba(201,169,74,0.12); background: rgba(201,169,74,0.03); }
+.r-rule-icon { color: var(--gold); font-size: 14px; margin-top: 1px; flex-shrink: 0; }
+.r-rule-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.r-rule-text strong { color: var(--fg); }
+.r-reinforce { margin-top: 32px; padding: 24px; border: 1px solid rgba(201,169,74,0.2); background: rgba(201,169,74,0.04); }
+.r-reinforce-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+.r-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+.r-table th { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; color: var(--gold); text-transform: uppercase; padding: 10px 14px; text-align: left; border-bottom: 1px solid rgba(201,169,74,0.2); }
+.r-table td { padding: 10px 14px; font-size: 12px; color: var(--muted); border-bottom: 1px solid rgba(255,255,255,0.04); }
+.r-table td:last-child { color: var(--goldl); font-family: 'DM Mono', monospace; font-weight: 600; }
+#custos { padding: 100px 5vw; max-width: 1100px; margin: 0 auto; }
+.custos-claim { font-size: 18px; color: var(--muted); margin: 20px 0 50px; }
+.custos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 40px; }
+.custo-card { border: 1px solid rgba(201,169,74,0.2); padding: 40px 36px; background: rgba(201,169,74,0.03); position: relative; overflow: hidden; }
+.custo-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); }
+.custo-num { font-family: 'DM Serif Display', serif; font-size: 56px; color: var(--gold); line-height: 1; margin-bottom: 8px; }
+.custo-unit { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+.custo-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.custos-note { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(230,238,248,0.3); text-align: center; }
+@media(max-width:700px){ .r-layout, .custos-grid { grid-template-columns: 1fr; } }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CSVCGMN85G"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CSVCGMN85G');</script>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-menu-close" id="menu-close" aria-label="Close">✕</button>
+  <a href="index.html" data-i18n="nav_home">Home</a>
+  <a href="system.html" class="nav-active" data-i18n="nav_system">Sistema</a>
+  <a href="portfolio.html" data-i18n="nav_portfolio">Portfolio</a>
+  <a href="community.html" data-i18n="nav_community">Community</a>
+  <a href="tools.html" data-i18n="nav_tools">Tools</a>
+  <a href="index.html#contact" class="nav-cta" data-i18n="nav_contact_link">Contact</a>
+</div>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <img class="nav-logo-img" id="nav-logo" alt="EQC Logo">
+    <span class="nav-logo-text">Evolution Quantum Capital</span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-right-top">
+      <ul class="nav-links">
+        <li><a href="index.html" data-i18n="nav_home">Home</a></li>
+        <li><a href="system.html" class="nav-active" data-i18n="nav_system">Sistema</a></li>
+        <li><a href="portfolio.html" data-i18n="nav_portfolio">Portfolio</a></li>
+        <li><a href="community.html" data-i18n="nav_community">Community</a></li>
+        <li><a href="tools.html" data-i18n="nav_tools">Tools</a></li>
+        <li><a href="index.html#contact" class="nav-cta" data-i18n="nav_contact_link">Contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+      <div class="lang-selector">
+        <button id="lang-toggle" onclick="toggleLangDropdown()">PT <span style="font-size:8px;opacity:0.7;">▼</span></button>
+        <div class="lang-dropdown" id="lang-dropdown">
+          <button onclick="setLang('pt')" class="active-lang">PT — Português</button>
+          <button onclick="setLang('en')">EN — English</button>
+          <button onclick="setLang('zh')">中文 — Chinese</button>
+          <button onclick="setLang('ja')">日本語 — Japanese</button>
+          <button onclick="setLang('es')">ES — Español</button>
+          <button onclick="setLang('fr')">FR — Français</button>
+          <button onclick="setLang('ar')">عربي — Arabic</button>
+        </div>
+      </div>
+      <a href="https://discord.com/channels/1496242250877763785/1496254249120825467" target="_blank" rel="noopener" class="nav-fala" data-i18n="fala_connosco">Fala Connosco</a>
+    </div>
+    <div class="nav-right-social">
+      <a href="https://www.instagram.com/EvolutionQC" target="_blank" rel="noopener" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+      <a href="https://x.com/EvolutionQC" target="_blank" rel="noopener" aria-label="X"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L2.25 2.25h6.988l4.27 5.647zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="https://www.tradingview.com/u/evolutionqc/" target="_blank" rel="noopener" aria-label="TradingView"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 24 18" fill="currentColor"><path d="M15.8654 8.2789c0 1.3541-1.0978 2.4519-2.452 2.4519-1.354 0-2.4519-1.0978-2.4519-2.452 0-1.354 1.0978-2.4518 2.452-2.4518 1.3541 0 2.4519 1.0977 2.4519 2.4519zM9.75 6H0v4.9038h4.8462v7.2692H9.75Zm8.5962 0H24l-5.1058 12.173h-5.6538z"/></svg></a>
+      <a href="https://t.me/+dN1L-SlHNN02ZWI0" target="_blank" rel="noopener" aria-label="Telegram"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+      <a href="https://discord.gg/EQhXjfXk" target="_blank" rel="noopener" aria-label="Discord"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.082.114 18.105.13 18.12a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg></a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="hero-label" data-i18n="hero_eyebrow">// Sistema EQC</div>
+  <h1 class="hero-title">
+    <span data-i18n="hero_title_line1">The System.</span>
+    <span class="gold-line" data-i18n="hero_title_line2">Its Philosophy.</span>
+  </h1>
+  <p class="hero-tagline" data-i18n="hero_tagline">A abordagem sistemática da EQC ao crescimento de capital — construída sobre regras, paciência e assimetria. Não há discricionariedade. Não há emoções. Só o processo.</p>
+  <div class="hero-cta">
+    <a href="portfolio.html" class="btn-primary" data-i18n="hero_cta1">Ver Historial</a>
+    <a href="index.html#contact" class="btn-ghost" data-i18n="hero_cta2">Pedir Acesso</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AUDIT STRIPE -->
+<div class="audit-stripe">
+  <span class="audit-stripe-text" data-i18n="audit_stripe">✓ TRANSPARÊNCIA TOTAL — TODAS AS MÉTRICAS SÃO REAIS E AUDITÁVEIS</span>
+</div>
+
+<div class="divider"></div>
+
+
+<div class="divider"></div>
+
+<!-- PHILOSOPHY -->
+<section id="philosophy">
+  <div class="eyebrow reveal" data-i18n="phil_eyebrow">// Filosofia</div>
+  <div class="phil-grid">
+    <div>
+      <h2 class="sec-title reveal" data-i18n="phil_title">Três Princípios.<br>Sem Exceções.</h2>
+      <div class="phil-text reveal d1">
+        <p data-i18n="phil_p1">Os mercados movem-se em ciclos. Sempre o fizeram. O EQC foi construído sobre esta premissa — não como esperança, mas como axioma operacional. Quando um ativo entra num ciclo descendente, o sistema não entra em pânico. Aguarda.</p>
+        <p data-i18n="phil_p2">Aguardar pode demorar 1 a 2 anos. Isso é aceitável. O capital do EQC é capital paciente — não capital ansioso. A distinção é fundamental: quem não consegue suportar posições negativas não realizado não é o investidor certo para este sistema.</p>
+        <p data-i18n="phil_p3">A assimetria é o motor. O sistema aceita perdas temporariamente elevadas porque os ganhos quando o ciclo regressa são desproporcionalmente maiores. O Avg Win/Avg Loss confirma isto matematicamente — cada euro perdido é recuperado em múltiplos.</p>
+      </div>
+    </div>
+    <div class="phil-principles reveal d2">
+      <div class="principle">
+        <span class="pnum">01</span>
+        <div>
+          <h4 data-i18n="prin1_title">Os Mercados São Cíclicos</h4>
+          <p data-i18n="prin1_text">Todo o ativo com liquidez e estrutura sólida regressa ao ciclo ascendente. O EQC seleciona apenas ativos com baixo risco de perda permanente de capital. Quando o ciclo descende, aguardamos — com regras, não com emoções.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <span class="pnum">02</span>
+        <div>
+          <h4 data-i18n="prin2_title">Paciência como Estratégia</h4>
+          <p data-i18n="prin2_text">O tempo é uma variável do sistema, não um problema. Posições podem estar abertas 1 a 2 anos. O DCA em quedas profundas reduz o preço médio e melhora o perfil de retorno quando a recuperação chega. Nunca encerramos por impaciência.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <span class="pnum">03</span>
+        <div>
+          <h4 data-i18n="prin3_title">Assimetria Acima de Frequência</h4>
+          <p data-i18n="prin3_text">A taxa de acerto é secundária. O que importa é o rácio entre o que se ganha e o que se perde. O EQC pode perder mais vezes do que ganha e ainda assim crescer consistentemente — porque quando ganha, ganha muito mais do que quando perde.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- THE SYSTEM -->
+<section id="the-system">
+  <div class="eyebrow reveal" data-i18n="system_eyebrow">// Sistema EQC</div>
+  <div class="mandate-grid">
+    <div>
+      <h2 class="sec-title reveal" data-i18n="system_title">O Sistema.<br>As Suas Regras.</h2>
+      <div class="mandate-text reveal d1">
+        <p data-i18n="system_p1">A Evolution Quantum Capital opera segundo um conjunto de regras predefinidas — não há espaço para discricionariedade ou julgamento subjetivo. Cada operação é definida antes de ser aberta.</p>
+        <p data-i18n="system_p2">O risco é quantificado à entrada. O dimensionamento de posição é fixo. Os resultados são medidos em múltiplos de R — não em percentagens de ruído.</p>
+        <p data-i18n="system_p3">O sistema não reage a headlines nem a sentimento de mercado. Executa a sua vantagem estatística, operação após operação.</p>
+      </div>
+    </div>
+    <div class="pillars reveal d2">
+      <div class="pillar">
+        <span class="pnum">01</span>
+        <div><h4 data-i18n="sys1_title">Execução Baseada em Regras</h4><p data-i18n="sys1_text">Todos os critérios de entrada, stop-loss e take-profit são definidos antes de a posição ser aberta — e nunca ajustados por impulso.</p></div>
+      </div>
+      <div class="pillar">
+        <span class="pnum">02</span>
+        <div><h4 data-i18n="sys2_title">Risco Quantificado</h4><p data-i18n="sys2_text">O risco por operação é fixo em 1R. Todos os resultados são medidos nessa unidade, mantendo a avaliação de desempenho consistente.</p></div>
+      </div>
+      <div class="pillar">
+        <span class="pnum">03</span>
+        <div><h4 data-i18n="sys3_title">Não Discricionário</h4><p data-i18n="sys3_text">O sistema elimina o viés humano. Se o setup qualifica, a operação é executada. Se não qualifica, é descartada. Sem exceções.</p></div>
+      </div>
+      <div class="pillar">
+        <span class="pnum">04</span>
+        <div><h4 data-i18n="sys4_title">Historial Auditável</h4><p data-i18n="sys4_text">Cada operação é registada com data, entrada e saída verificadas. Um historial transparente — não uma seleção de destaques.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MODEL -->
+<section id="model">
+  <div class="model-intro-row">
+    <div>
+      <div class="eyebrow reveal" data-i18n="model_eyebrow">Modelo de Investimento</div>
+      <h2 class="sec-title reveal" data-i18n="model_title">Como o Sistema Funciona</h2>
+    </div>
+    <p class="model-intro-text reveal d1" data-i18n="model_intro">Um processo de cinco etapas que começa na classificação do regime e termina na gestão dinâmica de posições — cada etapa regida por parâmetros predefinidos sem substituição humana.</p>
+  </div>
+  <div class="model-cards">
+    <div class="model-card reveal">
+      <div class="model-icon">⊞</div>
+      <h3 data-i18n="mc1_title">Avaliação de Regime</h3>
+      <p data-i18n="mc1_text">Classificação estrutural das condições de mercado atuais e do estado de liquidez para determinar o ambiente operacional.</p>
+    </div>
+    <div class="model-card reveal d1">
+      <div class="model-icon">◎</div>
+      <h3 data-i18n="mc2_title">Risco por Posição</h3>
+      <p data-i18n="mc2_text">Cada operação tem uma perda máxima predefinida em unidades R antes da entrada. O dimensionamento da posição segue automaticamente.</p>
+    </div>
+    <div class="model-card reveal d2">
+      <div class="model-icon">▲</div>
+      <h3 data-i18n="mc3_title">Entrada em Zona de Valor</h3>
+      <p data-i18n="mc3_text">Alocação progressiva de capital em zonas de valor identificadas — incluindo DCA estratégico quando o mercado oferece preços mais favoráveis.</p>
+    </div>
+    <div class="model-card reveal">
+      <div class="model-icon">→</div>
+      <h3 data-i18n="mc4_title">Saídas por R-Múltiplo</h3>
+      <p data-i18n="mc4_text">Lógica de saída definida por R-múltiplos, eliminando a tomada de decisão emocional em momentos críticos.</p>
+    </div>
+    <div class="model-card reveal d1">
+      <div class="model-icon">∿</div>
+      <h3 data-i18n="mc5_title">Gestão Dinâmica de Posição</h3>
+      <p data-i18n="mc5_text">SLs amplos para dar espaço ao ativo respirar. DCA em quedas profundas para reduzir preço médio e melhorar o perfil risco/retorno. Paciência como regra.</p>
+    </div>
+    <div class="model-card model-card-accent reveal d2">
+      <div class="big-num">5</div>
+      <div class="big-label" data-i18n="mc6_label">Etapas<br>Sistemáticas</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RISK -->
+<section id="risk">
+  <div class="eyebrow reveal" data-i18n="risk_eyebrow">Arquitetura de Risco</div>
+  <div class="risk-layout">
+    <div>
+      <h2 class="sec-title reveal" data-i18n="risk_title">Construído para<br>Sobreviver a<br>Qualquer Regime</h2>
+      <div class="risk-dial-wrap reveal d1">
+        <div class="risk-dial">
+          <div class="dial-ring"></div>
+          <div class="dial-ring"></div>
+          <div class="dial-ring"></div>
+          <div class="dial-center">
+            <span class="dn">EQC</span>
+            <span class="dl" data-i18n="risk_dial">Núcleo de Risco</span>
+          </div>
+          <div class="dial-dot" style="transform:translate(-50%,-50%) rotate(45deg) translateY(-120px)"></div>
+          <div class="dial-dot" style="transform:translate(-50%,-50%) rotate(135deg) translateY(-120px);background:rgba(201,169,74,0.3);box-shadow:none"></div>
+          <div class="dial-dot" style="transform:translate(-50%,-50%) rotate(270deg) translateY(-120px);background:rgba(201,169,74,0.15);box-shadow:none"></div>
+        </div>
+      </div>
+    </div>
+    <div class="risk-items">
+      <div class="risk-item reveal">
+        <div class="risk-icon">⊟</div>
+        <div class="risk-text">
+          <h4 data-i18n="ri1_title">SLs Amplos por Design</h4>
+          <p data-i18n="ri1_text">Stop-losses definidos entre 15% a 30% por posição — deliberadamente amplos para dar espaço ao ativo desenvolver o seu movimento sem ser eliminado por volatilidade normal.</p>
+        </div>
+        <span class="risk-badge">STRUCTURAL</span>
+      </div>
+      <div class="risk-item reveal d1">
+        <div class="risk-icon">↓</div>
+        <div class="risk-text">
+          <h4 data-i18n="ri2_title">DCA em Quedas Profundas</h4>
+          <p data-i18n="ri2_text">Quando uma posição atinge -70% ou mais, o sistema executa DCA estratégico. O preço médio de entrada desce, o perfil de retorno melhora, e a recuperação é amplificada.</p>
+        </div>
+        <span class="risk-badge">ACTIVE</span>
+      </div>
+      <div class="risk-item reveal d2">
+        <div class="risk-icon">⊕</div>
+        <div class="risk-text">
+          <h4 data-i18n="ri3_title">Nunca Encerrar com Prejuízo</h4>
+          <p data-i18n="ri3_text">O EQC não encerra posições por pressão emocional ou de curto prazo. Se o ativo não recuperou, aguarda-se o ciclo ascendente — mesmo que demore 1 a 2 anos. Paciência é regra, não virtude.</p>
+        </div>
+        <span class="risk-badge">PATIENCE</span>
+      </div>
+      <div class="risk-item reveal d3">
+        <div class="risk-icon">◇</div>
+        <div class="risk-text">
+          <h4 data-i18n="ri4_title">Seleção Proprietária de Ativos</h4>
+          <p data-i18n="ri4_text">A metodologia proprietária EQC identifica ativos com baixo risco de perda permanente de capital. Falências e delistings são raros no universo selecionado — e quando acontecem, a perda é aceite com transparência.</p>
+        </div>
+        <span class="risk-badge">PROPRIETARY</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- INVESTOR PROFILE -->
+<section id="investor-profile">
+  <div class="eyebrow reveal" data-i18n="profile_eyebrow">// Perfil de Investidor</div>
+  <h2 class="sec-title reveal" data-i18n="profile_title">Para Quem É o EQC</h2>
+  <div class="profile-grid">
+    <div class="profile-ideal reveal d1">
+      <h3 data-i18n="profile_ideal_title">O Investidor Certo</h3>
+      <div class="profile-item">
+        <span class="profile-icon">✓</span>
+        <div><h4 data-i18n="prof1_title">Capital Paciente</h4><p data-i18n="prof1_text">Tem capital que não precisa nos próximos 2 a 3 anos. Não precisa de liquidez imediata. Entende que o tempo é uma variável de retorno, não um custo.</p></div>
+      </div>
+      <div class="profile-item">
+        <span class="profile-icon">✓</span>
+        <div><h4 data-i18n="prof2_title">Tolerância a Volatilidade Não Realizada</h4><p data-i18n="prof2_text">Consegue ver posições a -40% sem entrar em pânico. Compreende que o PNL não realizado é uma posição, não uma perda. Não monitoriza o portfolio todos os dias.</p></div>
+      </div>
+      <div class="profile-item">
+        <span class="profile-icon">✓</span>
+        <div><h4 data-i18n="prof3_title">Foco em Retorno Absoluto</h4><p data-i18n="prof3_text">O objetivo é crescimento composto de capital, não bater benchmarks trimestralmente. A pergunta não é "quanto cresceu este mês?" mas "quanto crescerá nos próximos 3 anos?"</p></div>
+      </div>
+      <div class="profile-item">
+        <span class="profile-icon">✓</span>
+        <div><h4 data-i18n="prof4_title">Valoriza Transparência Total</h4><p data-i18n="prof4_text">Aprecia um gestor que partilha números reais, admite riscos, e explica cada métrica com contexto honesto. Não procura promessas — procura evidências.</p></div>
+      </div>
+    </div>
+    <div class="profile-wrong reveal d2">
+      <h3 data-i18n="profile_wrong_title">Não É Para Si Se...</h3>
+      <div class="profile-wrong-item"><span>✕</span><span data-i18n="wrong1">Precisa de capital disponível nos próximos 12 meses</span></div>
+      <div class="profile-wrong-item"><span>✕</span><span data-i18n="wrong2">Não consegue suportar ver posições negativas por períodos prolongados</span></div>
+      <div class="profile-wrong-item"><span>✕</span><span data-i18n="wrong3">Espera retornos mensais positivos garantidos</span></div>
+      <div class="profile-wrong-item"><span>✕</span><span data-i18n="wrong4">Precisa de liquidez imediata ou acesso rápido ao capital</span></div>
+      <div class="profile-wrong-item"><span>✕</span><span data-i18n="wrong5">Não tem tolerância para drawdowns temporários de 30–50%</span></div>
+      <div class="profile-wrong-item"><span>✕</span><span data-i18n="wrong6">Procura um serviço de sinais ou recomendações de curto prazo</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TRANSPARENCY -->
+<section id="transparency">
+  <div class="transparency-inner">
+    <div class="eyebrow reveal" data-i18n="trans_eyebrow">// Compromisso</div>
+    <h2 class="sec-title reveal" data-i18n="trans_title">Transparência<br>Não É Opcional</h2>
+    <div class="reveal d1">
+      <p data-i18n="trans_p1">Num mundo de screenshots cuidadosamente selecionados e resultados apresentados sem contexto, o EQC escolhe deliberadamente o caminho oposto. Mostramos o Max Drawdown. Explicamos os SLs amplos. Contextualizamos cada rácio.</p>
+      <p data-i18n="trans_p2">O Sortino de 17.86 é real — e também explicamos porque o Sharpe é 0.76. O Max Drawdown de 49.93% é real — e também explicamos que é estrutural e esperado. Não há cherry-picking. Há o sistema completo, com todas as suas características.</p>
+      <p data-i18n="trans_p3">Acreditamos que o investidor certo não foge dos números menos flattering. Foge da falta de informação. A nossa transparência não é uma fraqueza — é o nosso maior argumento.</p>
+    </div>
+    <div class="transparency-badge reveal d2" data-i18n="trans_badge">✓ Documentação completa disponível mediante pedido</div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ===== SISTEMA R ===== -->
+<section id="sistema-r">
+  <div class="eyebrow reveal" data-i18n="r_eyebrow">O Sistema R</div>
+  <h2 class="sec-title reveal" data-i18n="r_title">Risco Definido<br>Sempre</h2>
+  <p class="r-intro reveal d1" data-i18n="r_intro">A unidade R representa o risco máximo por operação — sempre igual a 2.5% do valor da conta. Cada posição é dimensionada em torno deste valor, garantindo consistência e proteção independentemente do tamanho da carteira.</p>
+  <div class="r-layout">
+    <div class="r-block reveal d1">
+      <h4 data-i18n="r_struct_label">Estrutura de Entrada</h4>
+      <div class="r-rule"><div class="r-rule-icon">→</div><div class="r-rule-text" data-i18n="r_rule1"><strong>4R por posição</strong> — exposição máxima por ativo em condições normais.</div></div>
+      <div class="r-rule"><div class="r-rule-icon">→</div><div class="r-rule-text" data-i18n="r_rule2"><strong>1 Take Profit por cada R</strong> — saída parcial progressiva.</div></div>
+      <div class="r-rule"><div class="r-rule-icon">→</div><div class="r-rule-text" data-i18n="r_rule3"><strong>4 TPs definidos tecnicamente</strong>, caso a caso, com base na estrutura do gráfico.</div></div>
+      <div class="r-rule"><div class="r-rule-icon">→</div><div class="r-rule-text" data-i18n="r_rule4"><strong>Saída de 1R em cada TP atingido</strong> — redução gradual do risco aberto.</div></div>
+      <div class="r-reinforce reveal d2">
+        <div class="r-reinforce-label" data-i18n="r_reinforce_label">Reforço de Posição</div>
+        <p data-i18n="r_reinforce_text">Possibilidade de reforço até <strong>8R por ativo</strong> — utilizado estrategicamente quando o mercado oferece uma segunda entrada a preço mais favorável.</p>
+      </div>
+    </div>
+    <div class="r-block reveal d2">
+      <h4 data-i18n="r_table_label">Valor de 1R por Tamanho de Conta</h4>
+      <table class="r-table">
+        <thead><tr><th data-i18n="r_th_size">Tamanho de Conta</th><th data-i18n="r_th_value">Valor de 1R</th></tr></thead>
+        <tbody>
+          <tr><td>$5.000 – $10.000</td><td>~$75</td></tr>
+          <tr><td>$10.000 – $20.000</td><td>~$150</td></tr>
+          <tr><td>$20.000 – $50.000</td><td>~$250</td></tr>
+          <tr><td>$50.000+</td><td>~$750</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== CUSTOS ===== -->
+<section id="custos">
+  <div class="eyebrow reveal" data-i18n="custos_eyebrow">Estrutura de Custos</div>
+  <h2 class="sec-title reveal" data-i18n="custos_title">Simples<br>Transparente<br>Alinhado</h2>
+  <p class="custos-claim reveal d1" data-i18n="custos_claim">Sem mensalidades. Sem taxas fixas. A EQC só ganha quando o cliente ganha.</p>
+  <div class="custos-grid">
+    <div class="custo-card reveal">
+      <div class="custo-num">15%</div>
+      <div class="custo-unit" data-i18n="custo1_unit">Comissão de Desempenho</div>
+      <div class="custo-desc" data-i18n="custo1_desc">Cobrada <strong>apenas sobre lucros gerados</strong>. Se a operação não for lucrativa, não há qualquer comissão.</div>
+    </div>
+    <div class="custo-card reveal d1">
+      <div class="custo-num">10%</div>
+      <div class="custo-unit" data-i18n="custo2_unit">Depósito de Garantia</div>
+      <div class="custo-desc" data-i18n="custo2_desc">Do valor total da conta, mantido na conta EQC. <strong>Exclusivamente para débito de comissões</strong> — nenhum outro acesso ao seu capital.</div>
+    </div>
+  </div>
+  <div class="custos-note reveal d2" data-i18n="custos_note">A EQC só ganha quando o cliente ganha · Sem mensalidades · Sem taxas fixas</div>
+</section>
+
+
+<div class="divider"></div>
+
+<footer>
+  <div class="footer-brand">
+    <img class="footer-logo-img" id="footer-logo" alt="EQC">
+    <span class="footer-logo-text">Evolution Quantum Capital</span>
+  </div>
+  <div class="footer-social">
+    <a href="https://www.instagram.com/EvolutionQC" target="_blank" rel="noopener" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+    <a href="https://x.com/EvolutionQC" target="_blank" rel="noopener" aria-label="X"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L2.25 2.25h6.988l4.27 5.647zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a href="https://www.tradingview.com/u/evolutionqc/" target="_blank" rel="noopener" aria-label="TradingView"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 24 18" fill="currentColor"><path d="M15.8654 8.2789c0 1.3541-1.0978 2.4519-2.452 2.4519-1.354 0-2.4519-1.0978-2.4519-2.452 0-1.354 1.0978-2.4518 2.452-2.4518 1.3541 0 2.4519 1.0977 2.4519 2.4519zM9.75 6H0v4.9038h4.8462v7.2692H9.75Zm8.5962 0H24l-5.1058 12.173h-5.6538z"/></svg></a>
+    <a href="https://t.me/+dN1L-SlHNN02ZWI0" target="_blank" rel="noopener" aria-label="Telegram"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+    <a href="https://discord.gg/EQhXjfXk" target="_blank" rel="noopener" aria-label="Discord"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.082.114 18.105.13 18.12a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg></a>
+  </div>
+  <div class="footer-copy" data-i18n="footer_copy">© 2026 Evolution Quantum Capital · Todos os Direitos Reservados</div>
+  <div class="footer-disc" data-i18n="footer_disc">Resultados passados não garantem resultados futuros. Este site é de natureza informativa e não constitui aconselhamento de investimento. A EQC não é um serviço de sinais. Faça sempre a sua própria análise.</div>
+</footer>
+
+<button id="back-to-top" title="Voltar ao topo">&#8679;</button>
+
+<script>
+// ===== GOOGLE SHEETS — INVESTOR METRICS (TAB INVESTOR) =====
+// Sheet: Trading_Template_1000_Automatizado_PT
+// Tab: INVESTOR (gid=1544476966)
+// Layout: Row 19 = labels (A-H), Row 20 = values (A-H)
+// Cols: A=Sharpe | B=Sortino | C=Calmar | D=MaxDD | E=Recovery | F=%MesesPos | G=AvgW/L | H=Expect$
+const INVESTOR_SHEET_ID = '1gX1v79US2pxNijNsRt16PDwepGT_f8iQSFKRZJsdnGg';
+const INVESTOR_GID      = '1544476966';
+
+// Column index → element ID mapping (0-based)
+const COL_MAP = [
+  'val-sharpe',    // Col A (0)
+  'val-sortino',   // Col B (1)
+  'val-calmar',    // Col C (2)
+  'val-dd',        // Col D (3)
+  'val-recovery',  // Col E (4)
+  'val-posmonths', // Col F (5)
+  'val-avgratio',  // Col G (6)
+  'val-expect',    // Col H (7)
+];
+
+function getVal(cell) {
+  if (!cell || cell.v === null || cell.v === undefined) return null;
+  // Prefer formatted value (handles %, $, decimals correctly)
+  if (cell.f) return cell.f;
+  if (typeof cell.v === 'number') return String(cell.v);
+  return String(cell.v);
+}
+
+function loadInvestorMetrics() {
+  const cb = 'investorCb' + Date.now();
+  window[cb] = function(data) {
+    try {
+      const rows = data.table.rows;
+      // Find the row where col A contains "Sharpe" (label row = row 19)
+      // Then use the NEXT row for values
+      let valRowIdx = -1;
+      for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        if (!row.c || !row.c[0]) continue;
+        const txt = String(row.c[0].v || row.c[0].f || '').toLowerCase();
+        if (txt.includes('sharpe')) {
+          valRowIdx = i + 1; // values are on the next row
+          break;
+        }
+      }
+      if (valRowIdx < 0 || valRowIdx >= rows.length) {
+        console.warn('[EQC] Sharpe label row not found, trying row index 19');
+        valRowIdx = 19; // fallback: row 20 (0-indexed = 19)
+      }
+      const valRow = rows[valRowIdx];
+      if (!valRow || !valRow.c) {
+        console.warn('[EQC] Value row empty');
+        return;
+      }
+      COL_MAP.forEach((elId, colIdx) => {
+        const cell = valRow.c[colIdx];
+        const val = getVal(cell);
+        const el = document.getElementById(elId);
+        if (el && val !== null) {
+          el.textContent = val;
+          el.classList.remove('loading');
+        }
+      });
+      // Also update Performance row (row 6 = row index 5):
+      // A=DataInício, B=DiasActivos, C=RetornoTotal, D=RetornoAnualizado, E=RetornoMensal, F=WinRate, G=ProfitFactor, H=Trades
+      // Find by looking for "Retorno Total" label row
+      for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        if (!row.c) continue;
+        for (let j = 0; j < Math.min(row.c.length, 4); j++) {
+          const txt = String(row.c[j]?.v || row.c[j]?.f || '').toLowerCase();
+          if (txt.includes('retorno total') || txt.includes('total return')) {
+            const perfRow = rows[i + 1];
+            if (perfRow && perfRow.c) {
+              const perfMap = [
+                ['val-perf-start', 0], ['val-perf-days', 1],
+                ['val-perf-total', 2], ['val-perf-annual', 3],
+                ['val-perf-monthly', 4], ['val-perf-winrate', 5],
+                ['val-perf-pf', 6], ['val-perf-trades', 7],
+              ];
+              perfMap.forEach(([id, ci]) => {
+                const el = document.getElementById(id);
+                if (el) {
+                  const v = getVal(perfRow.c[ci]);
+                  if (v !== null) { el.textContent = v; el.classList.remove('loading'); }
+                }
+              });
+            }
+            break;
+          }
+        }
+      }
+    } catch(e) {
+      console.error('[EQC Investor] Parse error:', e);
+    }
+    delete window[cb];
+    document.getElementById(cb)?.remove();
+  };
+  const script = document.createElement('script');
+  script.id = cb;
+  script.src = `https://docs.google.com/spreadsheets/d/${INVESTOR_SHEET_ID}/gviz/tq?tqx=responseHandler:${cb}&gid=${INVESTOR_GID}`;
+  script.onerror = () => {
+    console.error('[EQC] Failed to load investor data');
+    delete window[cb];
+    document.getElementById(cb)?.remove();
+  };
+  document.head.appendChild(script);
+}
+
+loadInvestorMetrics();
+setInterval(loadInvestorMetrics, 5 * 60 * 1000);
+
+// ===== LOGO =====
+(function(){
+  const logo='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn6C4PC90ZXh0Pjwvc3ZnPg==';
+  document.querySelectorAll('#nav-logo,#footer-logo').forEach(i=>i.src=logo);
+  const link=document.querySelector('#favicon');
+  if(link)link.href=logo;
+})();
+
+// ===== CURSOR =====
+const cursor=document.getElementById('cursor');
+const ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
+animRing();
+document.querySelectorAll('a,button,[data-hover]').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='16px';cursor.style.height='16px';cursor.style.background='transparent';cursor.style.border='1px solid var(--gold)';ring.style.width='48px';ring.style.height='48px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='8px';cursor.style.height='8px';cursor.style.background='var(--gold)';cursor.style.border='none';ring.style.width='32px';ring.style.height='32px';});
+});
+
+// ===== SCROLL REVEAL =====
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ===== BACK TO TOP =====
+const btt=document.getElementById('back-to-top');
+window.addEventListener('scroll',()=>btt.classList.toggle('visible',window.scrollY>400));
+btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// ===== MOBILE MENU =====
+function toggleMenu(){
+  const hbg=document.getElementById('hamburger');
+  const mm=document.getElementById('mobile-menu');
+  hbg.classList.toggle('open');
+  mm.style.display=mm.style.display==='flex'?'none':'flex';
+  setTimeout(()=>mm.classList.toggle('open',mm.style.display==='flex'),10);
+}
+document.getElementById('menu-close').addEventListener('click',()=>{
+  document.getElementById('hamburger').classList.remove('open');
+  const mm=document.getElementById('mobile-menu');
+  mm.classList.remove('open');
+  setTimeout(()=>mm.style.display='none',300);
+});
+
+// ===== LANGUAGE DROPDOWN =====
+function toggleLangDropdown(){
+  document.getElementById('lang-dropdown').classList.toggle('open');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.lang-selector'))
+    document.getElementById('lang-dropdown').classList.remove('open');
+});
+
+// ===== TRANSLATIONS (7 languages) =====
+const TRANSLATIONS = {
+  pt: {
+    fala_connosco:'Fala Connosco',
+    nav_home:'Início', nav_system:'Sistema', nav_portfolio:'Portfólio',
+    nav_community:'Comunidade', nav_tools:'Ferramentas', nav_contact_link:'Contacto',
+    hero_eyebrow:'// Sistema EQC',
+    hero_title_line1:'O Sistema.', hero_title_line2:'A Sua Filosofia.',
+    hero_tagline:'A abordagem sistemática da EQC ao crescimento de capital — construída sobre regras, paciência e assimetria. Não há discricionariedade. Não há emoções. Só o processo.',
+    hero_cta1:'Ver Historial', hero_cta2:'Pedir Acesso',
+    audit_stripe:'✓ TRANSPARÊNCIA TOTAL — TODAS AS MÉTRICAS SÃO REAIS E AUDITÁVEIS',
+    metrics_eyebrow:'// Performance',
+    metrics_title:'Métricas<br>em Tempo Real',
+    metrics_intro:'Todos os números abaixo são calculados em tempo real a partir do portfolio EQC. Apresentamos o contexto de cada métrica porque acreditamos que números sem contexto são ruído. Transparência não é opcional — é o nosso compromisso.',
+    m_perf_total_label:'Retorno Total', m_perf_total_bench:'Desde 02/12/2025',
+    m_perf_annual_label:'Retorno Anualizado', m_perf_annual_bench:'CAGR estimado',
+    m_perf_winrate_label:'Win Rate', m_perf_winrate_bench:'Posições fechadas',
+    m_perf_pf_label:'Profit Factor', m_perf_pf_bench:'Bom &gt;2.0 · Excelente &gt;5.0',
+    m_sharpe_label:'Sharpe Ratio', m_sharpe_bench:'Bom &gt;1.0 · Excelente &gt;2.0 · S&P 500 ≈ 0.9',
+    m_sharpe_ctx:'O Sharpe penaliza toda a volatilidade, incluindo os dias positivos. Um valor abaixo de 1.0 com Sortino elevado indica volatilidade positiva alta — o sistema gera movimentos fortes para cima.',
+    m_sortino_label:'Sortino Ratio', m_sortino_bench:'Bom &gt;1.0 · Classe mundial &gt;3.0 · Hedge funds top ≈ 2–4',
+    m_sortino_ctx:'O Sortino penaliza apenas a volatilidade negativa. Um valor excecional indica que as perdas são raras e a volatilidade é quase exclusivamente positiva.',
+    m_calmar_label:'Calmar Ratio', m_calmar_bench:'Aceitável &gt;0.5 · Bom &gt;1.0 · Excelente &gt;3.0',
+    m_calmar_ctx:'Retorno anualizado dividido pelo máximo drawdown. O drawdown do EQC é estrutural e deliberado — ver contexto abaixo.',
+    m_dd_label:'Max Drawdown', m_dd_bench:'Contexto essencial · Estrutural no EQC',
+    m_dd_ctx:'O drawdown do EQC não é uma falha — é parte da estratégia. O sistema usa SLs amplos e DCA em quedas profundas. O capital não realizado é uma posição, não uma perda.',
+    m_recovery_label:'Recovery Factor', m_recovery_bench:'Bom &gt;2.0 · Forte capacidade de recuperação',
+    m_recovery_ctx:'Mede a capacidade do sistema de recuperar drawdowns através de ganhos. Um fator elevado indica que o sistema ganha suficientemente mais do que perde.',
+    m_posmonths_label:'% Meses Positivos', m_posmonths_bench:'Baseado no histórico atual · Contexto relevante',
+    m_posmonths_ctx:'Percentagem de meses com retorno positivo. Apresentado com transparência total sobre o período de dados — nenhum cherry-picking.',
+    m_avgratio_label:'Avg Win / Avg Loss', m_avgratio_bench:'Assimetria excecional · Por cada €1 perdido',
+    m_avgratio_ctx:'O rácio mais revelador do EQC. Por cada unidade de perda, o sistema recupera em múltiplos de ganho. A assimetria é o coração da estratégia.',
+    m_expect_label:'Expectancy $', m_expect_bench:'Ganho médio esperado por trade',
+    m_expect_ctx:'Valor esperado médio por operação. Combina probabilidade de ganho e perda com os respetivos valores médios. Confirma a vantagem estatística do sistema.',
+    metrics_note:'<strong>Nota de Transparência:</strong> Todas as métricas são calculadas sobre posições reais executadas no âmbito do modelo EQC. O histórico está em crescimento — resultados passados não garantem resultados futuros. Documentação completa disponível mediante pedido.',
+    phil_eyebrow:'// Filosofia',
+    phil_title:'Três Princípios.<br>Sem Exceções.',
+    phil_p1:'Os mercados movem-se em ciclos. Sempre o fizeram. O EQC foi construído sobre esta premissa — não como esperança, mas como axioma operacional. Quando um ativo entra num ciclo descendente, o sistema não entra em pânico. Aguarda.',
+    phil_p2:'Aguardar pode demorar 1 a 2 anos. Isso é aceitável. O capital do EQC é capital paciente — não capital ansioso. Quem não consegue suportar posições negativas não realizadas não é o investidor certo para este sistema.',
+    phil_p3:'A assimetria é o motor. O sistema aceita perdas temporariamente elevadas porque os ganhos quando o ciclo regressa são desproporcionalmente maiores. O Avg Win/Avg Loss confirma isto matematicamente.',
+    prin1_title:'Os Mercados São Cíclicos', prin1_text:'Todo o ativo com liquidez e estrutura sólida regressa ao ciclo ascendente. Quando o ciclo descende, aguardamos — com regras, não com emoções.',
+    prin2_title:'Paciência como Estratégia', prin2_text:'O tempo é uma variável do sistema, não um problema. Posições podem estar abertas 1 a 2 anos. O DCA em quedas profundas melhora o perfil de retorno quando a recuperação chega.',
+    prin3_title:'Assimetria Acima de Frequência', prin3_text:'A taxa de acerto é secundária. O que importa é o rácio entre o que se ganha e o que se perde. O EQC pode perder mais vezes e ainda crescer consistentemente.',
+    system_eyebrow:'// Sistema EQC',
+    system_title:'O Sistema.<br>As Suas Regras.',
+    system_p1:'A EQC opera segundo um conjunto de regras predefinidas — não há espaço para discricionariedade ou julgamento subjetivo. Cada operação é definida antes de ser aberta.',
+    system_p2:'O risco é quantificado à entrada. O dimensionamento de posição é fixo. Os resultados são medidos em múltiplos de R — não em percentagens de ruído.',
+    system_p3:'O sistema não reage a headlines nem a sentimento de mercado. Executa a sua vantagem estatística, operação após operação.',
+    sys1_title:'Execução Baseada em Regras', sys1_text:'Todos os critérios de entrada, stop-loss e take-profit são definidos antes de a posição ser aberta — e nunca ajustados por impulso.',
+    sys2_title:'Risco Quantificado', sys2_text:'O risco por operação é fixo em 1R. Todos os resultados são medidos nessa unidade, mantendo a avaliação de desempenho consistente.',
+    sys3_title:'Não Discricionário', sys3_text:'O sistema elimina o viés humano. Se o setup qualifica, a operação é executada. Se não qualifica, é descartada. Sem exceções.',
+    sys4_title:'Historial Auditável', sys4_text:'Cada operação é registada com data, entrada e saída verificadas. Um historial transparente — não uma seleção de destaques.',
+    model_eyebrow:'Modelo de Investimento', model_title:'Como o Sistema Funciona',
+    model_intro:'Um processo de cinco etapas que começa na classificação do regime e termina na gestão dinâmica de posições — cada etapa regida por parâmetros predefinidos sem substituição humana.',
+    mc1_title:'Avaliação de Regime', mc1_text:'Classificação estrutural das condições de mercado atuais para determinar o ambiente operacional.',
+    mc2_title:'Risco por Posição', mc2_text:'Cada operação tem uma perda máxima predefinida em unidades R antes da entrada.',
+    mc3_title:'Entrada em Zona de Valor', mc3_text:'Alocação progressiva de capital, incluindo DCA estratégico quando o mercado oferece preços mais favoráveis.',
+    mc4_title:'Saídas por R-Múltiplo', mc4_text:'Lógica de saída definida por R-múltiplos, eliminando a tomada de decisão emocional.',
+    mc5_title:'Gestão Dinâmica de Posição', mc5_text:'SLs amplos para dar espaço ao ativo. DCA em quedas profundas para reduzir preço médio. Paciência como regra.',
+    mc6_label:'Etapas<br>Sistemáticas',
+    risk_eyebrow:'Arquitetura de Risco', risk_title:'Construído para<br>Sobreviver a<br>Qualquer Regime', risk_dial:'Núcleo de Risco',
+    ri1_title:'SLs Amplos por Design', ri1_text:'Stop-losses de 15% a 30% por posição — deliberadamente amplos para dar espaço ao ativo desenvolver o seu movimento.',
+    ri2_title:'DCA em Quedas Profundas', ri2_text:'Quando uma posição atinge -70% ou mais, o sistema executa DCA estratégico, reduzindo o preço médio e amplificando a recuperação.',
+    ri3_title:'Nunca Encerrar com Prejuízo', ri3_text:'O EQC não encerra posições por pressão emocional. Se o ativo não recuperou, aguarda-se o ciclo ascendente — mesmo que demore 1 a 2 anos.',
+    ri4_title:'Seleção Proprietária de Ativos', ri4_text:'Metodologia proprietária identifica ativos com baixo risco de perda permanente. Quando o raro erro acontece, a perda é aceite com transparência.',
+    profile_eyebrow:'// Perfil de Investidor', profile_title:'Para Quem É o EQC',
+    profile_ideal_title:'O Investidor Certo',
+    prof1_title:'Capital Paciente', prof1_text:'Tem capital que não precisa nos próximos 2 a 3 anos. Entende que o tempo é uma variável de retorno, não um custo.',
+    prof2_title:'Tolerância a Volatilidade', prof2_text:'Consegue ver posições a -40% sem entrar em pânico. Compreende que o PNL não realizado é uma posição, não uma perda.',
+    prof3_title:'Foco em Retorno Absoluto', prof3_text:'O objetivo é crescimento composto de capital. A pergunta não é "quanto cresceu este mês?" mas "quanto crescerá nos próximos 3 anos?"',
+    prof4_title:'Valoriza Transparência', prof4_text:'Aprecia métricas reais com contexto honesto. Não procura promessas — procura evidências.',
+    profile_wrong_title:'Não É Para Si Se...',
+    wrong1:'Precisa de capital disponível nos próximos 12 meses',
+    wrong2:'Não consegue suportar posições negativas por períodos prolongados',
+    wrong3:'Espera retornos mensais positivos garantidos',
+    wrong4:'Precisa de liquidez imediata ou acesso rápido ao capital',
+    wrong5:'Não tem tolerância para drawdowns temporários de 30–50%',
+    wrong6:'Procura um serviço de sinais ou recomendações de curto prazo',
+    trans_eyebrow:'// Compromisso', trans_title:'Transparência<br>Não É Opcional',
+    trans_p1:'Num mundo de screenshots cuidadosamente selecionados e resultados sem contexto, o EQC escolhe o caminho oposto. Mostramos o Max Drawdown. Explicamos os SLs amplos. Contextualizamos cada rácio.',
+    trans_p2:'O Sortino de 17.86 é real — e também explicamos porque o Sharpe é 0.76. O Max Drawdown de 49.93% é real — e também explicamos que é estrutural e esperado. Sem cherry-picking.',
+    trans_p3:'Acreditamos que o investidor certo não foge dos números menos flattering. Foge da falta de informação. A nossa transparência não é uma fraqueza — é o nosso maior argumento.',
+    trans_badge:'✓ Documentação completa disponível mediante pedido',
+    footer_copy:'© 2026 Evolution Quantum Capital · Todos os Direitos Reservados',
+    footer_disc:'Resultados passados não garantem resultados futuros. Este site é de natureza informativa e não constitui aconselhamento de investimento. A EQC não é um serviço de sinais. Faça sempre a sua própria análise.',
+  },
+  en: {
+    fala_connosco:'Talk to Us',
+    nav_home:'Home', nav_system:'System', nav_portfolio:'Portfolio',
+    nav_community:'Community', nav_tools:'Tools', nav_contact_link:'Contact',
+    hero_eyebrow:'// EQC System',
+    hero_title_line1:'The System.', hero_title_line2:'Its Philosophy.',
+    hero_tagline:'EQC\'s systematic approach to capital growth — built on rules, patience and asymmetry. No discretion. No emotion. Only the process.',
+    hero_cta1:'View Track Record', hero_cta2:'Request Access',
+    audit_stripe:'✓ FULL TRANSPARENCY — ALL METRICS ARE REAL AND AUDITABLE',
+    metrics_eyebrow:'// Performance',
+    metrics_title:'Live<br>Metrics',
+    metrics_intro:'Every number below is calculated in real time from the EQC portfolio. We provide context for each metric because numbers without context are noise. Transparency is not optional — it is our commitment.',
+    m_perf_total_label:'Total Return', m_perf_total_bench:'Since 02/12/2025',
+    m_perf_annual_label:'Annualised Return', m_perf_annual_bench:'Estimated CAGR',
+    m_perf_winrate_label:'Win Rate', m_perf_winrate_bench:'Closed positions',
+    m_perf_pf_label:'Profit Factor', m_perf_pf_bench:'Good &gt;2.0 · Excellent &gt;5.0',
+    m_sharpe_label:'Sharpe Ratio', m_sharpe_bench:'Good &gt;1.0 · Excellent &gt;2.0 · S&P 500 ≈ 0.9',
+    m_sharpe_ctx:'Sharpe penalises all volatility, including positive days. A value below 1.0 with high Sortino indicates high upside volatility — the system generates strong upward moves.',
+    m_sortino_label:'Sortino Ratio', m_sortino_bench:'Good &gt;1.0 · World class &gt;3.0 · Top hedge funds ≈ 2–4',
+    m_sortino_ctx:'Sortino penalises only downside volatility. An exceptional value indicates losses are rare and volatility is almost exclusively positive.',
+    m_calmar_label:'Calmar Ratio', m_calmar_bench:'Acceptable &gt;0.5 · Good &gt;1.0 · Excellent &gt;3.0',
+    m_calmar_ctx:'Annualised return divided by maximum drawdown. EQC\'s drawdown is structural and deliberate — see context below.',
+    m_dd_label:'Max Drawdown', m_dd_bench:'Essential context · Structural in EQC',
+    m_dd_ctx:'EQC\'s drawdown is not a failure — it is part of the strategy. The system uses wide SLs and DCA on deep drops. Unrealised capital is a position, not a loss.',
+    m_recovery_label:'Recovery Factor', m_recovery_bench:'Good &gt;2.0 · Strong recovery capacity',
+    m_recovery_ctx:'Measures the system\'s ability to recover drawdowns through gains. A high factor indicates the system wins sufficiently more than it loses.',
+    m_posmonths_label:'% Positive Months', m_posmonths_bench:'Based on current track record · Context relevant',
+    m_posmonths_ctx:'Percentage of months with positive return. Presented with full transparency on data period — no cherry-picking.',
+    m_avgratio_label:'Avg Win / Avg Loss', m_avgratio_bench:'Exceptional asymmetry · Per €1 lost',
+    m_avgratio_ctx:'EQC\'s most revealing ratio. Per unit of average loss, the system recovers in multiples of gain. Asymmetry is the heart of the strategy.',
+    m_expect_label:'Expectancy $', m_expect_bench:'Expected average gain per trade',
+    m_expect_ctx:'Average expected value per trade in dollars. Combines win/loss probability with respective average values. Confirms the system\'s statistical edge.',
+    metrics_note:'<strong>Transparency Note:</strong> All metrics are calculated on real positions executed under the EQC systematic model. Track record is growing — past results do not guarantee future results. Full documentation available on request.',
+    phil_eyebrow:'// Philosophy',
+    phil_title:'Three Principles.<br>No Exceptions.',
+    phil_p1:'Markets move in cycles. They always have. EQC was built on this premise — not as hope, but as an operational axiom. When an asset enters a downward cycle, the system does not panic. It waits.',
+    phil_p2:'Waiting can take 1 to 2 years. That is acceptable. EQC\'s capital is patient capital — not anxious capital. Anyone who cannot endure unrealised negative positions is not the right investor for this system.',
+    phil_p3:'Asymmetry is the engine. The system accepts temporarily high losses because gains when the cycle returns are disproportionately larger. Avg Win/Avg Loss confirms this mathematically.',
+    prin1_title:'Markets Are Cyclical', prin1_text:'Every liquid, structurally sound asset returns to its upward cycle. When the cycle descends, we wait — with rules, not emotions.',
+    prin2_title:'Patience as Strategy', prin2_text:'Time is a system variable, not a problem. Positions can be open for 1 to 2 years. DCA on deep drops improves the return profile when recovery comes.',
+    prin3_title:'Asymmetry Over Frequency', prin3_text:'Win rate is secondary. What matters is the ratio between what is won and what is lost. EQC can lose more often and still grow consistently.',
+    system_eyebrow:'// EQC System',
+    system_title:'The System.<br>Its Rules.',
+    system_p1:'EQC operates according to a predefined set of rules — there is no room for discretion or subjective judgment. Every trade is fully defined before it is opened.',
+    system_p2:'Risk is quantified at entry. Position sizing is fixed. Outcomes are measured in multiples of R — not percentages of noise.',
+    system_p3:'The system does not react to headlines or market sentiment. It executes its edge, trade after trade.',
+    sys1_title:'Rule-Based Execution', sys1_text:'All entry, stop-loss and take-profit criteria are defined before the position is opened — and never adjusted on impulse.',
+    sys2_title:'Quantified Risk', sys2_text:'Risk per trade is fixed at 1R. All results are measured in that unit, keeping performance evaluation consistent.',
+    sys3_title:'Non-Discretionary', sys3_text:'The system eliminates human bias. If the setup qualifies, the trade is taken. If not, it is passed. No exceptions.',
+    sys4_title:'Auditable Track Record', sys4_text:'Every trade is recorded with date, verified entry and exit. A transparent track record — not a highlight reel.',
+    model_eyebrow:'Investment Model', model_title:'How the System Works',
+    model_intro:'A five-step process beginning with regime classification and ending in dynamic position management — each step governed by predefined parameters with no human override.',
+    mc1_title:'Regime Assessment', mc1_text:'Structural classification of current market conditions to determine the operating environment.',
+    mc2_title:'Position Risk', mc2_text:'Every trade has a predefined maximum loss in R units before entry.',
+    mc3_title:'Value Zone Entry', mc3_text:'Progressive capital allocation, including strategic DCA when the market offers more favourable prices.',
+    mc4_title:'R-Multiple Exits', mc4_text:'Exit logic defined by R-multiples, eliminating emotional decision-making at critical moments.',
+    mc5_title:'Dynamic Position Management', mc5_text:'Wide SLs to give the asset room. DCA on deep drops to reduce average price. Patience as a rule.',
+    mc6_label:'Systematic<br>Steps',
+    risk_eyebrow:'Risk Architecture', risk_title:'Built to<br>Survive<br>Any Regime', risk_dial:'Risk Core',
+    ri1_title:'Wide SLs by Design', ri1_text:'Stop-losses of 15% to 30% per position — deliberately wide to give the asset room to develop its movement.',
+    ri2_title:'DCA on Deep Drops', ri2_text:'When a position reaches -70% or more, the system executes strategic DCA, reducing average price and amplifying recovery.',
+    ri3_title:'Never Close at a Loss', ri3_text:'EQC does not close positions under emotional pressure. If the asset has not recovered, we wait for the upward cycle — even if it takes 1 to 2 years.',
+    ri4_title:'Proprietary Asset Selection', ri4_text:'Proprietary methodology identifies assets with low risk of permanent capital loss. When the rare error occurs, the loss is accepted transparently.',
+    profile_eyebrow:'// Investor Profile', profile_title:'Who EQC Is For',
+    profile_ideal_title:'The Right Investor',
+    prof1_title:'Patient Capital', prof1_text:'Capital not needed for the next 2 to 3 years. Understands that time is a return variable, not a cost.',
+    prof2_title:'Volatility Tolerance', prof2_text:'Can see positions at -40% without panic. Understands unrealised PNL is a position, not a loss.',
+    prof3_title:'Absolute Return Focus', prof3_text:'The goal is compounding capital. The question is not "how much did it grow this month?" but "how much will it grow over 3 years?"',
+    prof4_title:'Values Transparency', prof4_text:'Appreciates real metrics with honest context. Not looking for promises — looking for evidence.',
+    profile_wrong_title:'Not for You If...',
+    wrong1:'You need capital available within 12 months',
+    wrong2:'You cannot endure negative positions for extended periods',
+    wrong3:'You expect guaranteed monthly positive returns',
+    wrong4:'You need immediate liquidity or quick access to capital',
+    wrong5:'You have no tolerance for temporary drawdowns of 30–50%',
+    wrong6:'You are looking for a signal service or short-term recommendations',
+    trans_eyebrow:'// Commitment', trans_title:'Transparency<br>Is Not Optional',
+    trans_p1:'In a world of carefully curated screenshots and results without context, EQC deliberately chooses the opposite path. We show the Max Drawdown. We explain the wide SLs. We contextualise every ratio.',
+    trans_p2:'The Sortino of 17.86 is real — and we also explain why Sharpe is 0.76. The Max Drawdown of 49.93% is real — and we also explain it is structural and expected. No cherry-picking.',
+    trans_p3:'We believe the right investor does not run from unflattering numbers. They run from lack of information. Our transparency is not a weakness — it is our strongest argument.',
+    trans_badge:'✓ Full documentation available on request',
+    footer_copy:'© 2026 Evolution Quantum Capital · All Rights Reserved',
+    footer_disc:'Past results do not guarantee future results. This site is informational and does not constitute investment advice. EQC is not a signal service. Always do your own research.',
+  },
+  zh: {
+    fala_connosco:'联系我们',
+    nav_home:'首页', nav_system:'系统', nav_portfolio:'投资组合',
+    nav_community:'社区', nav_tools:'工具', nav_contact_link:'联系',
+    hero_eyebrow:'// EQC 系统',
+    hero_title_line1:'系统。', hero_title_line2:'其哲学。',
+    hero_tagline:'EQC 基于规则、耐心与非对称性构建的系统化资本增长方法。没有主观判断，没有情绪，只有流程。',
+    hero_cta1:'查看历史记录', hero_cta2:'申请访问',
+    audit_stripe:'✓ 完全透明 — 所有指标均真实可审计',
+    metrics_eyebrow:'// 业绩',
+    metrics_title:'实时<br>指标',
+    metrics_intro:'以下所有数据均根据 EQC 投资组合实时计算。我们为每项指标提供背景说明，因为没有背景的数字毫无意义。透明度不是可选项，而是我们的承诺。',
+    m_sharpe_label:'夏普比率', m_sharpe_bench:'良好 &gt;1.0 · 优秀 &gt;2.0 · 标普500 ≈ 0.9',
+    m_sharpe_ctx:'夏普比率惩罚所有波动性，包括正向波动。低于1.0但索提诺比率高，表明系统产生强劲的上涨波动。',
+    m_sortino_label:'索提诺比率', m_sortino_bench:'良好 &gt;1.0 · 世界级 &gt;3.0 · 顶级对冲基金 ≈ 2–4',
+    m_sortino_ctx:'索提诺比率仅惩罚下行波动性。异常高的值表明亏损罕见，波动几乎全为正向。',
+    m_calmar_label:'卡尔马比率', m_calmar_bench:'可接受 &gt;0.5 · 良好 &gt;1.0 · 优秀 &gt;3.0',
+    m_calmar_ctx:'年化收益除以最大回撤。EQC 的回撤是结构性和故意设计的。',
+    m_dd_label:'最大回撤', m_dd_bench:'必须了解背景 · EQC结构性特征',
+    m_dd_ctx:'EQC 的回撤不是缺陷，而是策略的一部分。系统使用宽止损和深跌时的补仓。未实现资本是持仓，不是亏损。',
+    m_recovery_label:'恢复因子', m_recovery_bench:'良好 &gt;2.0 · 强劲恢复能力',
+    m_recovery_ctx:'衡量系统通过盈利恢复回撤的能力。高值表明系统盈利远超亏损。',
+    m_posmonths_label:'正收益月份%', m_posmonths_bench:'基于当前记录 · 背景相关',
+    m_posmonths_ctx:'正收益月份的百分比。完全透明地呈现数据周期，无任何筛选。',
+    m_avgratio_label:'平均盈亏比', m_avgratio_bench:'卓越的非对称性',
+    m_avgratio_ctx:'EQC 最具揭示性的比率。每单位平均亏损，系统以多倍盈利弥补。非对称性是策略的核心。',
+    m_expect_label:'期望值 $', m_expect_bench:'每笔交易预期平均收益',
+    m_expect_ctx:'每笔交易的平均预期价值。结合盈亏概率与各自平均值，确认系统的统计优势。',
+    metrics_note:'<strong>透明度说明：</strong>所有指标均基于 EQC 系统模型执行的真实持仓计算。历史记录持续增长——过去业绩不代表未来结果。如需完整文件，请提出申请。',
+    phil_eyebrow:'// 哲学',
+    phil_title:'三大原则。<br>无一例外。',
+    phil_p1:'市场以周期运动，始终如此。EQC 建立在这一前提之上——不是希望，而是操作公理。当资产进入下行周期，系统不会恐慌，它等待。',
+    phil_p2:'等待可能需要1至2年。这是可接受的。EQC 的资本是耐心资本——不是焦虑资本。无法承受未实现负仓的投资者不适合此系统。',
+    phil_p3:'非对称性是驱动力。系统接受暂时的高亏损，因为周期回归时的盈利会成比例地更大。平均盈亏比从数学上证实了这一点。',
+    prin1_title:'市场具有周期性', prin1_text:'每个具备流动性和稳健结构的资产都会回归上行周期。当周期下行，我们以规则而非情绪等待。',
+    prin2_title:'耐心作为策略', prin2_text:'时间是系统变量，不是问题。持仓可开放1至2年。深跌时的补仓在复苏到来时改善回报。',
+    prin3_title:'非对称优先于频率', prin3_text:'胜率是次要的。重要的是盈亏比率。EQC 可以亏损更多次，仍能持续增长。',
+    system_eyebrow:'// EQC 系统',
+    system_title:'系统。<br>其规则。',
+    system_p1:'EQC 按照预定规则运作——没有主观判断的空间。每笔交易在开仓前已完全定义。',
+    system_p2:'风险在入场时量化。持仓规模固定。结果以R倍数衡量，而非噪音百分比。',
+    system_p3:'系统不对新闻或市场情绪作出反应。逐笔交易执行其统计优势。',
+    sys1_title:'基于规则的执行', sys1_text:'所有入场、止损和止盈标准在开仓前定义，绝不因冲动而调整。',
+    sys2_title:'量化风险', sys2_text:'每笔交易风险固定为1R，所有结果以该单位衡量，保持一致性。',
+    sys3_title:'非主观', sys3_text:'系统消除人为偏见。如果满足条件，就执行交易；不满足，就放弃。没有例外。',
+    sys4_title:'可审计记录', sys4_text:'每笔交易均记录日期、经核实的入场和出场。透明记录，而非精选集锦。',
+    model_eyebrow:'投资模型', model_title:'系统如何运作',
+    model_intro:'五步流程，从制度分类到动态仓位管理——每步均由预定参数管理，无人为覆盖。',
+    mc1_title:'制度评估', mc1_text:'对当前市场条件进行结构性分类以确定运营环境。',
+    mc2_title:'持仓风险', mc2_text:'每笔交易在入场前有R单位的预定最大亏损。',
+    mc3_title:'价值区间入场', mc3_text:'渐进式资本配置，包括市场提供更优价格时的战略补仓。',
+    mc4_title:'R倍数出场', mc4_text:'由R倍数定义的出场逻辑，消除关键时刻的情绪化决策。',
+    mc5_title:'动态仓位管理', mc5_text:'宽止损为资产提供空间。深跌时补仓降低平均价格。耐心是规则。',
+    mc6_label:'系统性<br>步骤',
+    risk_eyebrow:'风险架构', risk_title:'构建以<br>适应<br>任何市场', risk_dial:'风险核心',
+    ri1_title:'宽止损设计', ri1_text:'每仓止损15%至30%——故意设宽，为资产提供发展空间。',
+    ri2_title:'深跌时补仓', ri2_text:'当持仓达-70%或更多时，系统执行战略补仓，降低平均价格并放大复苏。',
+    ri3_title:'从不亏损出场', ri3_text:'EQC 不因情绪压力关闭持仓。若资产未恢复，等待上行周期——即使需要1至2年。',
+    ri4_title:'专有资产筛选', ri4_text:'专有方法识别永久资本损失风险低的资产。当罕见错误发生时，损失以透明方式接受。',
+    profile_eyebrow:'// 投资者画像', profile_title:'EQC 适合谁',
+    profile_ideal_title:'合适的投资者',
+    prof1_title:'耐心资本', prof1_text:'未来2至3年不需要的资金。理解时间是收益变量，而非成本。',
+    prof2_title:'波动容忍度', prof2_text:'能看到持仓-40%而不恐慌。理解未实现盈亏是仓位，不是损失。',
+    prof3_title:'绝对收益导向', prof3_text:'目标是复利增长。问题不是"这个月涨了多少"，而是"3年后会涨多少"。',
+    prof4_title:'重视透明度', prof4_text:'欣赏带有诚实背景的真实指标。不寻求承诺——寻求证据。',
+    profile_wrong_title:'不适合您如果...',
+    wrong1:'您在12个月内需要资金', wrong2:'您无法长期承受负仓持仓',
+    wrong3:'您期望有保证的月度正收益', wrong4:'您需要即时流动性或快速使用资金',
+    wrong5:'您对30–50%的临时回撤没有容忍度', wrong6:'您寻找信号服务或短期建议',
+    trans_eyebrow:'// 承诺', trans_title:'透明度<br>不是可选项',
+    trans_p1:'在精心筛选的截图和没有背景的结果盛行的世界里，EQC 刻意选择相反的道路。我们展示最大回撤，解释宽止损，为每个比率提供背景。',
+    trans_p2:'17.86的索提诺比率是真实的——我们也解释为何夏普比率是0.76。49.93%的最大回撤是真实的——我们也解释其结构性和预期性。无筛选。',
+    trans_p3:'我们相信合适的投资者不会逃避不那么漂亮的数字。他们逃避的是缺乏信息。我们的透明度不是弱点——它是我们最强的论点。',
+    trans_badge:'✓ 如需完整文件，请提出申请',
+    footer_copy:'© 2026 Evolution Quantum Capital · 版权所有',
+    footer_disc:'过往业绩不代表未来结果。本网站仅供参考，不构成投资建议。EQC 不是信号服务。请务必进行自己的研究。',
+  },
+  ja: {
+    fala_connosco:'お問い合わせ',
+    nav_home:'ホーム', nav_system:'システム', nav_portfolio:'ポートフォリオ',
+    nav_community:'コミュニティ', nav_tools:'ツール', nav_contact_link:'お問い合わせ',
+    hero_eyebrow:'// EQCシステム',
+    hero_title_line1:'システム。', hero_title_line2:'その哲学。',
+    hero_tagline:'ルール、忍耐、非対称性に基づいたEQCの体系的な資本成長アプローチ。裁量なし。感情なし。プロセスのみ。',
+    hero_cta1:'実績を見る', hero_cta2:'アクセス申請',
+    audit_stripe:'✓ 完全な透明性 — すべての指標は実際のもので監査可能',
+    metrics_eyebrow:'// パフォーマンス',
+    metrics_title:'リアルタイム<br>指標',
+    metrics_intro:'以下の数字はすべてEQCポートフォリオからリアルタイムで算出されます。すべての指標にコンテキストを提供するのは、コンテキストのない数字はノイズだからです。透明性は任意ではなく、私たちのコミットメントです。',
+    m_sharpe_label:'シャープレシオ', m_sharpe_bench:'良好 &gt;1.0 · 優秀 &gt;2.0 · S&P500 ≈ 0.9',
+    m_sharpe_ctx:'シャープはすべてのボラティリティ（プラスの日も含む）にペナルティを課します。ソルティーノが高い状態での1.0未満は、上昇ボラティリティが高いことを示します。',
+    m_sortino_label:'ソルティーノレシオ', m_sortino_bench:'良好 &gt;1.0 · 世界クラス &gt;3.0 · トップヘッジファンド ≈ 2–4',
+    m_sortino_ctx:'ソルティーノは下落ボラティリティのみにペナルティを課します。例外的な値は損失が稀で、ボラティリティがほぼプラスのみであることを示します。',
+    m_calmar_label:'カルマーレシオ', m_calmar_bench:'許容範囲 &gt;0.5 · 良好 &gt;1.0 · 優秀 &gt;3.0',
+    m_calmar_ctx:'年間リターンを最大ドローダウンで割った値。EQCのドローダウンは構造的かつ意図的なものです。',
+    m_dd_label:'最大ドローダウン', m_dd_bench:'コンテキスト必須 · EQCにおける構造的特性',
+    m_dd_ctx:'EQCのドローダウンは失敗ではなく、戦略の一部です。システムは広いSLと深い下落時のDCAを使用します。未実現資本はポジションであり、損失ではありません。',
+    m_recovery_label:'リカバリーファクター', m_recovery_bench:'良好 &gt;2.0 · 強いリカバリー能力',
+    m_recovery_ctx:'利益によってドローダウンを回復するシステムの能力を測定します。高い値はシステムが損失よりもはるかに多く利益を得ていることを示します。',
+    m_posmonths_label:'プラス月率', m_posmonths_bench:'現在の実績に基づく · コンテキスト重要',
+    m_posmonths_ctx:'プラスリターンの月の割合。データ期間について完全な透明性を持って提示。チェリーピッキングなし。',
+    m_avgratio_label:'平均勝敗比率', m_avgratio_bench:'例外的な非対称性',
+    m_avgratio_ctx:'EQCで最も示唆に富む比率。平均損失1単位に対して、システムは複数倍の利益で回復します。非対称性が戦略の核心です。',
+    m_expect_label:'期待値 $', m_expect_bench:'トレードごとの期待平均利益',
+    m_expect_ctx:'トレードあたりの平均期待値。勝敗確率とそれぞれの平均値を組み合わせ、システムの統計的優位性を確認します。',
+    metrics_note:'<strong>透明性に関する注記：</strong>すべての指標はEQC体系的モデルの下で実行された実際のポジションに基づいて計算されています。過去の実績は将来の結果を保証しません。詳細な資料はご要請に応じてご提供します。',
+    phil_eyebrow:'// 哲学',
+    phil_title:'三つの原則。<br>例外なし。',
+    phil_p1:'市場はサイクルで動く。常にそうでした。EQCはこの前提の上に構築されています――希望としてではなく、運用上の公理として。資産が下降サイクルに入ったとき、システムはパニックにならない。待ちます。',
+    phil_p2:'待つことは1〜2年かかる場合があります。それは許容範囲です。EQCの資本は忍耐強い資本です。未実現のマイナスポジションに耐えられない投資家はこのシステムに向いていません。',
+    phil_p3:'非対称性がエンジンです。サイクルが戻ったときの利益は不均衡に大きいため、システムは一時的に高い損失を受け入れます。平均勝敗比率がこれを数学的に証明しています。',
+    prin1_title:'市場はサイクル的である', prin1_text:'流動性と堅固な構造を持つすべての資産は上昇サイクルに戻ります。サイクルが下降するとき、感情ではなくルールで待ちます。',
+    prin2_title:'戦略としての忍耐', prin2_text:'時間はシステム変数であり、問題ではありません。ポジションは1〜2年間オープンできます。深い下落でのDCAは回復時のリターンを改善します。',
+    prin3_title:'頻度より非対称性', prin3_text:'勝率は二次的なものです。重要なのは勝ちと負けの比率です。EQCはより多く負けながらも一貫して成長できます。',
+    system_eyebrow:'// EQCシステム',
+    system_title:'システム。<br>そのルール。',
+    system_p1:'EQCは事前定義されたルールに従って運営されます――裁量や主観的判断の余地はありません。すべてのトレードはオープンする前に完全に定義されています。',
+    system_p2:'リスクはエントリー時に定量化されます。ポジションサイジングは固定です。結果はノイズのパーセンテージではなく、Rの倍数で測定されます。',
+    system_p3:'システムはニュースや市場センチメントに反応しません。トレードごとに統計的優位性を実行します。',
+    sys1_title:'ルールベースの実行', sys1_text:'すべてのエントリー、ストップロス、テイクプロフィットの基準はポジションをオープンする前に定義され、衝動的に調整されることはありません。',
+    sys2_title:'定量化されたリスク', sys2_text:'トレードごとのリスクは1Rに固定。すべての結果をその単位で測定し、一貫性を保ちます。',
+    sys3_title:'非裁量的', sys3_text:'システムは人間のバイアスを排除します。セットアップが条件を満たせばトレードを実行。満たさなければパス。例外なし。',
+    sys4_title:'監査可能な実績', sys4_text:'すべてのトレードは日付、確認されたエントリーと出口とともに記録されます。透明な実績――ハイライトリールではありません。',
+    model_eyebrow:'投資モデル', model_title:'システムの仕組み',
+    model_intro:'レジーム分類から始まり動的ポジション管理で終わる5ステッププロセス――各ステップは人間の介入なしに事前定義されたパラメータで管理されます。',
+    mc1_title:'レジーム評価', mc1_text:'オペレーティング環境を決定するための現在の市場状況の構造的分類。',
+    mc2_title:'ポジションリスク', mc2_text:'各トレードはエントリー前にR単位の事前定義された最大損失を持ちます。',
+    mc3_title:'バリューゾーンエントリー', mc3_text:'漸進的な資本配分。市場がより有利な価格を提供する際の戦略的DCAを含む。',
+    mc4_title:'Rマルチプル出口', mc4_text:'Rマルチプルで定義された出口ロジック。重要な瞬間の感情的意思決定を排除。',
+    mc5_title:'動的ポジション管理', mc5_text:'資産に余裕を与える広いSL。深い下落でのDCAで平均価格を下げる。忍耐はルール。',
+    mc6_label:'体系的な<br>ステップ',
+    risk_eyebrow:'リスクアーキテクチャ', risk_title:'あらゆる相場に<br>耐えるよう<br>構築', risk_dial:'リスクコア',
+    ri1_title:'設計による広いSL', ri1_text:'ポジションごとに15〜30%のストップロス――資産が動きを展開する余裕を与えるために意図的に広く設定。',
+    ri2_title:'深い下落でのDCA', ri2_text:'ポジションが-70%以上に達したとき、システムは戦略的DCAを実行し、平均価格を下げ、回復を増幅させます。',
+    ri3_title:'損失で決して閉じない', ri3_text:'EQCは感情的プレッシャーでポジションを閉じません。資産が回復していなければ、上昇サイクルを待ちます――たとえ1〜2年かかっても。',
+    ri4_title:'独自資産選択', ri4_text:'独自の方法論が永続的な資本損失リスクの低い資産を特定します。稀なエラーが発生した際は、損失を透明性を持って受け入れます。',
+    profile_eyebrow:'// 投資家プロフィール', profile_title:'EQCは誰のためか',
+    profile_ideal_title:'適切な投資家',
+    prof1_title:'忍耐強い資本', prof1_text:'今後2〜3年間必要のない資金。時間はリターン変数であり、コストではないと理解している。',
+    prof2_title:'ボラティリティ耐性', prof2_text:'-40%のポジションを見てもパニックにならない。未実現PLはポジションであり、損失ではないと理解している。',
+    prof3_title:'絶対リターン重視', prof3_text:'目標は複利で資本を成長させること。「今月どれだけ成長したか」ではなく「3年後どれだけ成長するか」が問い。',
+    prof4_title:'透明性を重視', prof4_text:'誠実なコンテキストを持つ実際の指標を評価する。約束を求めるのではなく、証拠を求める。',
+    profile_wrong_title:'こんな方には向きません...',
+    wrong1:'12ヶ月以内に資金が必要な方', wrong2:'長期間のマイナスポジションに耐えられない方',
+    wrong3:'毎月のプラスリターンを保証として期待する方', wrong4:'即時流動性や資本への迅速なアクセスが必要な方',
+    wrong5:'30〜50%の一時的なドローダウンへの耐性がない方', wrong6:'シグナルサービスや短期的な推薦を求めている方',
+    trans_eyebrow:'// コミットメント', trans_title:'透明性は<br>任意ではない',
+    trans_p1:'慎重に選ばれたスクリーンショットとコンテキストのない結果が溢れる世界で、EQCは意図的に反対の道を選びます。最大ドローダウンを見せます。広いSLを説明します。すべての比率にコンテキストを提供します。',
+    trans_p2:'17.86のソルティーノは本物です――そしてなぜシャープが0.76なのかも説明します。49.93%の最大ドローダウンは本物です――そしてそれが構造的で予期されたものだとも説明します。チェリーピッキングなし。',
+    trans_p3:'適切な投資家は不利な数字から逃げないと信じています。情報の欠如から逃げます。私たちの透明性は弱点ではありません――それが私たちの最強の論拠です。',
+    trans_badge:'✓ 詳細な資料はご要請に応じてご提供',
+    footer_copy:'© 2026 Evolution Quantum Capital · 全著作権所有',
+    footer_disc:'過去の実績は将来の結果を保証しません。このサイトは情報提供を目的としており、投資アドバイスを構成するものではありません。EQCはシグナルサービスではありません。',
+  },
+  es: {
+    fala_connosco:'Háblanos',
+    nav_home:'Inicio', nav_system:'Sistema', nav_portfolio:'Portfolio',
+    nav_community:'Comunidad', nav_tools:'Herramientas', nav_contact_link:'Contacto',
+    hero_eyebrow:'// Sistema EQC',
+    hero_title_line1:'El Sistema.', hero_title_line2:'Su Filosofía.',
+    hero_tagline:'El enfoque sistemático de EQC para el crecimiento de capital — construido sobre reglas, paciencia y asimetría. Sin discrecionalidad. Sin emociones. Solo el proceso.',
+    hero_cta1:'Ver Historial', hero_cta2:'Solicitar Acceso',
+    audit_stripe:'✓ TRANSPARENCIA TOTAL — TODAS LAS MÉTRICAS SON REALES Y AUDITABLES',
+    metrics_eyebrow:'// Rendimiento',
+    metrics_title:'Métricas<br>en Tiempo Real',
+    metrics_intro:'Todos los números a continuación se calculan en tiempo real desde el portfolio EQC. Proporcionamos contexto para cada métrica porque los números sin contexto son ruido. La transparencia no es opcional — es nuestro compromiso.',
+    m_sharpe_label:'Ratio de Sharpe', m_sharpe_bench:'Bueno &gt;1.0 · Excelente &gt;2.0 · S&P 500 ≈ 0.9',
+    m_sharpe_ctx:'Sharpe penaliza toda la volatilidad, incluidos los días positivos. Un valor inferior a 1.0 con Sortino alto indica alta volatilidad positiva — el sistema genera movimientos fuertes al alza.',
+    m_sortino_label:'Ratio de Sortino', m_sortino_bench:'Bueno &gt;1.0 · Clase mundial &gt;3.0 · Hedge funds top ≈ 2–4',
+    m_sortino_ctx:'Sortino penaliza solo la volatilidad negativa. Un valor excepcional indica que las pérdidas son raras y la volatilidad es casi exclusivamente positiva.',
+    m_calmar_label:'Ratio de Calmar', m_calmar_bench:'Aceptable &gt;0.5 · Bueno &gt;1.0 · Excelente &gt;3.0',
+    m_calmar_ctx:'Rentabilidad anualizada dividida por el máximo drawdown. El drawdown de EQC es estructural y deliberado.',
+    m_dd_label:'Máximo Drawdown', m_dd_bench:'Contexto esencial · Estructural en EQC',
+    m_dd_ctx:'El drawdown de EQC no es un fallo — es parte de la estrategia. El sistema usa SLs amplios y DCA en caídas profundas. El capital no realizado es una posición, no una pérdida.',
+    m_recovery_label:'Factor de Recuperación', m_recovery_bench:'Bueno &gt;2.0 · Fuerte capacidad de recuperación',
+    m_recovery_ctx:'Mide la capacidad del sistema para recuperar drawdowns a través de ganancias. Un factor alto indica que el sistema gana suficientemente más de lo que pierde.',
+    m_posmonths_label:'% Meses Positivos', m_posmonths_bench:'Basado en historial actual · Contexto relevante',
+    m_posmonths_ctx:'Porcentaje de meses con rendimiento positivo. Presentado con total transparencia sobre el período de datos — sin cherry-picking.',
+    m_avgratio_label:'Ganancia Media / Pérdida Media', m_avgratio_bench:'Asimetría excepcional · Por cada €1 perdido',
+    m_avgratio_ctx:'El ratio más revelador de EQC. Por cada unidad de pérdida media, el sistema recupera en múltiplos de ganancia. La asimetría es el corazón de la estrategia.',
+    m_expect_label:'Esperanza Matemática $', m_expect_bench:'Ganancia media esperada por operación',
+    m_expect_ctx:'Valor esperado promedio por operación. Combina probabilidad de ganancia y pérdida con sus respectivos valores medios. Confirma la ventaja estadística del sistema.',
+    metrics_note:'<strong>Nota de Transparencia:</strong> Todas las métricas se calculan sobre posiciones reales ejecutadas bajo el modelo sistemático EQC. El historial está en crecimiento — resultados pasados no garantizan resultados futuros. Documentación completa disponible bajo solicitud.',
+    phil_eyebrow:'// Filosofía',
+    phil_title:'Tres Principios.<br>Sin Excepciones.',
+    phil_p1:'Los mercados se mueven en ciclos. Siempre lo han hecho. EQC fue construido sobre esta premisa — no como esperanza, sino como axioma operacional. Cuando un activo entra en un ciclo bajista, el sistema no entra en pánico. Espera.',
+    phil_p2:'Esperar puede llevar 1 a 2 años. Eso es aceptable. El capital de EQC es capital paciente. Quien no puede soportar posiciones negativas no realizadas no es el inversor adecuado para este sistema.',
+    phil_p3:'La asimetría es el motor. El sistema acepta pérdidas temporalmente elevadas porque las ganancias cuando el ciclo regresa son desproporcionadamente mayores. El ratio Ganancia/Pérdida lo confirma matemáticamente.',
+    prin1_title:'Los Mercados Son Cíclicos', prin1_text:'Todo activo con liquidez y estructura sólida regresa al ciclo alcista. Cuando el ciclo baja, esperamos — con reglas, no con emociones.',
+    prin2_title:'La Paciencia como Estrategia', prin2_text:'El tiempo es una variable del sistema, no un problema. Las posiciones pueden estar abiertas 1 a 2 años. El DCA en caídas profundas mejora el perfil de retorno cuando llega la recuperación.',
+    prin3_title:'Asimetría sobre Frecuencia', prin3_text:'La tasa de acierto es secundaria. Lo que importa es el ratio entre lo que se gana y lo que se pierde. EQC puede perder más veces y aún crecer consistentemente.',
+    system_eyebrow:'// Sistema EQC',
+    system_title:'El Sistema.<br>Sus Reglas.',
+    system_p1:'EQC opera según un conjunto de reglas predefinidas — no hay lugar para la discrecionalidad o el juicio subjetivo. Cada operación está completamente definida antes de abrirse.',
+    system_p2:'El riesgo se cuantifica en la entrada. El dimensionamiento de posición es fijo. Los resultados se miden en múltiplos de R — no en porcentajes de ruido.',
+    system_p3:'El sistema no reacciona a titulares ni al sentimiento del mercado. Ejecuta su ventaja estadística, operación tras operación.',
+    sys1_title:'Ejecución Basada en Reglas', sys1_text:'Todos los criterios de entrada, stop-loss y take-profit se definen antes de abrir la posición — y nunca se ajustan por impulso.',
+    sys2_title:'Riesgo Cuantificado', sys2_text:'El riesgo por operación está fijo en 1R. Todos los resultados se miden en esa unidad, manteniendo la evaluación de rendimiento consistente.',
+    sys3_title:'No Discrecional', sys3_text:'El sistema elimina el sesgo humano. Si el setup califica, la operación se ejecuta. Si no, se descarta. Sin excepciones.',
+    sys4_title:'Historial Auditable', sys4_text:'Cada operación se registra con fecha, entrada y salida verificadas. Un historial transparente — no una selección de destacados.',
+    model_eyebrow:'Modelo de Inversión', model_title:'Cómo Funciona el Sistema',
+    model_intro:'Un proceso de cinco pasos que comienza con la clasificación del régimen y termina en la gestión dinámica de posiciones — cada paso regido por parámetros predefinidos sin sustitución humana.',
+    mc1_title:'Evaluación de Régimen', mc1_text:'Clasificación estructural de las condiciones de mercado actuales para determinar el entorno operativo.',
+    mc2_title:'Riesgo por Posición', mc2_text:'Cada operación tiene una pérdida máxima predefinida en unidades R antes de la entrada.',
+    mc3_title:'Entrada en Zona de Valor', mc3_text:'Asignación progresiva de capital, incluyendo DCA estratégico cuando el mercado ofrece precios más favorables.',
+    mc4_title:'Salidas por R-Múltiplo', mc4_text:'Lógica de salida definida por R-múltiplos, eliminando la toma de decisiones emocional en momentos críticos.',
+    mc5_title:'Gestión Dinámica de Posición', mc5_text:'SLs amplios para dar espacio al activo. DCA en caídas profundas para reducir precio medio. La paciencia es una regla.',
+    mc6_label:'Pasos<br>Sistemáticos',
+    risk_eyebrow:'Arquitectura de Riesgo', risk_title:'Construido para<br>Sobrevivir<br>Cualquier Régimen', risk_dial:'Núcleo de Riesgo',
+    ri1_title:'SLs Amplios por Diseño', ri1_text:'Stop-losses de 15% a 30% por posición — deliberadamente amplios para dar al activo espacio para desarrollar su movimiento.',
+    ri2_title:'DCA en Caídas Profundas', ri2_text:'Cuando una posición alcanza -70% o más, el sistema ejecuta DCA estratégico, reduciendo el precio medio y amplificando la recuperación.',
+    ri3_title:'Nunca Cerrar con Pérdidas', ri3_text:'EQC no cierra posiciones por presión emocional. Si el activo no se ha recuperado, esperamos el ciclo alcista — aunque lleve 1 a 2 años.',
+    ri4_title:'Selección Propietaria de Activos', ri4_text:'Metodología propietaria identifica activos con bajo riesgo de pérdida permanente de capital. Cuando ocurre el raro error, la pérdida se acepta con transparencia.',
+    profile_eyebrow:'// Perfil de Inversor', profile_title:'Para Quién es EQC',
+    profile_ideal_title:'El Inversor Adecuado',
+    prof1_title:'Capital Paciente', prof1_text:'Capital que no se necesitará en los próximos 2 a 3 años. Entiende que el tiempo es una variable de retorno, no un coste.',
+    prof2_title:'Tolerancia a la Volatilidad', prof2_text:'Puede ver posiciones al -40% sin entrar en pánico. Entiende que el PNL no realizado es una posición, no una pérdida.',
+    prof3_title:'Enfoque en Retorno Absoluto', prof3_text:'El objetivo es el crecimiento compuesto de capital. La pregunta no es "¿cuánto creció este mes?" sino "¿cuánto crecerá en 3 años?"',
+    prof4_title:'Valora la Transparencia', prof4_text:'Aprecia métricas reales con contexto honesto. No busca promesas — busca evidencias.',
+    profile_wrong_title:'No es Para Usted Si...',
+    wrong1:'Necesita capital disponible en los próximos 12 meses', wrong2:'No puede soportar posiciones negativas durante períodos prolongados',
+    wrong3:'Espera retornos mensuales positivos garantizados', wrong4:'Necesita liquidez inmediata o acceso rápido al capital',
+    wrong5:'No tiene tolerancia para drawdowns temporales del 30–50%', wrong6:'Busca un servicio de señales o recomendaciones a corto plazo',
+    trans_eyebrow:'// Compromiso', trans_title:'La Transparencia<br>No es Opcional',
+    trans_p1:'En un mundo de capturas de pantalla cuidadosamente seleccionadas y resultados sin contexto, EQC elige deliberadamente el camino opuesto. Mostramos el Máximo Drawdown. Explicamos los SLs amplios. Contextualizamos cada ratio.',
+    trans_p2:'El Sortino de 17.86 es real — y también explicamos por qué el Sharpe es 0.76. El Máximo Drawdown de 49.93% es real — y también explicamos que es estructural y esperado. Sin cherry-picking.',
+    trans_p3:'Creemos que el inversor adecuado no huye de los números menos halagüeños. Huye de la falta de información. Nuestra transparencia no es una debilidad — es nuestro argumento más fuerte.',
+    trans_badge:'✓ Documentación completa disponible bajo solicitud',
+    footer_copy:'© 2026 Evolution Quantum Capital · Todos los Derechos Reservados',
+    footer_disc:'Resultados pasados no garantizan resultados futuros. Este sitio es informativo y no constituye asesoramiento de inversión. EQC no es un servicio de señales. Haga siempre su propia investigación.',
+  },
+  fr: {
+    fala_connosco:'Nous Contacter',
+    nav_home:'Accueil', nav_system:'Système', nav_portfolio:'Portfolio',
+    nav_community:'Communauté', nav_tools:'Outils', nav_contact_link:'Contact',
+    hero_eyebrow:'// Système EQC',
+    hero_title_line1:'Le Système.', hero_title_line2:'Sa Philosophie.',
+    hero_tagline:'L\'approche systématique d\'EQC pour la croissance du capital — construite sur des règles, la patience et l\'asymétrie. Aucune discrétion. Aucune émotion. Seulement le processus.',
+    hero_cta1:'Voir le Bilan', hero_cta2:'Demander l\'Accès',
+    audit_stripe:'✓ TRANSPARENCE TOTALE — TOUTES LES MÉTRIQUES SONT RÉELLES ET AUDITABLES',
+    metrics_eyebrow:'// Performance',
+    metrics_title:'Métriques<br>en Temps Réel',
+    metrics_intro:'Tous les chiffres ci-dessous sont calculés en temps réel à partir du portfolio EQC. Nous fournissons le contexte de chaque métrique car les chiffres sans contexte sont du bruit. La transparence n\'est pas optionnelle — c\'est notre engagement.',
+    m_sharpe_label:'Ratio de Sharpe', m_sharpe_bench:'Bon &gt;1.0 · Excellent &gt;2.0 · S&P 500 ≈ 0.9',
+    m_sharpe_ctx:'Sharpe pénalise toute la volatilité, y compris les jours positifs. Une valeur inférieure à 1.0 avec un Sortino élevé indique une forte volatilité positive — le système génère des mouvements haussiers puissants.',
+    m_sortino_label:'Ratio de Sortino', m_sortino_bench:'Bon &gt;1.0 · Classe mondiale &gt;3.0 · Top hedge funds ≈ 2–4',
+    m_sortino_ctx:'Sortino pénalise uniquement la volatilité baissière. Une valeur exceptionnelle indique que les pertes sont rares et la volatilité presque exclusivement positive.',
+    m_calmar_label:'Ratio de Calmar', m_calmar_bench:'Acceptable &gt;0.5 · Bon &gt;1.0 · Excellent &gt;3.0',
+    m_calmar_ctx:'Rendement annualisé divisé par le drawdown maximum. Le drawdown d\'EQC est structurel et délibéré.',
+    m_dd_label:'Drawdown Maximum', m_dd_bench:'Contexte essentiel · Structurel chez EQC',
+    m_dd_ctx:'Le drawdown d\'EQC n\'est pas un échec — c\'est une partie de la stratégie. Le système utilise des SLs larges et du DCA lors de baisses profondes. Le capital non réalisé est une position, pas une perte.',
+    m_recovery_label:'Facteur de Récupération', m_recovery_bench:'Bon &gt;2.0 · Forte capacité de récupération',
+    m_recovery_ctx:'Mesure la capacité du système à récupérer les drawdowns par les gains. Un facteur élevé indique que le système gagne bien plus qu\'il ne perd.',
+    m_posmonths_label:'% Mois Positifs', m_posmonths_bench:'Basé sur l\'historique actuel · Contexte pertinent',
+    m_posmonths_ctx:'Pourcentage de mois avec rendement positif. Présenté avec une transparence totale sur la période des données — aucun cherry-picking.',
+    m_avgratio_label:'Gain Moy. / Perte Moy.', m_avgratio_bench:'Asymétrie exceptionnelle · Par €1 perdu',
+    m_avgratio_ctx:'Le ratio le plus révélateur d\'EQC. Par unité de perte moyenne, le système récupère en multiples de gain. L\'asymétrie est le cœur de la stratégie.',
+    m_expect_label:'Espérance $', m_expect_bench:'Gain moyen attendu par trade',
+    m_expect_ctx:'Valeur attendue moyenne par opération. Combine probabilité de gain et de perte avec les valeurs moyennes respectives. Confirme l\'avantage statistique du système.',
+    metrics_note:'<strong>Note de Transparence :</strong> Toutes les métriques sont calculées sur des positions réelles exécutées sous le modèle systématique EQC. L\'historique est en croissance — les résultats passés ne garantissent pas les résultats futurs. Documentation complète disponible sur demande.',
+    phil_eyebrow:'// Philosophie',
+    phil_title:'Trois Principes.<br>Sans Exceptions.',
+    phil_p1:'Les marchés évoluent en cycles. Ils l\'ont toujours fait. EQC a été construit sur cette prémisse — non comme un espoir, mais comme un axiome opérationnel. Quand un actif entre dans un cycle baissier, le système ne panique pas. Il attend.',
+    phil_p2:'Attendre peut prendre 1 à 2 ans. C\'est acceptable. Le capital d\'EQC est un capital patient. Qui ne peut pas supporter des positions négatives non réalisées n\'est pas le bon investisseur pour ce système.',
+    phil_p3:'L\'asymétrie est le moteur. Le système accepte des pertes temporairement élevées car les gains au retour du cycle sont disproportionnellement plus importants. Le ratio Gain/Perte le confirme mathématiquement.',
+    prin1_title:'Les Marchés Sont Cycliques', prin1_text:'Tout actif liquide et structurellement solide retourne à son cycle haussier. Quand le cycle descend, nous attendons — avec des règles, pas des émotions.',
+    prin2_title:'La Patience comme Stratégie', prin2_text:'Le temps est une variable du système, pas un problème. Les positions peuvent être ouvertes 1 à 2 ans. Le DCA lors de baisses profondes améliore le profil de rendement à la récupération.',
+    prin3_title:'Asymétrie sur Fréquence', prin3_text:'Le taux de réussite est secondaire. Ce qui compte c\'est le ratio entre ce qu\'on gagne et ce qu\'on perd. EQC peut perdre plus souvent et croître quand même.',
+    system_eyebrow:'// Système EQC',
+    system_title:'Le Système.<br>Ses Règles.',
+    system_p1:'EQC opère selon un ensemble de règles prédéfinies — il n\'y a pas de place pour la discrétion ou le jugement subjectif. Chaque opération est entièrement définie avant d\'être ouverte.',
+    system_p2:'Le risque est quantifié à l\'entrée. Le dimensionnement de position est fixe. Les résultats sont mesurés en multiples de R — pas en pourcentages de bruit.',
+    system_p3:'Le système ne réagit pas aux titres ni au sentiment du marché. Il exécute son avantage statistique, opération après opération.',
+    sys1_title:'Exécution Basée sur les Règles', sys1_text:'Tous les critères d\'entrée, stop-loss et take-profit sont définis avant l\'ouverture — jamais ajustés par impulsion.',
+    sys2_title:'Risque Quantifié', sys2_text:'Le risque par opération est fixé à 1R. Tous les résultats sont mesurés dans cette unité, maintenant une évaluation cohérente.',
+    sys3_title:'Non Discrétionnaire', sys3_text:'Le système élimine le biais humain. Si le setup qualifie, le trade est pris. Sinon, il est ignoré. Sans exceptions.',
+    sys4_title:'Historique Auditable', sys4_text:'Chaque opération est enregistrée avec date, entrée et sortie vérifiées. Un historique transparent — pas une sélection de temps forts.',
+    model_eyebrow:'Modèle d\'Investissement', model_title:'Comment Fonctionne le Système',
+    model_intro:'Un processus en cinq étapes qui commence par la classification du régime et se termine par la gestion dynamique des positions — chaque étape régie par des paramètres prédéfinis sans intervention humaine.',
+    mc1_title:'Évaluation du Régime', mc1_text:'Classification structurelle des conditions de marché actuelles pour déterminer l\'environnement opérationnel.',
+    mc2_title:'Risque par Position', mc2_text:'Chaque opération a une perte maximale prédéfinie en unités R avant l\'entrée.',
+    mc3_title:'Entrée en Zone de Valeur', mc3_text:'Allocation progressive du capital, incluant le DCA stratégique quand le marché offre des prix plus favorables.',
+    mc4_title:'Sorties par R-Multiple', mc4_text:'Logique de sortie définie par des R-multiples, éliminant la prise de décision émotionnelle aux moments critiques.',
+    mc5_title:'Gestion Dynamique des Positions', mc5_text:'SLs larges pour donner de l\'espace à l\'actif. DCA en baisses profondes pour réduire le prix moyen. La patience est une règle.',
+    mc6_label:'Étapes<br>Systématiques',
+    risk_eyebrow:'Architecture des Risques', risk_title:'Construit pour<br>Survivre à<br>Tout Régime', risk_dial:'Noyau de Risque',
+    ri1_title:'SLs Larges par Conception', ri1_text:'Stop-losses de 15% à 30% par position — délibérément larges pour donner à l\'actif l\'espace pour développer son mouvement.',
+    ri2_title:'DCA lors des Baisses Profondes', ri2_text:'Quand une position atteint -70% ou plus, le système exécute un DCA stratégique, réduisant le prix moyen et amplifiant la récupération.',
+    ri3_title:'Ne Jamais Fermer en Perte', ri3_text:'EQC ne ferme pas les positions sous pression émotionnelle. Si l\'actif n\'a pas récupéré, on attend le cycle haussier — même si cela prend 1 à 2 ans.',
+    ri4_title:'Sélection Propriétaire d\'Actifs', ri4_text:'La méthodologie propriétaire identifie des actifs à faible risque de perte permanente en capital. Quand l\'erreur rare survient, la perte est acceptée avec transparence.',
+    profile_eyebrow:'// Profil d\'Investisseur', profile_title:'Pour Qui est EQC',
+    profile_ideal_title:'Le Bon Investisseur',
+    prof1_title:'Capital Patient', prof1_text:'Capital dont on n\'aura pas besoin dans les 2 à 3 prochaines années. Comprend que le temps est une variable de rendement, pas un coût.',
+    prof2_title:'Tolérance à la Volatilité', prof2_text:'Peut voir des positions à -40% sans paniquer. Comprend que le PNL non réalisé est une position, pas une perte.',
+    prof3_title:'Focus sur le Rendement Absolu', prof3_text:'L\'objectif est la croissance composée du capital. La question n\'est pas "combien a-t-il crû ce mois?" mais "combien croîtra-t-il dans 3 ans?"',
+    prof4_title:'Valorise la Transparence', prof4_text:'Apprécie des métriques réelles avec un contexte honnête. Ne cherche pas des promesses — cherche des preuves.',
+    profile_wrong_title:'Pas pour Vous Si...',
+    wrong1:'Vous avez besoin de capital disponible dans les 12 prochains mois', wrong2:'Vous ne pouvez pas supporter des positions négatives sur des périodes prolongées',
+    wrong3:'Vous attendez des rendements mensuels positifs garantis', wrong4:'Vous avez besoin de liquidités immédiates ou d\'un accès rapide au capital',
+    wrong5:'Vous n\'avez aucune tolérance pour les drawdowns temporaires de 30–50%', wrong6:'Vous cherchez un service de signaux ou des recommandations à court terme',
+    trans_eyebrow:'// Engagement', trans_title:'La Transparence<br>N\'est Pas Optionnelle',
+    trans_p1:'Dans un monde de captures d\'écran soigneusement sélectionnées et de résultats sans contexte, EQC choisit délibérément le chemin opposé. Nous montrons le Drawdown Maximum. Nous expliquons les SLs larges. Nous contextualisons chaque ratio.',
+    trans_p2:'Le Sortino de 17.86 est réel — et nous expliquons aussi pourquoi le Sharpe est 0.76. Le Drawdown Maximum de 49.93% est réel — et nous expliquons aussi qu\'il est structurel et attendu. Sans cherry-picking.',
+    trans_p3:'Nous croyons que le bon investisseur ne fuit pas les chiffres peu flatteurs. Il fuit le manque d\'information. Notre transparence n\'est pas une faiblesse — c\'est notre argument le plus fort.',
+    trans_badge:'✓ Documentation complète disponible sur demande',
+    footer_copy:'© 2026 Evolution Quantum Capital · Tous Droits Réservés',
+    footer_disc:'Les résultats passés ne garantissent pas les résultats futurs. Ce site est informatif et ne constitue pas un conseil en investissement. EQC n\'est pas un service de signaux. Faites toujours votre propre analyse.',
+  },
+  ar: {
+    fala_connosco:'تواصل معنا',
+    nav_home:'الرئيسية', nav_system:'النظام', nav_portfolio:'المحفظة',
+    nav_community:'المجتمع', nav_tools:'الأدوات', nav_contact_link:'اتصل بنا',
+    hero_eyebrow:'// نظام EQC',
+    hero_title_line1:'النظام.', hero_title_line2:'فلسفته.',
+    hero_tagline:'نهج EQC المنهجي لنمو رأس المال — مبني على القواعد والصبر وعدم التماثل. لا تقدير شخصي. لا عواطف. فقط العملية.',
+    hero_cta1:'عرض السجل', hero_cta2:'طلب الوصول',
+    audit_stripe:'✓ شفافية كاملة — جميع المقاييس حقيقية وقابلة للتدقيق',
+    metrics_eyebrow:'// الأداء',
+    metrics_title:'مقاييس<br>في الوقت الفعلي',
+    metrics_intro:'جميع الأرقام أدناه محسوبة في الوقت الفعلي من محفظة EQC. نقدم السياق لكل مقياس لأن الأرقام بدون سياق مجرد ضجيج. الشفافية ليست اختيارية — إنها التزامنا.',
+    m_sharpe_label:'نسبة شارب', m_sharpe_bench:'جيد &gt;1.0 · ممتاز &gt;2.0 · S&P 500 ≈ 0.9',
+    m_sharpe_ctx:'تعاقب شارب على جميع التقلبات بما فيها الأيام الإيجابية. قيمة أقل من 1.0 مع سورتينو مرتفع تشير إلى تقلب إيجابي مرتفع.',
+    m_sortino_label:'نسبة سورتينو', m_sortino_bench:'جيد &gt;1.0 · عالمي &gt;3.0 · أفضل صناديق التحوط ≈ 2–4',
+    m_sortino_ctx:'يعاقب سورتينو فقط على التقلبات السلبية. قيمة استثنائية تشير إلى أن الخسائر نادرة والتقلب إيجابي تقريباً.',
+    m_calmar_label:'نسبة كالمار', m_calmar_bench:'مقبول &gt;0.5 · جيد &gt;1.0 · ممتاز &gt;3.0',
+    m_calmar_ctx:'العائد السنوي مقسوماً على أقصى سحب. سحب EQC هيكلي ومقصود.',
+    m_dd_label:'أقصى سحب', m_dd_bench:'السياق ضروري · هيكلي في EQC',
+    m_dd_ctx:'سحب EQC ليس فشلاً — إنه جزء من الاستراتيجية. النظام يستخدم حدوداً وقائية واسعة وDCA في الانخفاضات العميقة.',
+    m_recovery_label:'معامل الاسترداد', m_recovery_bench:'جيد &gt;2.0 · قدرة استرداد قوية',
+    m_recovery_ctx:'يقيس قدرة النظام على استرداد عمليات السحب من خلال المكاسب. معامل مرتفع يشير إلى أن النظام يكسب أكثر بكثير مما يخسر.',
+    m_posmonths_label:'% الأشهر الإيجابية', m_posmonths_bench:'بناءً على السجل الحالي · السياق مهم',
+    m_posmonths_ctx:'نسبة الأشهر ذات العائد الإيجابي. مقدمة بشفافية كاملة حول فترة البيانات — لا انتقاء للبيانات.',
+    m_avgratio_label:'متوسط الربح / متوسط الخسارة', m_avgratio_bench:'عدم تماثل استثنائي',
+    m_avgratio_ctx:'النسبة الأكثر كشفاً في EQC. مقابل كل وحدة من متوسط الخسارة، يسترد النظام بمضاعفات من الربح. عدم التماثل هو قلب الاستراتيجية.',
+    m_expect_label:'القيمة المتوقعة $', m_expect_bench:'متوسط الربح المتوقع لكل صفقة',
+    m_expect_ctx:'متوسط القيمة المتوقعة لكل صفقة. يجمع بين احتمال الربح والخسارة مع متوسط القيمة. يؤكد الميزة الإحصائية للنظام.',
+    metrics_note:'<strong>ملاحظة الشفافية:</strong> جميع المقاييس محسوبة على مراكز حقيقية منفذة في إطار نموذج EQC. السجل في نمو — النتائج السابقة لا تضمن النتائج المستقبلية. الوثائق الكاملة متاحة عند الطلب.',
+    phil_eyebrow:'// الفلسفة',
+    phil_title:'ثلاثة مبادئ.<br>بلا استثناءات.',
+    phil_p1:'الأسواق تتحرك في دورات. كانت كذلك دائماً. بُني EQC على هذه الفرضية — ليس أملاً، بل بديهية تشغيلية. عندما يدخل الأصل في دورة هبوطية، النظام لا يصاب بالذعر. ينتظر.',
+    phil_p2:'الانتظار قد يستغرق 1 إلى 2 سنة. هذا مقبول. رأس مال EQC هو رأس مال صبور. من لا يستطيع تحمل المراكز السلبية غير المحققة ليس المستثمر المناسب لهذا النظام.',
+    phil_p3:'عدم التماثل هو المحرك. النظام يقبل خسائر مؤقتة مرتفعة لأن المكاسب عند عودة الدورة أكبر بشكل غير متناسب. نسبة الربح/الخسارة تؤكد ذلك رياضياً.',
+    prin1_title:'الأسواق دورية', prin1_text:'كل أصل سائل وذو بنية متينة يعود إلى الدورة الصاعدة. عندما تهبط الدورة، ننتظر — بالقواعد وليس بالعواطف.',
+    prin2_title:'الصبر كاستراتيجية', prin2_text:'الوقت متغير في النظام وليس مشكلة. يمكن أن تبقى المراكز مفتوحة من 1 إلى 2 سنة. DCA في الانخفاضات العميقة يحسن ملف العائد عند التعافي.',
+    prin3_title:'عدم التماثل فوق التكرار', prin3_text:'معدل النجاح ثانوي. المهم هو نسبة ما يُكسب إلى ما يُخسر. EQC يمكنه الخسارة أكثر والنمو باستمرار.',
+    system_eyebrow:'// نظام EQC',
+    system_title:'النظام.<br>قواعده.',
+    system_p1:'تعمل EQC وفق مجموعة من القواعد المحددة مسبقاً — لا مجال للتقدير أو الحكم الذاتي. كل صفقة محددة بالكامل قبل فتحها.',
+    system_p2:'يتم قياس المخاطرة عند الدخول. حجم المركز ثابت. النتائج تقاس بمضاعفات R وليس بنسب الضوضاء.',
+    system_p3:'النظام لا يتفاعل مع الأخبار أو مشاعر السوق. ينفذ ميزته الإحصائية، صفقة بعد صفقة.',
+    sys1_title:'تنفيذ قائم على القواعد', sys1_text:'جميع معايير الدخول ووقف الخسارة وجني الأرباح محددة قبل فتح المركز — ولا تُعدّل باندفاع.',
+    sys2_title:'مخاطرة مقيّسة', sys2_text:'المخاطرة لكل صفقة ثابتة عند 1R. جميع النتائج تقاس بهذه الوحدة مما يحافظ على اتساق التقييم.',
+    sys3_title:'غير تقديري', sys3_text:'النظام يزيل التحيز البشري. إذا استوفى الإعداد المعايير، يُنفَّذ التداول. إذا لم يستوفِ، يُتجاهل. بلا استثناءات.',
+    sys4_title:'سجل قابل للتدقيق', sys4_text:'كل صفقة مسجلة بتاريخ ودخول وخروج موثقين. سجل شفاف — وليس مجموعة مختارة من أفضل اللحظات.',
+    model_eyebrow:'نموذج الاستثمار', model_title:'كيف يعمل النظام',
+    model_intro:'عملية من خمس خطوات تبدأ بتصنيف النظام وتنتهي بإدارة المراكز الديناميكية — كل خطوة تحكمها معايير محددة مسبقاً دون تدخل بشري.',
+    mc1_title:'تقييم النظام', mc1_text:'التصنيف الهيكلي لظروف السوق الحالية لتحديد البيئة التشغيلية.',
+    mc2_title:'مخاطر المركز', mc2_text:'كل صفقة لها حد أقصى للخسارة محدد مسبقاً بوحدات R قبل الدخول.',
+    mc3_title:'الدخول في منطقة القيمة', mc3_text:'تخصيص تدريجي لرأس المال بما في ذلك DCA الاستراتيجي عندما يقدم السوق أسعاراً أفضل.',
+    mc4_title:'خروج بمضاعف R', mc4_text:'منطق خروج محدد بمضاعفات R، يقضي على اتخاذ القرار العاطفي في اللحظات الحرجة.',
+    mc5_title:'إدارة المركز الديناميكية', mc5_text:'وقف خسارة واسع لمنح الأصل مساحة. DCA في الانخفاضات العميقة لتقليل متوسط السعر. الصبر قاعدة.',
+    mc6_label:'خطوات<br>منهجية',
+    risk_eyebrow:'هندسة المخاطر', risk_title:'مبني للصمود<br>في أي<br>نظام سوقي', risk_dial:'نواة المخاطر',
+    ri1_title:'حدود وقائية واسعة بالتصميم', ri1_text:'وقف خسارة من 15% إلى 30% لكل مركز — واسع عمداً لمنح الأصل مساحة لتطوير حركته.',
+    ri2_title:'DCA في الانخفاضات العميقة', ri2_text:'عندما يصل المركز إلى -70% أو أكثر، ينفذ النظام DCA استراتيجياً، مما يقلل متوسط السعر ويضاعف التعافي.',
+    ri3_title:'لا إغلاق بخسارة أبداً', ri3_text:'لا تغلق EQC المراكز تحت الضغط العاطفي. إذا لم يتعافَ الأصل، ننتظر الدورة الصاعدة — حتى لو استغرق ذلك سنة أو سنتين.',
+    ri4_title:'اختيار الأصول الاحتكاري', ri4_text:'منهجية احتكارية تحدد الأصول ذات المخاطر المنخفضة لفقدان رأس المال الدائم. عند الخطأ النادر، يُقبل الخسارة بشفافية.',
+    profile_eyebrow:'// ملف المستثمر', profile_title:'لمن هو EQC',
+    profile_ideal_title:'المستثمر المناسب',
+    prof1_title:'رأس مال صبور', prof1_text:'رأس مال غير مطلوب للسنوات 2 إلى 3 القادمة. يفهم أن الوقت متغير عائد وليس تكلفة.',
+    prof2_title:'تحمل التقلب', prof2_text:'يستطيع رؤية مراكز عند -40% دون ذعر. يفهم أن الربح والخسارة غير المحققة هو مركز وليس خسارة.',
+    prof3_title:'التركيز على العائد المطلق', prof3_text:'الهدف هو نمو رأس المال المركّب. السؤال ليس "كم نما هذا الشهر؟" بل "كم سينمو في 3 سنوات؟"',
+    prof4_title:'يقدر الشفافية', prof4_text:'يقدر المقاييس الحقيقية مع السياق الصادق. لا يبحث عن وعود — يبحث عن أدلة.',
+    profile_wrong_title:'ليس لك إذا...',
+    wrong1:'تحتاج إلى رأس مال متاح خلال 12 شهراً', wrong2:'لا تستطيع تحمل المراكز السلبية لفترات طويلة',
+    wrong3:'تتوقع عوائد شهرية إيجابية مضمونة', wrong4:'تحتاج إلى سيولة فورية أو وصول سريع لرأس المال',
+    wrong5:'ليس لديك تحمل لعمليات سحب مؤقتة بنسبة 30–50%', wrong6:'تبحث عن خدمة إشارات أو توصيات قصيرة الأجل',
+    trans_eyebrow:'// الالتزام', trans_title:'الشفافية<br>ليست اختيارية',
+    trans_p1:'في عالم مليء بلقطات الشاشة المختارة بعناية والنتائج بدون سياق، تختار EQC عمداً الطريق المعاكس. نُظهر أقصى سحب. نشرح الحدود الواسعة. نضع سياقاً لكل نسبة.',
+    trans_p2:'سورتينو 17.86 حقيقي — ونشرح أيضاً لماذا شارب هو 0.76. أقصى سحب 49.93% حقيقي — ونشرح أيضاً أنه هيكلي ومتوقع. لا انتقاء للبيانات.',
+    trans_p3:'نؤمن أن المستثمر المناسب لا يهرب من الأرقام غير المُسعدة. يهرب من غياب المعلومات. شفافيتنا ليست ضعفاً — إنها أقوى حججنا.',
+    trans_badge:'✓ الوثائق الكاملة متاحة عند الطلب',
+    footer_copy:'© 2026 Evolution Quantum Capital · جميع الحقوق محفوظة',
+    footer_disc:'النتائج السابقة لا تضمن النتائج المستقبلية. هذا الموقع للمعلومات فقط ولا يشكل نصيحة استثمارية. EQC ليست خدمة إشارات. قم دائماً بأبحاثك الخاصة.',
+  },
+};
+
+const LANG_LABELS = {pt:'PT', en:'EN', zh:'中文', ja:'日本語', es:'ES', fr:'FR', ar:'عربي'};
+let currentLang = 'pt';
+
+function setLang(lang) {
+  currentLang = lang;
+  const T = TRANSLATIONS[lang];
+  if (!T) return;
+
+  // RTL for Arabic
+  document.body.classList.toggle('rtl', lang === 'ar');
+  document.documentElement.lang = lang === 'pt' ? 'pt-PT' : lang;
+
+  // Apply translations
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (T[key] !== undefined) el.innerHTML = T[key];
+  });
+
+  // Update lang button
+  document.getElementById('lang-toggle').innerHTML = LANG_LABELS[lang] + ' <span style="font-size:8px;opacity:0.7;">▼</span>';
+
+  // Update active lang in dropdown
+  document.querySelectorAll('.lang-dropdown button').forEach(btn => {
+    btn.classList.toggle('active-lang', btn.onclick.toString().includes(`'${lang}'`));
+  });
+
+  // Close dropdown
+  document.getElementById('lang-dropdown').classList.remove('open');
+}
+
+// Init with PT
+document.addEventListener('DOMContentLoaded', function() {
+  // Auto-detect browser language, fallback to PT
+  const bl = (navigator.language || 'pt').slice(0,2).toLowerCase();
+  const map = {pt:'pt',en:'en',zh:'zh',ja:'ja',es:'es',fr:'fr',ar:'ar'};
+  setLang(map[bl] || 'pt');
+});
+</script>
+</body>
+</html>

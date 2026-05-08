@@ -837,20 +837,15 @@ footer {
 #back-to-top:hover { transform: translateY(-3px); background: var(--goldl); }
 
 /* ===== LANG TOGGLE ===== */
-#lang-toggle {
-  background: transparent;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  padding: 6px 12px;
-  cursor: pointer;
-  transition: all .3s;
-  text-transform: uppercase;
-  margin-left: 18px;
-}
-#lang-toggle:hover { background: var(--gold); color: var(--bg); }
+.lang-selector{position:relative;margin-left:14px;}
+#lang-toggle{background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;padding:6px 14px;cursor:pointer;transition:all .3s;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;}
+#lang-toggle:hover{background:var(--gold);color:var(--bg);}
+.lang-dropdown{position:absolute;top:calc(100% + 6px);right:0;background:rgba(5,15,30,0.97);border:1px solid var(--border);backdrop-filter:blur(16px);z-index:200;display:none;flex-direction:column;min-width:140px;}
+.lang-dropdown.open{display:flex;}
+.lang-dropdown button{background:transparent;border:none;border-bottom:1px solid rgba(201,169,74,0.1);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;padding:10px 16px;cursor:pointer;text-align:left;transition:all .2s;text-transform:uppercase;}
+.lang-dropdown button:last-child{border-bottom:none;}
+.lang-dropdown button:hover{color:var(--gold);background:rgba(201,169,74,0.07);}
+.lang-dropdown button.active-lang{color:var(--goldl);}
 
 /* ===== AUDIT STRIPE ===== */
 .audit-stripe {
@@ -1004,6 +999,33 @@ footer {
   .nav-right-top .nav-links { display: none !important; }
   .nav-right-top .nav-fala { display: none; }
 }
+
+#investor-metrics{background:var(--bg2);padding:100px 5vw;max-width:1100px;margin:0 auto;}
+.metrics-header{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-bottom:70px;align-items:end;}
+.metrics-intro{font-size:15px;line-height:1.8;color:var(--muted);}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-bottom:36px;}
+.metric-card{background:var(--surface);padding:32px 24px;position:relative;overflow:hidden;transition:background .3s;cursor:default;}
+.metric-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+.metric-card:hover::after{transform:scaleX(1);}
+.metric-card:hover{background:rgba(201,169,74,0.06);}
+.metric-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.metric-value{font-family:'DM Serif Display',serif;font-size:32px;color:var(--goldl);line-height:1;margin-bottom:8px;transition:color .3s;}
+.metric-value.loading{color:var(--muted);font-size:20px;}
+.metric-benchmark{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;color:rgba(230,238,248,0.3);line-height:1.6;}
+.metric-context{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5;}
+.metrics-note{padding:20px 24px;border-left:2px solid rgba(201,169,74,0.3);background:rgba(201,169,74,0.03);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;line-height:1.9;color:rgba(230,238,248,0.3);}
+.metrics-note strong{color:rgba(201,169,74,0.65);}
+@media(max-width:900px){.metrics-header,.metrics-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:500px){.metrics-grid{grid-template-columns:1fr;}}
+
+.bench-table{border:1px solid var(--border);overflow:hidden;}
+.bench-row{display:grid;grid-template-columns:160px 160px 160px 1fr;align-items:center;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;}
+.bench-header{background:var(--surface);color:var(--gold);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;border-bottom:1px solid rgba(201,169,74,0.25);}
+.bench-eqc{background:rgba(201,169,74,0.06);border-bottom:1px solid rgba(201,169,74,0.2);}
+.bench-name{color:var(--fg);font-weight:600;}
+.bench-val{color:var(--goldl);}
+.bench-alpha{color:var(--green);font-weight:600;}
+@media(max-width:600px){.bench-row{grid-template-columns:1fr 1fr;gap:6px;}.bench-row span:nth-child(3),.bench-row span:nth-child(4){display:none;}}
 </style>
   <script src="https://www.google.com/recaptcha/api.js?render=6LexoIQsAAAAACwf9OqbxZ7QCtvZs5HhprQOGNqG"></script>
   <!-- Google tag (gtag.js) -->
@@ -1022,7 +1044,8 @@ footer {
 <div class="mobile-menu" id="mobile-menu">
   <button class="mobile-menu-close" id="menu-close" aria-label="Fechar menu">✕</button>
   <a href="index.html" data-i18n="nav_home">Home</a>
-  <a href="portfolio.html" data-i18n="nav_portfolio">Portfolio</a>
+  <a href="system.html" data-i18n="nav_system">Sistema</a>
+  <a href="portfolio.html" class="nav-active" data-i18n="nav_portfolio">Portfolio</a>
   <a href="community.html" data-i18n="nav_community">Community</a>
   <a href="tools.html" data-i18n="nav_tools">Tools</a>
   <a href="index.html#contact" class="nav-cta" data-i18n="nav_contact_link">Contact</a>
@@ -1041,12 +1064,24 @@ footer {
     <div class="nav-right-top">
       <ul class="nav-links">
         <li><a href="index.html" data-i18n="nav_home">Home</a></li>
+        <li><a href="system.html" data-i18n="nav_system">Sistema</a></li>
         <li><a href="portfolio.html" class="nav-active" data-i18n="nav_portfolio">Portfolio</a></li>
         <li><a href="community.html" data-i18n="nav_community">Community</a></li>
         <li><a href="tools.html" data-i18n="nav_tools">Tools</a></li>
         <li><a href="index.html#contact" class="nav-cta" data-i18n="nav_contact_link">Contact</a></li>
       </ul>
-      <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button><button id="lang-toggle" onclick="toggleLang()" aria-label="Switch language">PT / EN</button>
+      <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button><div class="lang-selector">
+        <button id="lang-toggle" onclick="toggleLangDropdown()">PT <span style="font-size:8px;opacity:0.7;">▼</span></button>
+        <div class="lang-dropdown" id="lang-dropdown">
+          <button onclick="setLang('pt')" class="active-lang">PT — Português</button>
+          <button onclick="setLang('en')">EN — English</button>
+          <button onclick="setLang('zh')">中文 — Chinese</button>
+          <button onclick="setLang('ja')">日本語 — Japanese</button>
+          <button onclick="setLang('es')">ES — Español</button>
+          <button onclick="setLang('fr')">FR — Français</button>
+          <button onclick="setLang('ar')">عربي — Arabic</button>
+        </div>
+      </div>
       <a href="https://discord.com/channels/1496242250877763785/1496254249120825467" target="_blank" rel="noopener" class="nav-fala" data-i18n="fala_connosco">Fala Connosco</a>
     </div>
     <div class="nav-right-social">
@@ -1074,6 +1109,7 @@ footer {
   <div class="orb orb1" style="opacity:0.5;"></div>
   <div class="hero-mobile-nav" style="margin-bottom:32px;">
     <a href="index.html" data-i18n="nav_home">Home</a>
+    <a href="system.html" data-i18n="nav_system">Sistema</a>
     <a href="portfolio.html" class="nav-active" data-i18n="nav_portfolio">Portfolio</a>
     <a href="community.html" data-i18n="nav_community">Community</a>
     <a href="tools.html" data-i18n="nav_tools">Tools</a>
@@ -1086,6 +1122,142 @@ footer {
   </h1>
   <p class="hero-tagline" style="opacity:1;" data-i18n="portfolio_hero_tagline">Operações reais. Dados verificados. Performance 100% auditável — posições fechadas e abertas em todos os mercados.</p>
 
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== INVESTOR METRICS ===== -->
+<section id="investor-metrics">
+  <div class="metrics-header">
+    <div>
+      <div class="eyebrow reveal" data-i18n="metrics_eyebrow">// Performance</div>
+      <h2 class="sec-title reveal" data-i18n="metrics_title">Métricas<br>em Tempo Real</h2>
+    </div>
+    <p class="metrics-intro reveal d1" data-i18n="metrics_intro">Todos os números abaixo são calculados em tempo real a partir do portfolio EQC. Apresentamos o contexto de cada métrica porque acreditamos que números sem contexto são ruído. Transparência não é opcional — é o nosso compromisso.</p>
+  </div>
+  <div class="metrics-grid reveal" style="margin-bottom:2px;grid-template-columns:repeat(4,1fr);">
+    <div class="metric-card" style="border-bottom:1px solid var(--border);">
+      <div class="metric-label" data-i18n="m_perf_total_label">Retorno Total</div>
+      <div class="metric-value loading" id="val-perf-total" style="color:var(--green)">—</div>
+      <div class="metric-benchmark" data-i18n="m_perf_total_bench">Desde 02/12/2025</div>
+    </div>
+    <div class="metric-card" style="border-bottom:1px solid var(--border);">
+      <div class="metric-label" data-i18n="m_perf_annual_label">Retorno Anualizado</div>
+      <div class="metric-value loading" id="val-perf-annual" style="color:var(--green)">—</div>
+      <div class="metric-benchmark" data-i18n="m_perf_annual_bench">CAGR estimado</div>
+    </div>
+    <div class="metric-card" style="border-bottom:1px solid var(--border);">
+      <div class="metric-label" data-i18n="m_perf_winrate_label">Win Rate</div>
+      <div class="metric-value loading" id="val-perf-winrate" style="color:var(--green)">—</div>
+      <div class="metric-benchmark" data-i18n="m_perf_winrate_bench">Posições fechadas</div>
+    </div>
+    <div class="metric-card" style="border-bottom:1px solid var(--border);">
+      <div class="metric-label" data-i18n="m_perf_pf_label">Profit Factor</div>
+      <div class="metric-value loading" id="val-perf-pf">—</div>
+      <div class="metric-benchmark" data-i18n="m_perf_pf_bench">Bom &gt;2.0 · Excelente &gt;5.0</div>
+    </div>
+  </div>
+
+  <!-- Benchmarks -->
+  <div class="metrics-header" style="margin-top:60px;margin-bottom:30px;">
+    <div>
+      <div class="eyebrow reveal" data-i18n="bench_eyebrow">// EQC vs Benchmarks</div>
+      <h2 class="sec-title reveal" style="font-size:clamp(28px,4vw,42px);" data-i18n="bench_title">Mesmo Período<br>Comparado</h2>
+    </div>
+    <p class="metrics-intro reveal d1" data-i18n="bench_intro">Comparação directa com os principais índices no mesmo período desde o início do modelo EQC.</p>
+  </div>
+  <div class="bench-table reveal">
+    <div class="bench-row bench-header">
+      <span data-i18n="bench_col_name">Benchmark</span>
+      <span data-i18n="bench_col_ret">Retorno Período</span>
+      <span data-i18n="bench_col_alpha">Alpha EQC</span>
+      <span data-i18n="bench_col_note">Nota</span>
+    </div>
+    <div class="bench-row bench-eqc">
+      <span class="bench-name">EQC</span>
+      <span id="bench-eqc-ret" class="bench-val" style="color:var(--green)">—</span>
+      <span>—</span>
+      <span data-i18n="bench_eqc_note" style="color:var(--muted);font-size:11px;">Sistema EQC</span>
+    </div>
+    <div class="bench-row" id="bench-row-sp500">
+      <span class="bench-name">S&amp;P 500</span>
+      <span id="bench-sp500-ret" class="bench-val">—</span>
+      <span id="bench-sp500-alpha" class="bench-alpha">—</span>
+      <span data-i18n="bench_sp500_note" style="color:var(--muted);font-size:11px;">500 maiores empresas EUA</span>
+    </div>
+    <div class="bench-row" id="bench-row-ndx">
+      <span class="bench-name">NASDAQ 100</span>
+      <span id="bench-ndx-ret" class="bench-val">—</span>
+      <span id="bench-ndx-alpha" class="bench-alpha">—</span>
+      <span data-i18n="bench_ndx_note" style="color:var(--muted);font-size:11px;">100 maiores tech EUA</span>
+    </div>
+    <div class="bench-row" id="bench-row-rut">
+      <span class="bench-name">Russell 2000</span>
+      <span id="bench-rut-ret" class="bench-val">—</span>
+      <span id="bench-rut-alpha" class="bench-alpha">—</span>
+      <span data-i18n="bench_rut_note" style="color:var(--muted);font-size:11px;">Small caps EUA</span>
+    </div>
+    <div class="bench-row" id="bench-row-tbill">
+      <span class="bench-name">US 10Y Treasury</span>
+      <span id="bench-tbill-ret" class="bench-val">—</span>
+      <span id="bench-tbill-alpha" class="bench-alpha">—</span>
+      <span data-i18n="bench_tbill_note" style="color:var(--muted);font-size:11px;">Risk-free rate</span>
+    </div>
+  </div>
+
+  <div style="margin-top:60px;">
+    <div class="metrics-grid reveal">
+    <div class="metric-card">
+      <div class="metric-label" data-i18n="m_sharpe_label">Sharpe Ratio</div>
+      <div class="metric-value loading" id="val-sharpe">—</div>
+      <div class="metric-benchmark" data-i18n="m_sharpe_bench">Bom &gt;1.0 · Excelente &gt;2.0 · S&amp;P 500 ≈ 0.9</div>
+      <div class="metric-context" data-i18n="m_sharpe_ctx">O Sharpe penaliza toda a volatilidade, incluindo os dias positivos.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label" data-i18n="m_sortino_label">Sortino Ratio</div>
+      <div class="metric-value loading" id="val-sortino">—</div>
+      <div class="metric-benchmark" data-i18n="m_sortino_bench">Bom &gt;1.0 · Classe mundial &gt;3.0</div>
+      <div class="metric-context" data-i18n="m_sortino_ctx">O Sortino penaliza apenas a volatilidade negativa.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label" data-i18n="m_calmar_label">Calmar Ratio</div>
+      <div class="metric-value loading" id="val-calmar">—</div>
+      <div class="metric-benchmark" data-i18n="m_calmar_bench">Aceitável &gt;0.5 · Bom &gt;1.0 · Excelente &gt;3.0</div>
+      <div class="metric-context" data-i18n="m_calmar_ctx">Retorno anualizado dividido pelo máximo drawdown.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label" data-i18n="m_dd_label">Max Drawdown</div>
+      <div class="metric-value loading" id="val-dd">—</div>
+      <div class="metric-benchmark" data-i18n="m_dd_bench">Contexto essencial · Estrutural no EQC</div>
+      <div class="metric-context" data-i18n="m_dd_ctx">O drawdown do EQC não é uma falha — é parte da estratégia.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label" data-i18n="m_recovery_label">Recovery Factor</div>
+      <div class="metric-value loading" id="val-recovery">—</div>
+      <div class="metric-benchmark" data-i18n="m_recovery_bench">Bom &gt;2.0 · Forte capacidade de recuperação</div>
+      <div class="metric-context" data-i18n="m_recovery_ctx">Mede a capacidade do sistema de recuperar drawdowns.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label" data-i18n="m_posmonths_label">% Meses Positivos</div>
+      <div class="metric-value loading" id="val-posmonths">—</div>
+      <div class="metric-benchmark" data-i18n="m_posmonths_bench">Baseado no histórico atual</div>
+      <div class="metric-context" data-i18n="m_posmonths_ctx">Percentagem de meses com retorno positivo.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label" data-i18n="m_avgratio_label">Avg Win / Avg Loss</div>
+      <div class="metric-value loading" id="val-avgratio">—</div>
+      <div class="metric-benchmark" data-i18n="m_avgratio_bench">Assimetria excecional · Por cada €1 perdido</div>
+      <div class="metric-context" data-i18n="m_avgratio_ctx">O rácio mais revelador do EQC.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label" data-i18n="m_expect_label">Expectancy $</div>
+      <div class="metric-value loading" id="val-expect">—</div>
+      <div class="metric-benchmark" data-i18n="m_expect_bench">Ganho médio esperado por trade</div>
+      <div class="metric-context" data-i18n="m_expect_ctx">Valor esperado médio por operação, em dólares.</div>
+    </div>
+  </div>
+  </div>
+  <div class="metrics-note reveal d2" data-i18n="metrics_note"><strong>Nota de Transparência:</strong> Todas as métricas são calculadas sobre posições reais executadas no âmbito do modelo EQC.</div>
 </section>
 <div class="divider"></div>
 
@@ -1208,222 +1380,6 @@ footer {
     </div>
   </div>
 </div>
-
-<div class="divider"></div>
-
-<!-- ===== THE SYSTEM ===== -->
-<section id="the-system" style="background:var(--bg2);">
-  <div class="eyebrow reveal" data-i18n="system_eyebrow">// Sistema EQC</div>
-  <div class="mandate-grid">
-    <div>
-      <h2 class="sec-title reveal" data-i18n="system_title">O Sistema<br>As Suas Regras</h2>
-      <div class="mandate-text reveal d1">
-        <p data-i18n="system_p1">A Evolution Quantum Capital opera segundo um conjunto de regras predefinidas — não há espaço para discricionariedade ou julgamento subjetivo. Cada operação é definida antes de ser aberta.</p>
-        <p data-i18n="system_p2">O risco é quantificado à entrada. O dimensionamento de posição é fixo. Os resultados são medidos em múltiplos de R — não em percentagens de ruído.</p>
-        <p data-i18n="system_p3">O sistema não reage a headlines nem a sentimento de mercado. Executa a sua vantagem estatística, operação após operação.</p>
-      </div>
-    </div>
-    <div class="pillars reveal d2">
-      <div class="pillar">
-        <span class="pnum">01</span>
-        <div><h4 data-i18n="sys1_title">Execução Baseada em Regras</h4><p data-i18n="sys1_text">Todos os critérios de entrada, stop-loss e take-profit são definidos antes de a posição ser aberta — e nunca ajustados por impulso.</p></div>
-      </div>
-      <div class="pillar">
-        <span class="pnum">02</span>
-        <div><h4 data-i18n="sys2_title">Risco Quantificado</h4><p data-i18n="sys2_text">O risco por operação é fixo em 1R. Todos os resultados são medidos nessa unidade, mantendo a avaliação de desempenho consistente.</p></div>
-      </div>
-      <div class="pillar">
-        <span class="pnum">03</span>
-        <div><h4 data-i18n="sys3_title">Não Discricionário</h4><p data-i18n="sys3_text">O sistema elimina o viés humano. Se o setup qualifica, a operação é executada. Se não qualifica, é descartada. Sem exceções.</p></div>
-      </div>
-      <div class="pillar">
-        <span class="pnum">04</span>
-        <div><h4 data-i18n="sys4_title">Historial Auditável</h4><p data-i18n="sys4_text">Cada operação é registada com data, entrada e saída verificadas. Um historial transparente — não uma seleção de destaques.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ===== MODEL ===== -->
-<section id="model">
-  <div class="model-intro-row">
-    <div>
-      <div class="eyebrow reveal" data-i18n="model_eyebrow">Modelo de Investimento</div>
-      <h2 class="sec-title reveal" data-i18n="model_title">Como o Sistema Funciona</h2>
-    </div>
-    <p class="model-intro-text reveal d1" data-i18n="model_intro">Um processo de cinco etapas que começa na classificação do regime e termina na gestão dinâmica de posições — cada etapa regida por parâmetros predefinidos sem substituição humana.</p>
-  </div>
-  <div class="model-cards">
-    <div class="model-card reveal">
-      <div class="model-icon">⊞</div>
-      <h3 data-i18n="mc1_title">Avaliação de Regime</h3>
-      <p data-i18n="mc1_text">Classificação estrutural das condições de mercado atuais e do estado de liquidez para determinar o ambiente operacional.</p>
-    </div>
-    <div class="model-card reveal d1">
-      <div class="model-icon">◎</div>
-      <h3 data-i18n="mc2_title">Risco por Posição</h3>
-      <p data-i18n="mc2_text">Cada operação tem uma perda máxima predefinida em unidades R antes da entrada. O dimensionamento da posição segue automaticamente.</p>
-    </div>
-    <div class="model-card reveal d2">
-      <div class="model-icon">▲</div>
-      <h3 data-i18n="mc3_title">Entrada em Zona de Valor</h3>
-      <p data-i18n="mc3_text">Alocação progressiva de capital em zonas de valor identificadas — aumentando a exposição à medida que a convicção cresce, nunca por esperança.</p>
-    </div>
-    <div class="model-card reveal">
-      <div class="model-icon">→</div>
-      <h3 data-i18n="mc4_title">Saídas por R-Múltiplo</h3>
-      <p data-i18n="mc4_text">Lógica de saída definida por R-múltiplos, eliminando a tomada de decisão emocional em momentos críticos.</p>
-    </div>
-    <div class="model-card reveal d1">
-      <div class="model-icon">∿</div>
-      <h3 data-i18n="mc5_title">Ajuste Dinâmico</h3>
-      <p data-i18n="mc5_text">Os parâmetros recalibram-se à medida que as condições de mercado evoluem. A estratégia adapta-se sem abandonar as regras fundamentais.</p>
-    </div>
-    <div class="model-card model-card-accent reveal d2">
-      <div class="big-num">5</div>
-      <div class="big-label" data-i18n="mc6_label">Etapas<br>Sistemáticas</div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ===== RISK ===== -->
-<section id="risk">
-  <div class="eyebrow reveal" data-i18n="risk_eyebrow">Arquitetura de Risco</div>
-  <div class="risk-layout">
-    <div>
-      <h2 class="sec-title reveal" data-i18n="risk_title">Construído para<br>Sobreviver a<br>Qualquer Regime</h2>
-      <div class="risk-dial-wrap reveal d1">
-        <div class="risk-dial">
-          <div class="dial-ring"></div>
-          <div class="dial-ring"></div>
-          <div class="dial-ring"></div>
-          <div class="dial-center">
-            <span class="dn">EQC</span>
-            <span class="dl" data-i18n="risk_dial">Núcleo de Risco</span>
-          </div>
-          <div class="dial-dot" style="transform:translate(-50%,-50%) rotate(45deg) translateY(-120px)"></div>
-          <div class="dial-dot" style="transform:translate(-50%,-50%) rotate(135deg) translateY(-120px);background:rgba(201,169,74,0.3);box-shadow:none"></div>
-          <div class="dial-dot" style="transform:translate(-50%,-50%) rotate(270deg) translateY(-120px);background:rgba(201,169,74,0.15);box-shadow:none"></div>
-        </div>
-      </div>
-    </div>
-    <div class="risk-items">
-      <div class="risk-item reveal">
-        <div class="risk-icon">⊟</div>
-        <div class="risk-text">
-          <h4 data-i18n="ri1_title">Limites de Exposição por Posição</h4>
-          <p data-i18n="ri1_text">Limites máximos de exposição por operação impedem que qualquer posição individual afete materialmente a saúde da carteira.</p>
-        </div>
-        <span class="risk-badge">HARD CAP</span>
-      </div>
-      <div class="risk-item reveal d1">
-        <div class="risk-icon">↓</div>
-        <div class="risk-text">
-          <h4 data-i18n="ri2_title">Gestão Ativa de Drawdown</h4>
-          <p data-i18n="ri2_text">Monitorização em tempo real com limites predeterminados desencadeia posturas defensivas automáticas.</p>
-        </div>
-        <span class="risk-badge">ACTIVE</span>
-      </div>
-      <div class="risk-item reveal d2">
-        <div class="risk-icon">⊕</div>
-        <div class="risk-text">
-          <h4 data-i18n="ri3_title">Execução Não Discricionária</h4>
-          <p data-i18n="ri3_text">Toda a execução segue regras do modelo. O julgamento humano limita-se à supervisão do modelo, não às decisões de operação.</p>
-        </div>
-        <span class="risk-badge">ALGO</span>
-      </div>
-      <div class="risk-item reveal d3">
-        <div class="risk-icon">◇</div>
-        <div class="risk-text">
-          <h4 data-i18n="ri4_title">Convexidade acima da frequência</h4>
-          <p data-i18n="ri4_text">A carteira está estruturada para beneficiar desproporcionalmente de grandes movimentos. A taxa de sucesso é secundária face ao rácio de recompensa.</p>
-        </div>
-        <span class="risk-badge">CONVEX</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ===== SISTEMA R ===== -->
-<section id="sistema-r">
-  <div class="eyebrow reveal" data-i18n="r_eyebrow">O Sistema R</div>
-  <h2 class="sec-title reveal" data-i18n="r_title">Risco Definido<br>Sempre</h2>
-  <p class="r-intro reveal d1" data-i18n="r_intro">A unidade R representa o risco máximo por operação — sempre igual a 2.5% do valor da conta. Cada posição é dimensionada em torno deste valor, garantindo consistência e proteção independentemente do tamanho da carteira.</p>
-
-  <div class="r-layout">
-    <div class="r-block reveal d1">
-      <h4 data-i18n="r_struct_label">Estrutura de Entrada</h4>
-      <div class="r-rule">
-        <div class="r-rule-icon">→</div>
-        <div class="r-rule-text" data-i18n="r_rule1"><strong>4R por posição</strong> — exposição máxima por ativo em condições normais.</div>
-      </div>
-      <div class="r-rule">
-        <div class="r-rule-icon">→</div>
-        <div class="r-rule-text" data-i18n="r_rule2"><strong>1 Take Profit por cada R</strong> — saída parcial progressiva.</div>
-      </div>
-      <div class="r-rule">
-        <div class="r-rule-icon">→</div>
-        <div class="r-rule-text" data-i18n="r_rule3"><strong>4 TPs definidos tecnicamente</strong>, caso a caso, com base na estrutura do gráfico.</div>
-      </div>
-      <div class="r-rule">
-        <div class="r-rule-icon">→</div>
-        <div class="r-rule-text" data-i18n="r_rule4"><strong>Saída de 1R em cada TP atingido</strong> — redução gradual do risco aberto.</div>
-      </div>
-
-      <div class="r-reinforce reveal d2">
-        <div class="r-reinforce-label" data-i18n="r_reinforce_label">Reforço de Posição</div>
-        <p data-i18n="r_reinforce_text">Possibilidade de reforço até <strong>8R por ativo</strong> — utilizado estrategicamente quando o mercado oferece uma segunda entrada a preço mais favorável, reduzindo o preço médio e melhorando o perfil risco/retorno.</p>
-      </div>
-    </div>
-
-    <div class="r-block reveal d2">
-      <h4 data-i18n="r_table_label">Valor de 1R por Tamanho de Conta</h4>
-      <table class="r-table">
-        <thead>
-          <tr>
-            <th data-i18n="r_th_size">Tamanho de Conta</th>
-            <th data-i18n="r_th_value">Valor de 1R</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>$5.000 – $10.000</td><td>~$75</td></tr>
-          <tr><td>$10.000 – $20.000</td><td>~$150</td></tr>
-          <tr><td>$20.000 – $50.000</td><td>~$250</td></tr>
-          <tr><td>$50.000+</td><td>~$750</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ===== CUSTOS ===== -->
-<section id="custos">
-  <div class="eyebrow reveal" data-i18n="custos_eyebrow">Estrutura de Custos</div>
-  <h2 class="sec-title reveal" data-i18n="custos_title">Simples<br>Transparente<br>Alinhado</h2>
-  <p class="custos-claim reveal d1" data-i18n="custos_claim">Sem mensalidades. Sem taxas fixas. A EQC só ganha quando o cliente ganha.</p>
-
-  <div class="custos-grid">
-    <div class="custo-card reveal">
-      <div class="custo-num">15%</div>
-      <div class="custo-unit" data-i18n="custo1_unit">Comissão de Desempenho</div>
-      <div class="custo-desc" data-i18n="custo1_desc">Cobrada <strong>apenas sobre lucros gerados</strong>. Se a operação não for lucrativa, não há qualquer comissão. Alinhamento total entre gestor e cliente.</div>
-    </div>
-    <div class="custo-card reveal d1">
-      <div class="custo-num">10%</div>
-      <div class="custo-unit" data-i18n="custo2_unit">Depósito de Garantia</div>
-      <div class="custo-desc" data-i18n="custo2_desc">Do valor total da conta, mantido na conta EQC. <strong>Exclusivamente para débito de comissões</strong> — nenhum outro acesso ao seu capital.</div>
-    </div>
-  </div>
-  <div class="custos-note reveal d2" data-i18n="custos_note">A EQC só ganha quando o cliente ganha · Sem mensalidades · Sem taxas fixas</div>
-</section>
 <!-- ===== DISCLAIMER ===== -->
 <div class="disclaimer-full">
   <p class="disclaimer-full-text" data-i18n="footer_disc">Este material destina-se apenas a investidores qualificados. Resultados passados não garantem resultados futuros. Não constitui oferta ou solicitação.</p>
@@ -1891,7 +1847,16 @@ const TRANSLATIONS = {
     custo2_unit: 'Depósito de Garantia',
     custo2_desc: 'Do valor total da conta, mantido na conta EQC. <strong>Exclusivamente para débito de comissões</strong> — nenhum outro acesso ao seu capital.',
     custos_note: 'A EQC só ganha quando o cliente ganha · Sem mensalidades · Sem taxas fixas',
-    nav_home: 'Início', nav_portfolio: 'Portfólio',
+    bench_eyebrow: '// EQC vs Benchmarks',
+    bench_title: 'Mesmo Período<br>Comparado',
+    bench_intro: 'Comparação directa com os principais índices no mesmo período desde o início do modelo EQC.',
+    bench_col_name: 'Benchmark', bench_col_ret: 'Retorno Período', bench_col_alpha: 'Alpha EQC', bench_col_note: 'Nota',
+    bench_eqc_note: 'Sistema EQC',
+    bench_sp500_note: '500 maiores empresas EUA',
+    bench_ndx_note: '100 maiores tech EUA',
+    bench_rut_note: 'Small caps EUA',
+    bench_tbill_note: 'Risk-free rate (~4,5%/ano)',
+    nav_home: 'Início', nav_system: 'Sistema', nav_portfolio: 'Portfólio',
     nav_community: 'Comunidade', nav_tools: 'Ferramentas',
     nav_contact_link: 'Contacto',
     nav_mandate: 'Mandato', nav_track: 'Historial', nav_model: 'Modelo',
@@ -2019,7 +1984,16 @@ const TRANSLATIONS = {
     custo2_unit: 'Security Deposit',
     custo2_desc: 'Of total account value, held in the EQC account. <strong>Exclusively for commission debits</strong> — no other access to your capital.',
     custos_note: 'EQC only earns when the client earns · No monthly fees · No fixed charges',
-    nav_home: 'Home', nav_portfolio: 'Portfolio',
+    bench_eyebrow: '// EQC vs Benchmarks',
+    bench_title: 'Same Period<br>Compared',
+    bench_intro: 'Direct comparison with major indices over the same period since EQC model inception.',
+    bench_col_name: 'Benchmark', bench_col_ret: 'Period Return', bench_col_alpha: 'EQC Alpha', bench_col_note: 'Note',
+    bench_eqc_note: 'EQC System',
+    bench_sp500_note: '500 largest US companies',
+    bench_ndx_note: 'Top 100 tech US',
+    bench_rut_note: 'US small caps',
+    bench_tbill_note: 'Risk-free rate (~4.5%/yr)',
+    nav_home: 'Home', nav_system: 'System', nav_portfolio: 'Portfolio',
     nav_community: 'Community', nav_tools: 'Tools',
     nav_contact_link: 'Contact',
     nav_mandate: 'Mandate', nav_track: 'Track Record', nav_model: 'Model',
@@ -2156,29 +2130,188 @@ document.querySelectorAll('.mobile-menu a').forEach(a => {
 let currentLang = 'pt';
 
 const STATIC_I18N_KEYS = new Set();
-function applyLang(lang) {
-  const t = TRANSLATIONS[lang];
+const LANG_LABELS = {pt:'PT', en:'EN', zh:'中文', ja:'日本語', es:'ES', fr:'FR', ar:'عربي'};
+
+function toggleLangDropdown(){
+  document.getElementById('lang-dropdown').classList.toggle('open');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.lang-selector'))
+    document.getElementById('lang-dropdown').classList.remove('open');
+});
+
+function setLang(lang) {
+  if (typeof TRANSLATIONS === 'undefined') return;
+  const t  = TRANSLATIONS[lang] || {};
+  const fb = TRANSLATIONS['en'] || TRANSLATIONS['pt'] || {};
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (t[key] !== undefined) el.innerHTML = t[key];
+    const val = t[key] !== undefined ? t[key] : fb[key];
+    if (val !== undefined) el.innerHTML = val;
   });
-  document.getElementById('lang-toggle').textContent = lang === 'pt' ? 'PT / EN' : 'EN / PT';
+  const lbl = LANG_LABELS[lang] || lang.toUpperCase();
+  document.getElementById('lang-toggle').innerHTML = lbl + ' <span style="font-size:8px;opacity:0.7;">▼</span>';
   document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-dropdown button').forEach(btn => {
+    btn.classList.toggle('active-lang', btn.getAttribute('onclick') === `setLang('${lang}')`);
+  });
+  document.getElementById('lang-dropdown').classList.remove('open');
 }
 
-function toggleLang() {
-  currentLang = currentLang === 'pt' ? 'en' : 'pt';
-  applyLang(currentLang);
-}
-
-// Detect browser language on load
-document.addEventListener('DOMContentLoaded', () => {
-  const browserLang = navigator.language || navigator.userLanguage || 'pt';
-  if (!browserLang.toLowerCase().startsWith('pt')) {
-    currentLang = 'en';
-  }
-  applyLang(currentLang);
+document.addEventListener('DOMContentLoaded', function() {
+  // Auto-detect browser language, fallback to PT
+  const bl = (navigator.language || 'pt').slice(0,2).toLowerCase();
+  const map = {pt:'pt',en:'en',zh:'zh',ja:'ja',es:'es',fr:'fr',ar:'ar'};
+  setLang(map[bl] || 'pt');
 });
+
+// ===== GOOGLE SHEETS — INVESTOR METRICS =====
+const INVESTOR_SHEET_ID = '1gX1v79US2pxNijNsRt16PDwepGT_f8iQSFKRZJsdnGg';
+const INVESTOR_GID      = '1544476966';
+// ── INVESTOR SHEET LAYOUT (GID 1544476966) ──────────────────────────────────
+// rows[0]  = header title
+// rows[1]  = subtitle
+// rows[3]  = "PERFORMANCE DESDE O INÍCIO"
+// rows[4]  = perf labels
+// rows[5]  = perf values: A=date B=days C=RetTotal D=RetAnual E=RetMensal F=WinRate G=PF H=Trades
+// rows[7]  = "EQC vs BENCHMARKS"
+// rows[8]  = bench labels
+// rows[9]  = EQC row: A=EQC B=return C=alpha D=note
+// rows[10] = S&P 500
+// rows[11] = NASDAQ 100
+// rows[12] = Russell 2000
+// rows[13] = US 10Y Treasury
+// rows[15] = "MÉTRICAS DE RISCO"
+// rows[16] = risk labels
+// rows[17] = risk values: A=Sharpe B=Sortino C=Calmar D=MaxDD E=Recovery F=%MesesPos G=AvgWL H=Expect
+// ─────────────────────────────────────────────────────────────────────────────
+
+const COLOR_RULES = {
+  'val-perf-total':   v => v > 0 ? 'green' : 'red',
+  'val-perf-annual':  v => v > 0 ? 'green' : 'red',
+  'val-perf-winrate': v => v >= 55 ? 'green' : v < 40 ? 'red' : null,
+  'val-perf-pf':      v => v >= 2  ? 'green' : v < 1  ? 'red' : null,
+  'val-sharpe':       v => v >= 1  ? 'green' : v < 0.5 ? 'red' : null,
+  'val-sortino':      v => v >= 1  ? 'green' : v < 0.5 ? 'red' : null,
+  'val-calmar':       v => v >= 1  ? 'green' : v < 0.3 ? 'red' : null,
+  'val-dd':           v => v >= 40 ? 'red'  : v <= 20  ? 'green' : null,
+  'val-recovery':     v => v >= 2  ? 'green' : v < 1   ? 'red' : null,
+  'val-posmonths':    v => v >= 60 ? 'green' : v < 40  ? 'red' : null,
+  'val-avgratio':     v => v >= 2  ? 'green' : v < 1   ? 'red' : null,
+  'val-expect':       v => v > 0   ? 'green' : 'red',
+};
+
+function fmtCell(cell) {
+  if (!cell) return null;
+  if (cell.f) return cell.f;
+  if (cell.v === null || cell.v === undefined) return null;
+  return String(cell.v);
+}
+
+function numCell(cell) {
+  if (!cell) return null;
+  if (typeof cell.v === 'number') return cell.v;
+  const s = String(cell.f || cell.v || '').replace(/[%$,]/g,'').replace(',','.').trim();
+  const n = parseFloat(s);
+  return isNaN(n) ? null : n;
+}
+
+function setEl(id, cell, colorRule) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const val = fmtCell(cell);
+  if (val === null) return;
+  el.textContent = val;
+  el.classList.remove('loading');
+  if (colorRule) {
+    const raw = numCell(cell);
+    if (raw !== null) {
+      const c = colorRule(raw);
+      if (c === 'green') el.style.color = 'var(--green)';
+      else if (c === 'red') el.style.color = '#e24b4a';
+    }
+  }
+}
+
+function findRowByText(rows, text) {
+  for (let i = 0; i < rows.length; i++) {
+    if (!rows[i] || !rows[i].c) continue;
+    for (let j = 0; j < (rows[i].c || []).length; j++) {
+      const v = String(rows[i].c[j]?.v || rows[i].c[j]?.f || '').toLowerCase();
+      if (v.includes(text.toLowerCase())) return i;
+    }
+  }
+  return -1;
+}
+
+function loadInvestorMetrics() {
+  const cb = 'investorCb' + Date.now();
+  window[cb] = function(data) {
+    try {
+      const rows = data.table.rows;
+
+      // ── Performance row ──────────────────────────────────────────────────
+      let perfIdx = findRowByText(rows, 'retorno total');
+      if (perfIdx < 0) perfIdx = findRowByText(rows, 'total return');
+      if (perfIdx < 0) perfIdx = 4; // fallback: row 5 (0-indexed labels=4, values=5)
+      const perfVals = rows[perfIdx + 1];
+      if (perfVals && perfVals.c) {
+        setEl('val-perf-total',   perfVals.c[2], COLOR_RULES['val-perf-total']);
+        setEl('val-perf-annual',  perfVals.c[3], COLOR_RULES['val-perf-annual']);
+        setEl('val-perf-winrate', perfVals.c[5], COLOR_RULES['val-perf-winrate']);
+        setEl('val-perf-pf',      perfVals.c[6], COLOR_RULES['val-perf-pf']);
+      }
+
+      // ── Benchmarks ───────────────────────────────────────────────────────
+      let benchIdx = findRowByText(rows, 'benchmark');
+      if (benchIdx < 0) benchIdx = findRowByText(rows, 'eqc vs');
+      if (benchIdx < 0) benchIdx = 8; // fallback: row 9 (labels), data starts at 9
+
+      // EQC row is the first data row after benchmark labels
+      const eqcRow = rows[benchIdx + 1];
+      if (eqcRow && eqcRow.c) {
+        setEl('bench-eqc-ret', eqcRow.c[1], v => v > 0 ? 'green' : 'red');
+      }
+      // S&P 500, NASDAQ 100, Russell 2000, US 10Y Treasury
+      const benchDefs = [
+        {ret:'bench-sp500-ret', alpha:'bench-sp500-alpha', rowOff:2},
+        {ret:'bench-ndx-ret',   alpha:'bench-ndx-alpha',   rowOff:3},
+        {ret:'bench-rut-ret',   alpha:'bench-rut-alpha',   rowOff:4},
+        {ret:'bench-tbill-ret', alpha:'bench-tbill-alpha', rowOff:5},
+      ];
+      benchDefs.forEach(({ret, alpha, rowOff}) => {
+        const row = rows[benchIdx + rowOff];
+        if (!row || !row.c) return;
+        setEl(ret,   row.c[1], v => v > 0 ? 'green' : 'red');
+        setEl(alpha, row.c[2], v => v > 0 ? 'green' : 'red');
+      });
+
+      // ── Risk metrics row ─────────────────────────────────────────────────
+      let riskIdx = findRowByText(rows, 'sharpe');
+      if (riskIdx < 0) riskIdx = findRowByText(rows, 'métricas');
+      if (riskIdx < 0) riskIdx = 16; // fallback: labels row 17 (0-indexed 16)
+      const riskRow = rows[riskIdx + 1] || rows[riskIdx]; // values are next row
+      // Detect if riskIdx found the label row or value row
+      const riskData = (riskIdx >= 0 && rows[riskIdx] && rows[riskIdx].c &&
+                        typeof rows[riskIdx].c[0]?.v === 'number')
+        ? rows[riskIdx] : rows[riskIdx + 1];
+      if (riskData && riskData.c) {
+        const RISK_MAP = ['val-sharpe','val-sortino','val-calmar','val-dd','val-recovery','val-posmonths','val-avgratio','val-expect'];
+        RISK_MAP.forEach((id, ci) => setEl(id, riskData.c[ci], COLOR_RULES[id]));
+      }
+
+    } catch(e) { console.error('[EQC Investor]', e); }
+    delete window[cb];
+    document.getElementById(cb)?.remove();
+  };
+  const script = document.createElement('script');
+  script.id = cb;
+  script.src = `https://docs.google.com/spreadsheets/d/${INVESTOR_SHEET_ID}/gviz/tq?tqx=responseHandler:${cb}&gid=${INVESTOR_GID}`;
+  script.onerror = () => { delete window[cb]; };
+  document.head.appendChild(script);
+}
+loadInvestorMetrics();
+setInterval(loadInvestorMetrics, 5 * 60 * 1000);
 </script>
 
 
