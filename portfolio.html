@@ -3295,7 +3295,7 @@ const INVESTOR_GID      = '1544476966';
 const COLOR_RULES = {
   'val-perf-total':   v => v > 0 ? 'green' : 'red',
   'val-perf-annual':  v => v > 0 ? 'green' : 'red',
-  'val-perf-winrate': v => v >= 55 ? 'green' : v < 40 ? 'red' : null,
+  'val-perf-winrate': v => { const n = v <= 1 ? v*100 : v; return n >= 55 ? 'green' : n < 40 ? 'red' : null; },
   'val-perf-pf':      v => v >= 2  ? 'green' : v < 1  ? 'red' : null,
   'val-sharpe':       v => v >= 1  ? 'green' : v < 0.5 ? 'red' : null,
   'val-sortino':      v => v >= 1  ? 'green' : v < 0.5 ? 'red' : null,
@@ -3335,6 +3335,7 @@ function setEl(id, cell, colorRule) {
       const c = colorRule(raw);
       if (c === 'green') el.style.color = 'var(--green)';
       else if (c === 'red') el.style.color = '#e24b4a';
+      else if (c === 'gold') el.style.color = 'var(--gold)';
     }
   }
 }
@@ -3356,19 +3357,9 @@ function loadInvestorMetrics() {
     try {
       const rows = data.table.rows;
 
-      // ── DEBUG: log first 20 rows so we can see the sheet structure ────────
-      console.group('[EQC DEBUG] INVESTOR Sheet rows:');
-      rows.slice(0, 20).forEach((r, i) => {
-        if (!r || !r.c) { console.log(`row ${i+1}: (empty)`); return; }
-        const vals = r.c.map((c,j) => c ? `[${j}]=${c.f||c.v}` : `[${j}]=null`).join('  ');
-        console.log(`row ${i+1}: ${vals}`);
-      });
-      console.groupEnd();
-
-      // ── Performance (Sheet row 6 = 0-indexed row 5) ──────────────────────
-      // C6=RetornoTotal(c[2]), D6=RetornoAnualizado(c[3]),
-      // F6=WinRate(c[5]), G6=ProfitFactor(c[6])
-      const perfVals = rows[5];
+      // ── Performance (gviz row 0) ──────────────────────────────────────────
+      // c[2]=RetornoTotal, c[3]=RetornoAnualizado, c[5]=WinRate, c[6]=PF
+      const perfVals = rows[0];
       if (perfVals && perfVals.c) {
         setEl('val-perf-total',   perfVals.c[2], COLOR_RULES['val-perf-total']);
         setEl('val-perf-annual',  perfVals.c[3], COLOR_RULES['val-perf-annual']);
@@ -3376,40 +3367,45 @@ function loadInvestorMetrics() {
         setEl('val-perf-pf',      perfVals.c[6], COLOR_RULES['val-perf-pf']);
       }
 
-      // ── Benchmarks (labels=row10=idx9, EQC=row11=idx10, ..., TBill=row15=idx14) ──
-      // Columns: A(c[0])=name, B(c[1])=retorno, C(c[2])=alpha
-      const eqcRow = rows[10];
+      // ── Benchmarks ────────────────────────────────────────────────────────
+      // row3=EQC, row4=S&P, row5=NASDAQ, row6=Russell, row7=T-Bill
+      // c[1]=retorno período, c[2]=alpha EQC
+      const eqcRow = rows[3];
       if (eqcRow && eqcRow.c) {
         setEl('bench-eqc-ret',   eqcRow.c[1], v => v > 0 ? 'green' : 'red');
-        setEl('bench-eqc-alpha', eqcRow.c[2], v => v > 0 ? 'green' : 'red');
+        if (eqcRow.c[2]) setEl('bench-eqc-alpha', eqcRow.c[2], v => v > 0 ? 'green' : 'red');
       }
       const benchDefs = [
-        {ret:'bench-sp500-ret', alpha:'bench-sp500-alpha', rowIdx:11},
-        {ret:'bench-ndx-ret',   alpha:'bench-ndx-alpha',   rowIdx:12},
-        {ret:'bench-rut-ret',   alpha:'bench-rut-alpha',   rowIdx:13},
-        {ret:'bench-tbill-ret', alpha:'bench-tbill-alpha', rowIdx:14},
+        {ret:'bench-sp500-ret', alpha:'bench-sp500-alpha', rowIdx:4},
+        {ret:'bench-ndx-ret',   alpha:'bench-ndx-alpha',   rowIdx:5},
+        {ret:'bench-rut-ret',   alpha:'bench-rut-alpha',   rowIdx:6},
+        {ret:'bench-tbill-ret', alpha:'bench-tbill-alpha', rowIdx:7},
       ];
       benchDefs.forEach(({ret, alpha, rowIdx}) => {
         const row = rows[rowIdx];
         if (!row || !row.c) return;
         setEl(ret,   row.c[1], v => v > 0 ? 'green' : 'red');
-        setEl(alpha, row.c[2], v => v > 0 ? 'green' : 'red');
+        // Alpha: show ▲/▼ prefix + gold color
+        const alphaCell = row.c[2];
+        const alphaEl = document.getElementById(alpha);
+        if (alphaEl && alphaCell) {
+          const raw = numCell(alphaCell);
+          const fmt = fmtCell(alphaCell);
+          if (fmt !== null && raw !== null) {
+            alphaEl.textContent = (raw >= 0 ? '▲ ' : '▼ ') + fmt;
+            alphaEl.classList.remove('loading');
+            alphaEl.style.color = 'var(--gold)';
+          }
+        }
       });
 
-      // ── Risk metrics ─────────────────────────────────────────────────────
-      // Columns A-H (c[0]-c[7]): Sharpe, Sortino, Calmar, MaxDD,
-      //                           Recovery, PosMonths, AvgRatio, Expect
-      // Find the label row (has 'sharpe' in col A), values are on the next row
-      let riskValIdx = -1;
-      for (let i = 0; i < rows.length; i++) {
-        if (!rows[i] || !rows[i].c || !rows[i].c[0]) continue;
-        const txt = String(rows[i].c[0].v || rows[i].c[0].f || '').toLowerCase();
-        if (txt.includes('sharpe')) { riskValIdx = i + 1; break; }
-      }
-      if (riskValIdx < 0) riskValIdx = 19; // fallback: row 20 (0-indexed 19)
-      const riskData = rows[riskValIdx];
+      // ── Risk metrics (labels=row9, values=row10) ──────────────────────────
+      // c[0]=Sharpe, c[1]=Sortino, c[2]=Calmar, c[3]=MaxDD,
+      // c[4]=Recovery, c[5]=PosMonths, c[6]=AvgRatio, c[7]=Expect
+      const riskData = rows[10];
       if (riskData && riskData.c) {
-        const RISK_MAP = ['val-sharpe','val-sortino','val-calmar','val-dd','val-recovery','val-posmonths','val-avgratio','val-expect'];
+        const RISK_MAP = ['val-sharpe','val-sortino','val-calmar','val-dd',
+                          'val-recovery','val-posmonths','val-avgratio','val-expect'];
         RISK_MAP.forEach((id, ci) => setEl(id, riskData.c[ci], COLOR_RULES[id]));
       }
 
