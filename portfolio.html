@@ -3356,6 +3356,15 @@ function loadInvestorMetrics() {
     try {
       const rows = data.table.rows;
 
+      // ── DEBUG: log first 20 rows so we can see the sheet structure ────────
+      console.group('[EQC DEBUG] INVESTOR Sheet rows:');
+      rows.slice(0, 20).forEach((r, i) => {
+        if (!r || !r.c) { console.log(`row ${i+1}: (empty)`); return; }
+        const vals = r.c.map((c,j) => c ? `[${j}]=${c.f||c.v}` : `[${j}]=null`).join('  ');
+        console.log(`row ${i+1}: ${vals}`);
+      });
+      console.groupEnd();
+
       // ── Performance (Sheet row 6 = 0-indexed row 5) ──────────────────────
       // C6=RetornoTotal(c[2]), D6=RetornoAnualizado(c[3]),
       // F6=WinRate(c[5]), G6=ProfitFactor(c[6])
