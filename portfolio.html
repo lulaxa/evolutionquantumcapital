@@ -3300,7 +3300,7 @@ const COLOR_RULES = {
   'val-sharpe':       v => v >= 1  ? 'green' : v < 0.5 ? 'red' : null,
   'val-sortino':      v => v >= 1  ? 'green' : v < 0.5 ? 'red' : null,
   'val-calmar':       v => v >= 1  ? 'green' : v < 0.3 ? 'red' : null,
-  'val-dd':           v => v >= 40 ? 'red'  : v <= 20  ? 'green' : null,
+  'val-dd':           () => 'red',
   'val-recovery':     v => { const n=(v>0&&v<2)?v*100:v; return n>=2?'green':n<1?'red':null; },
   'val-posmonths':    v => { const n=v<=1?v*100:v; return n>=60?'green':n<40?'red':null; },
   'val-avgratio':     v => v >= 2  ? 'green' : v < 1   ? 'red' : null,
