@@ -1226,7 +1226,7 @@ footer {
       <div class="metric-context" data-i18n="m_calmar_ctx">Retorno anualizado dividido pelo máximo drawdown.</div>
     </div>
     <div class="metric-card">
-      <div class="metric-label" data-i18n="m_dd_label">Max Drawdown</div>
+      <div class="metric-label" data-i18n="m_dd_label">Avg Drawdown</div>
       <div class="metric-value loading" id="val-dd">—</div>
       <div class="metric-benchmark" data-i18n="m_dd_bench">Contexto essencial · Estrutural no EQC</div>
       <div class="metric-context" data-i18n="m_dd_ctx">O drawdown do EQC não é uma falha — é parte da estratégia.</div>
@@ -3400,11 +3400,11 @@ function loadInvestorMetrics() {
       });
 
       // ── Risk metrics (labels=row9, values=row10) ──────────────────────────
-      // c[0]=Sharpe, c[1]=Sortino, c[2]=Calmar, c[3]=MaxDD,
+      // c[0]=Sharpe, c[1]=Sortino, c[2]=Calmar, c[3]=AvgDD now sourced from Closed I20,
       // c[4]=Recovery, c[5]=PosMonths, c[6]=AvgRatio, c[7]=Expect
       const riskData = rows[10];
       if (riskData && riskData.c) {
-        const RISK_MAP = ['val-sharpe','val-sortino','val-calmar','val-dd',
+        const RISK_MAP = ['val-sharpe','val-sortino','val-calmar', null,
                           'val-recovery','val-posmonths','val-avgratio','val-expect'];
         RISK_MAP.forEach((id, ci) => setEl(id, riskData.c[ci], COLOR_RULES[id]));
       }
@@ -3421,6 +3421,25 @@ function loadInvestorMetrics() {
 }
 loadInvestorMetrics();
 setInterval(loadInvestorMetrics, 5 * 60 * 1000);
+
+function loadAvgDrawdown() {
+  const cb = 'avgDdCb' + Date.now();
+  window[cb] = function(data) {
+    try {
+      const cell = data.table.rows[0]?.c[0];
+      setEl('val-dd', cell, COLOR_RULES['val-dd']);
+    } catch(e) { console.error('[EQC AvgDD]', e); }
+    delete window[cb];
+    document.getElementById(cb)?.remove();
+  };
+  const script = document.createElement('script');
+  script.id = cb;
+  script.src = `https://docs.google.com/spreadsheets/d/${CLOSED_SHEET_ID}/gviz/tq?tqx=responseHandler:${cb}&gid=${CLOSED_GID}&range=I20`;
+  script.onerror = () => { delete window[cb]; };
+  document.head.appendChild(script);
+}
+loadAvgDrawdown();
+setInterval(loadAvgDrawdown, 5 * 60 * 1000);
 </script>
 
 
