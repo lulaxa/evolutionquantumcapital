@@ -923,6 +923,40 @@ footer {
   .hero-mobile-nav a { font-family:'Syne',sans-serif; font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); text-decoration:none; padding:7px 14px; border:1px solid rgba(201,169,74,0.2); transition:all .3s; white-space:nowrap; }
   .hero-mobile-nav a:hover, .hero-mobile-nav a.nav-active { color:var(--gold); border-color:rgba(201,169,74,0.5); }
 }
+
+/* ===== MOBILE FIXES ===== */
+html { overflow-x: hidden; }
+* { max-width: 100%; }
+
+/* Discord section inline grid fix */
+@media (max-width: 900px) {
+  #discord { padding: 72px 22px !important; }
+  #discord > div:last-child { 
+    display: grid !important; 
+    grid-template-columns: 1fr !important; 
+    gap: 40px !important; 
+  }
+}
+
+/* Platform cards section — override inline grid */
+@media (max-width: 900px) {
+  section[style*="background:var(--bg2)"] > div[style*="grid-template-columns:repeat(2,1fr)"],
+  section[style*="background: var(--bg2)"] > div[style*="grid-template-columns:repeat(2,1fr)"] {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+/* Generic fallback for any inline 2-col grid inside sections on mobile */
+@media (max-width: 900px) {
+  section > div[style*="grid-template-columns:repeat(2,1fr)"],
+  section > div[style*="grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  section { padding: 72px 22px !important; }
+  #hero { padding: 110px 22px 72px !important; }
+}
 </style>
 <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSVCGMN85G"></script>

@@ -1026,6 +1026,33 @@ footer {
 .bench-val{color:var(--goldl);}
 .bench-alpha{color:var(--green);font-weight:600;}
 @media(max-width:600px){.bench-row{grid-template-columns:1fr 1fr;gap:6px;}.bench-row span:nth-child(3),.bench-row span:nth-child(4){display:none;}}
+
+/* ===== MOBILE FIXES ===== */
+html { overflow-x: hidden; }
+* { max-width: 100%; }
+img, table { max-width: 100%; }
+
+@media (max-width: 900px) {
+  /* Fix metric cards padding + font */
+  .metric-card { padding: 20px 14px; }
+  .metric-value { font-size: 22px; }
+  .metrics-header { grid-template-columns: 1fr; gap: 24px; margin-bottom: 36px; }
+  
+  /* Fix bench table overflow */
+  .bench-table { overflow-x: auto; display: block; }
+  
+  /* Fix top10 table overflow */
+  #closed-table, #live-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  
+  /* Fix sections padding */
+  #investor-metrics { padding: 72px 18px; }
+}
+
+@media (max-width: 500px) {
+  .metric-value { font-size: 20px; }
+  .metric-card { padding: 16px 12px; }
+  nav { padding: 14px 16px; }
+}
 </style>
   <script src="https://www.google.com/recaptcha/api.js?render=6LexoIQsAAAAACwf9OqbxZ7QCtvZs5HhprQOGNqG"></script>
   <!-- Google tag (gtag.js) -->
