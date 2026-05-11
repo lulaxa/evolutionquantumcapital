@@ -3302,21 +3302,21 @@ document.addEventListener('DOMContentLoaded', function() {
 const INVESTOR_SHEET_ID = '1gX1v79US2pxNijNsRt16PDwepGT_f8iQSFKRZJsdnGg';
 const INVESTOR_GID      = '1544476966';
 // ── INVESTOR SHEET LAYOUT (GID 1544476966) ──────────────────────────────────
-// rows[0]  = header title
-// rows[1]  = subtitle
-// rows[3]  = "PERFORMANCE DESDE O INÍCIO"
-// rows[4]  = perf labels
-// rows[5]  = perf values: A=date B=days C=RetTotal D=RetAnual E=RetMensal F=WinRate G=PF H=Trades
-// rows[7]  = "EQC vs BENCHMARKS"
-// rows[8]  = bench labels
-// rows[9]  = EQC row: A=EQC B=return C=alpha D=note
-// rows[10] = S&P 500
-// rows[11] = NASDAQ 100
-// rows[12] = Russell 2000
-// rows[13] = US 10Y Treasury
-// rows[15] = "MÉTRICAS DE RISCO"
-// rows[16] = risk labels
-// rows[17] = risk values: A=Sharpe B=Sortino C=Calmar D=MaxDD E=Recovery F=%MesesPos G=AvgWL H=Expect
+// gviz skips row 1 (treated as header), so rows[] start at sheet row 2
+// rows[0]  = subtitle (sheet row 2)
+// rows[2]  = "PERFORMANCE DESDE O INÍCIO" (sheet row 4)
+// rows[3]  = perf labels (sheet row 5)
+// rows[4]  = perf values: A=date B=days C=RetTotal D=RetAnual E=RetMensal F=WinRate G=PF H=Trades (sheet row 6)
+// rows[6]  = "EQC vs BENCHMARKS" (sheet row 8)
+// rows[8]  = bench labels (sheet row 10)
+// rows[9]  = EQC row: A=EQC B=return D=note (sheet row 11)
+// rows[10] = S&P 500 (sheet row 12)
+// rows[11] = NASDAQ 100 (sheet row 13)
+// rows[12] = Russell 2000 (sheet row 14)
+// rows[13] = US 10Y Treasury (sheet row 15)
+// rows[15] = "MÉTRICAS DE RISCO" (sheet row 17)
+// rows[17] = risk labels (sheet row 19)
+// rows[18] = risk values: A=Sharpe B=Sortino C=Calmar D=MaxDD E=Recovery F=%MesesPos G=AvgWL H=Expect (sheet row 20)
 // ─────────────────────────────────────────────────────────────────────────────
 
 const COLOR_RULES = {
@@ -3384,9 +3384,9 @@ function loadInvestorMetrics() {
     try {
       const rows = data.table.rows;
 
-      // ── Performance (gviz row 0) ──────────────────────────────────────────
+      // ── Performance (gviz row 4 = sheet row 6) ───────────────────────────
       // c[2]=RetornoTotal, c[3]=RetornoAnualizado, c[5]=WinRate, c[6]=PF
-      const perfVals = rows[0];
+      const perfVals = rows[4];
       if (perfVals && perfVals.c) {
         setEl('val-perf-total',   perfVals.c[2], COLOR_RULES['val-perf-total']);
         setEl('val-perf-annual',  perfVals.c[3], COLOR_RULES['val-perf-annual']);
@@ -3395,18 +3395,18 @@ function loadInvestorMetrics() {
       }
 
       // ── Benchmarks ────────────────────────────────────────────────────────
-      // row3=EQC, row4=S&P, row5=NASDAQ, row6=Russell, row7=T-Bill
+      // row9=EQC, row10=S&P, row11=NASDAQ, row12=Russell, row13=T-Bill
       // c[1]=retorno período, c[2]=alpha EQC
-      const eqcRow = rows[3];
+      const eqcRow = rows[9];
       if (eqcRow && eqcRow.c) {
         setEl('bench-eqc-ret',   eqcRow.c[1], v => v > 0 ? 'green' : 'red');
         if (eqcRow.c[2]) setEl('bench-eqc-alpha', eqcRow.c[2], v => v > 0 ? 'green' : 'red');
       }
       const benchDefs = [
-        {ret:'bench-sp500-ret', alpha:'bench-sp500-alpha', rowIdx:4},
-        {ret:'bench-ndx-ret',   alpha:'bench-ndx-alpha',   rowIdx:5},
-        {ret:'bench-rut-ret',   alpha:'bench-rut-alpha',   rowIdx:6},
-        {ret:'bench-tbill-ret', alpha:'bench-tbill-alpha', rowIdx:7},
+        {ret:'bench-sp500-ret', alpha:'bench-sp500-alpha', rowIdx:10},
+        {ret:'bench-ndx-ret',   alpha:'bench-ndx-alpha',   rowIdx:11},
+        {ret:'bench-rut-ret',   alpha:'bench-rut-alpha',   rowIdx:12},
+        {ret:'bench-tbill-ret', alpha:'bench-tbill-alpha', rowIdx:13},
       ];
       benchDefs.forEach(({ret, alpha, rowIdx}) => {
         const row = rows[rowIdx];
@@ -3426,10 +3426,10 @@ function loadInvestorMetrics() {
         }
       });
 
-      // ── Risk metrics (labels=row9, values=row10) ──────────────────────────
-      // c[0]=Sharpe, c[1]=Sortino, c[2]=Calmar, c[3]=AvgDD now sourced from Closed I20,
+      // ── Risk metrics (labels=row17, values=row18 = sheet row 20) ─────────
+      // c[0]=Sharpe, c[1]=Sortino, c[2]=Calmar, c[3]=MaxDD (skip - from CLOSED),
       // c[4]=Recovery, c[5]=PosMonths, c[6]=AvgRatio, c[7]=Expect
-      const riskData = rows[10];
+      const riskData = rows[18];
       if (riskData && riskData.c) {
         const RISK_MAP = ['val-sharpe','val-sortino','val-calmar', null,
                           'val-recovery','val-posmonths','val-avgratio','val-expect'];
