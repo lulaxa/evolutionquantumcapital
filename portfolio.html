@@ -3301,23 +3301,20 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===== GOOGLE SHEETS — INVESTOR METRICS =====
 const INVESTOR_SHEET_ID = '1gX1v79US2pxNijNsRt16PDwepGT_f8iQSFKRZJsdnGg';
 const INVESTOR_GID      = '1544476966';
-// ── INVESTOR SHEET LAYOUT (GID 1544476966) ──────────────────────────────────
-// gviz skips row 1 (treated as header), so rows[] start at sheet row 2
-// rows[0]  = subtitle (sheet row 2)
-// rows[2]  = "PERFORMANCE DESDE O INÍCIO" (sheet row 4)
-// rows[3]  = perf labels (sheet row 5)
-// rows[4]  = perf values: A=date B=days C=RetTotal D=RetAnual E=RetMensal F=WinRate G=PF H=Trades (sheet row 6)
-// rows[6]  = "EQC vs BENCHMARKS" (sheet row 8)
-// rows[8]  = bench labels (sheet row 10)
-// rows[9]  = EQC row: A=EQC B=return D=note (sheet row 11)
-// rows[10] = S&P 500 (sheet row 12)
-// rows[11] = NASDAQ 100 (sheet row 13)
-// rows[12] = Russell 2000 (sheet row 14)
-// rows[13] = US 10Y Treasury (sheet row 15)
-// rows[15] = "MÉTRICAS DE RISCO" (sheet row 17)
-// rows[17] = risk labels (sheet row 19)
-// rows[18] = risk values: A=Sharpe B=Sortino C=Calmar D=MaxDD E=Recovery F=%MesesPos G=AvgWL H=Expect (sheet row 20)
-// ─────────────────────────────────────────────────────────────────────────────
+
+function gvizFetch(sheetId, gid, range, callback) {
+  const cb = 'gvizCb' + Date.now() + Math.random().toString(36).slice(2,8);
+  window[cb] = function(data) {
+    try { callback(data.table ? data.table.rows : []); } catch(e) { console.error('[EQC gviz]', e); }
+    delete window[cb];
+    document.getElementById(cb)?.remove();
+  };
+  const script = document.createElement('script');
+  script.id = cb;
+  script.src = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:${cb}&gid=${gid}&range=${range}`;
+  script.onerror = () => { console.error('[EQC gviz] failed:', range); delete window[cb]; };
+  document.head.appendChild(script);
+}
 
 const COLOR_RULES = {
   'val-perf-total':   v => v > 0 ? 'green' : 'red',
@@ -3389,61 +3386,39 @@ function setAlpha(alphaId, cell) {
 }
 
 function loadInvestorMetrics() {
-  const cb = 'investorCb' + Date.now();
-  window[cb] = function(data) {
-    try {
-      const rows = data.table.rows;
+  // ── Performance: INVESTOR row 6 — A=date B=days C=RetTotal D=CAGR E=Monthly F=WinRate G=PF H=Trades
+  gvizFetch(INVESTOR_SHEET_ID, INVESTOR_GID, 'A6:H6', function(rows) {
+    const r = rows[0]; if (!r || !r.c) return;
+    setEl('val-perf-total',   r.c[2], COLOR_RULES['val-perf-total']);
+    setEl('val-perf-annual',  r.c[3], COLOR_RULES['val-perf-annual']);
+    setEl('val-perf-winrate', r.c[5], COLOR_RULES['val-perf-winrate']);
+    setEl('val-perf-pf',      r.c[6], COLOR_RULES['val-perf-pf']);
+  });
 
-      // ── Performance: find labels row by "retorno total", data is next row ─
-      const perfLbl = findRowByText(rows, 'retorno total');
-      const perfVals = perfLbl >= 0 ? rows[perfLbl + 1] : null;
-      if (perfVals && perfVals.c) {
-        setEl('val-perf-total',   perfVals.c[2], COLOR_RULES['val-perf-total']);
-        setEl('val-perf-annual',  perfVals.c[3], COLOR_RULES['val-perf-annual']);
-        setEl('val-perf-winrate', perfVals.c[5], COLOR_RULES['val-perf-winrate']);
-        setEl('val-perf-pf',      perfVals.c[6], COLOR_RULES['val-perf-pf']);
-      }
+  // ── Benchmarks: INVESTOR rows 11-15 — A=name B=return C=alpha D=note
+  gvizFetch(INVESTOR_SHEET_ID, INVESTOR_GID, 'A11:D15', function(rows) {
+    const eqcRow = rows[0];
+    if (eqcRow && eqcRow.c) {
+      setEl('bench-eqc-ret', eqcRow.c[1], v => v > 0 ? 'green' : 'red');
+      setAlpha('bench-eqc-alpha', eqcRow.c[2]);
+    }
+    [[1,'bench-sp500-ret','bench-sp500-alpha'],
+     [2,'bench-ndx-ret',  'bench-ndx-alpha'],
+     [3,'bench-rut-ret',  'bench-rut-alpha'],
+     [4,'bench-tbill-ret','bench-tbill-alpha']].forEach(([i,ret,alpha]) => {
+      const row = rows[i]; if (!row || !row.c) return;
+      setEl(ret, row.c[1], v => v > 0 ? 'green' : 'red');
+      setAlpha(alpha, row.c[2]);
+    });
+  });
 
-      // ── Benchmarks: find bench label row, then EQC=+1, others follow ─────
-      const benchLbl = findRowByText(rows, 'benchmark');
-      if (benchLbl >= 0) {
-        const eqcRow = rows[benchLbl + 1];
-        if (eqcRow && eqcRow.c) {
-          setEl('bench-eqc-ret', eqcRow.c[1], v => v > 0 ? 'green' : 'red');
-          setAlpha('bench-eqc-alpha', eqcRow.c[2]);
-        }
-        const benchDefs = [
-          {ret:'bench-sp500-ret', alpha:'bench-sp500-alpha', offset:2},
-          {ret:'bench-ndx-ret',   alpha:'bench-ndx-alpha',   offset:3},
-          {ret:'bench-rut-ret',   alpha:'bench-rut-alpha',   offset:4},
-          {ret:'bench-tbill-ret', alpha:'bench-tbill-alpha', offset:5},
-        ];
-        benchDefs.forEach(({ret, alpha, offset}) => {
-          const row = rows[benchLbl + offset];
-          if (!row || !row.c) return;
-          setEl(ret, row.c[1], v => v > 0 ? 'green' : 'red');
-          setAlpha(alpha, row.c[2]);
-        });
-      }
-
-      // ── Risk metrics: find labels row by "sharpe", data is next row ───────
-      const riskLbl = findRowByText(rows, 'sharpe');
-      const riskData = riskLbl >= 0 ? rows[riskLbl + 1] : null;
-      if (riskData && riskData.c) {
-        const RISK_MAP = ['val-sharpe','val-sortino','val-calmar', null,
-                          'val-recovery','val-posmonths','val-avgratio','val-expect'];
-        RISK_MAP.forEach((id, ci) => { if(id) setEl(id, riskData.c[ci], COLOR_RULES[id]); });
-      }
-
-    } catch(e) { console.error('[EQC Investor]', e); }
-    delete window[cb];
-    document.getElementById(cb)?.remove();
-  };
-  const script = document.createElement('script');
-  script.id = cb;
-  script.src = `https://docs.google.com/spreadsheets/d/${INVESTOR_SHEET_ID}/gviz/tq?tqx=responseHandler:${cb}&gid=${INVESTOR_GID}`;
-  script.onerror = () => { delete window[cb]; };
-  document.head.appendChild(script);
+  // ── Risk metrics: INVESTOR row 20 — A=Sharpe B=Sortino C=Calmar D=MaxDD E=Recovery F=%MesesPos G=AvgWL H=Expect
+  gvizFetch(INVESTOR_SHEET_ID, INVESTOR_GID, 'A20:H20', function(rows) {
+    const r = rows[0]; if (!r || !r.c) return;
+    const RISK_MAP = ['val-sharpe','val-sortino','val-calmar', null,
+                      'val-recovery','val-posmonths','val-avgratio','val-expect'];
+    RISK_MAP.forEach((id, ci) => { if (id) setEl(id, r.c[ci], COLOR_RULES[id]); });
+  });
 }
 loadInvestorMetrics();
 setInterval(loadInvestorMetrics, 5 * 60 * 1000);
