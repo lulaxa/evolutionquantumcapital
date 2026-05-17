@@ -1,0 +1,8 @@
+# robots.txt — Evolution Quantum Capital
+# https://www.eqc.investments/robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.eqc.investments/sitemap.xml
