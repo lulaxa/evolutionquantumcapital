@@ -1361,7 +1361,7 @@ img, table { max-width: 100%; }
 
   <div class="reveal">
     <div class="closed-title" data-i18n="closed_title">TOP 10 CLOSED POSITIONS 2026</div>
-    <div class="trades-label" id="closed-label" data-i18n="loading">Loading...</div>
+    <div class="trades-label" id="closed-label">Loading...</div>
     <table style="table-layout:fixed;width:100%">
       <thead>
         <tr>
@@ -1384,7 +1384,7 @@ img, table { max-width: 100%; }
 
   <div class="reveal" style="margin-top:48px;">
     <div class="closed-title" data-i18n="partial_title">TOP 10 POSITIONS IN PROGRESS - PARTIAL TPs</div>
-    <div class="trades-label" id="partial-label" data-i18n="loading">Loading...</div>
+    <div class="trades-label" id="partial-label">Loading...</div>
     <table style="table-layout:fixed;width:100%">
       <thead>
         <tr>
@@ -1404,7 +1404,7 @@ img, table { max-width: 100%; }
 
   <div class="reveal" style="margin-top:48px;">
     <div class="closed-title" data-i18n="open_title">TOP 10 OPEN POSITIONS</div>
-    <div class="trades-label" id="live-label" data-i18n="loading">Loading...</div>
+    <div class="trades-label" id="live-label">Loading...</div>
     <table style="table-layout:fixed;width:100%">
       <thead>
         <tr>
@@ -1686,8 +1686,19 @@ function renderPartialRows(rows) {
   const lang  = document.documentElement.lang === 'en' ? 'en' : 'pt';
   const sortedPartial = [...rows].sort((a, b) => (parseFloat(b.realPnl) || 0) - (parseFloat(a.realPnl) || 0));
   const top10partial = sortedPartial.slice(0, 10);
-  document.getElementById('partial-label').textContent =
-    lang === 'en' ? `Top 10 of ${rows.length} position(s) with partial exits` : `Top 10 de ${rows.length} posição(ões) com saídas parciais`;
+  {
+    const _pl = window.currentLang || document.documentElement.lang || 'en';
+    const _partLabels = {
+      pt: `Top 10 de ${rows.length} posição(ões) com saídas parciais`,
+      en: `Top 10 of ${rows.length} position(s) with partial exits`,
+      zh: `${rows.length}个部分出场中的前10名`,
+      ja: `${rows.length}件の部分利確ポジションのトップ10`,
+      es: `Top 10 de ${rows.length} posición(es) con salidas parciales`,
+      fr: `Top 10 sur ${rows.length} position(s) avec sorties partielles`,
+      ar: `أفضل 10 من ${rows.length} مركز بمخرجات جزئية`,
+    };
+    document.getElementById('partial-label').textContent = _partLabels[_pl] || _partLabels['en'];
+  }
   if (!rows.length) {
     tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">${lang==='en'?'No partial positions':'Sem posições parciais'}</td></tr>`;
     return;
@@ -1779,9 +1790,19 @@ function renderClosedRows(rows) {
   }
   valid.sort((a, b) => (b.realPnl || 0) - (a.realPnl || 0));
   const top10closed = valid.slice(0, 10);
-  if (label) label.textContent = document.documentElement.lang === 'en'
-    ? 'Top 10 of ' + valid.length + ' closed positions'
-    : 'Top 10 de ' + valid.length + ' posições fechadas';
+  if (label) {
+    const _cl = window.currentLang || document.documentElement.lang || 'en';
+    const _closedLabels = {
+      pt: `Top 10 de ${valid.length} posições fechadas`,
+      en: `Top 10 of ${valid.length} closed positions`,
+      zh: `前10名，共${valid.length}个已平仓`,
+      ja: `${valid.length}件中トップ10の決済済みポジション`,
+      es: `Top 10 de ${valid.length} posiciones cerradas`,
+      fr: `Top 10 sur ${valid.length} positions fermées`,
+      ar: `أفضل 10 من ${valid.length} مركزاً مغلقاً`,
+    };
+    label.textContent = _closedLabels[_cl] || _closedLabels['en'];
+  }
   // Update total KPI
   const total = valid.reduce((sum, r) => sum + (r.realPnl || 0), 0);
   const kpi = document.getElementById('kpi-total');

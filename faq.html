@@ -1167,15 +1167,15 @@ footer {
 </nav>
 
 <section class="faq-hero">
-  <span class="faq-eyebrow">Knowledge Base</span>
-  <h1>Managed Account <span>FAQ</span></h1>
-  <p>Everything you need to know about EQC's systematic strategy, account structure, fees, and how to get started.</p>
+  <span class="faq-eyebrow" data-i18n="faq_eyebrow">Knowledge Base</span>
+  <h1 data-i18n="faq_hero_h1">Managed Account <span>FAQ</span></h1>
+  <p data-i18n="faq_hero_desc">Everything you need to know about EQC's systematic strategy, account structure, fees, and how to get started.</p>
 </section>
 
 <div class="faq-container">
 
   <div class="faq-category">
-    <div class="faq-category-title">About EQC</div>
+    <div class="faq-category-title" data-i18n="faq_cat1">About EQC</div>
     <div class="faq-item open">
       <button class="faq-question" onclick="toggleFAQ(this)">
         <span class="faq-question-text">What is Evolution Quantum Capital (EQC)?</span>
@@ -1200,7 +1200,7 @@ footer {
   </div>
 
   <div class="faq-category">
-    <div class="faq-category-title">Accounts &amp; Custody</div>
+    <div class="faq-category-title" data-i18n="faq_cat2">Accounts &amp; Custody</div>
     <div class="faq-item">
       <button class="faq-question" onclick="toggleFAQ(this)">
         <span class="faq-question-text">Do I need my own Interactive Brokers account?</span>
@@ -1225,7 +1225,7 @@ footer {
   </div>
 
   <div class="faq-category">
-    <div class="faq-category-title">The Strategy &amp; System</div>
+    <div class="faq-category-title" data-i18n="faq_cat3">The Strategy &amp; System</div>
     <div class="faq-item">
       <button class="faq-question" onclick="toggleFAQ(this)">
         <span class="faq-question-text">How does EQC's R-system work?</span>
@@ -1250,7 +1250,7 @@ footer {
   </div>
 
   <div class="faq-category">
-    <div class="faq-category-title">Fees &amp; Costs</div>
+    <div class="faq-category-title" data-i18n="faq_cat4">Fees &amp; Costs</div>
     <div class="faq-item">
       <button class="faq-question" onclick="toggleFAQ(this)">
         <span class="faq-question-text">What are EQC's fees?</span>
@@ -1275,7 +1275,7 @@ footer {
   </div>
 
   <div class="faq-category">
-    <div class="faq-category-title">Getting Started</div>
+    <div class="faq-category-title" data-i18n="faq_cat5">Getting Started</div>
     <div class="faq-item">
       <button class="faq-question" onclick="toggleFAQ(this)">
         <span class="faq-question-text">How do I become an EQC investor?</span>
@@ -1361,6 +1361,14 @@ const TRANSLATIONS = {
     custo2_unit: 'Depósito de Garantia',
     custo2_desc: 'Do valor total da conta, mantido na conta EQC. <strong>Exclusivamente para débito de comissões</strong> - nenhum outro acesso ao seu capital.',
     custos_note: 'A EQC só ganha quando o cliente ganha · Sem mensalidades · Sem taxas fixas',
+        faq_eyebrow: 'Base de Conhecimento',
+    faq_hero_h1: 'Conta Gerida <span>FAQ</span>',
+    faq_hero_desc: 'Tudo o que precisa de saber sobre a estratégia sistemática da EQC, estrutura de conta, taxas e como começar.',
+    faq_cat1: 'Sobre a EQC',
+    faq_cat2: 'Contas &amp; Custódia',
+    faq_cat3: 'A Estratégia &amp; Sistema',
+    faq_cat4: 'Taxas &amp; Custos',
+    faq_cat5: 'Como Começar',
     nav_home: 'Início', nav_system: 'Sistema', nav_portfolio: 'Portfólio',
     nav_community: 'Comunidade', nav_tools: 'Ferramentas',
     nav_contact_link: 'Contacto',
@@ -1474,6 +1482,14 @@ const TRANSLATIONS = {
     custo2_unit: 'Security Deposit',
     custo2_desc: 'Of total account value, held in the EQC account. <strong>Exclusively for commission debits</strong> - no other access to your capital.',
     custos_note: 'EQC only earns when the client earns · No monthly fees · No fixed charges',
+        faq_eyebrow: 'Knowledge Base',
+    faq_hero_h1: 'Managed Account <span>FAQ</span>',
+    faq_hero_desc: 'Everything you need to know about EQC's systematic strategy, account structure, fees, and how to get started.',
+    faq_cat1: 'About EQC',
+    faq_cat2: 'Accounts &amp; Custody',
+    faq_cat3: 'The Strategy &amp; System',
+    faq_cat4: 'Fees &amp; Costs',
+    faq_cat5: 'Getting Started',
     nav_home: 'Home', nav_system: 'System', nav_portfolio: 'Portfolio',
     nav_community: 'Community', nav_tools: 'Tools',
     nav_contact_link: 'Contact',
@@ -1567,6 +1583,14 @@ const TRANSLATIONS = {
 
   zh: {
     fala_connosco: '联系我们',
+        faq_eyebrow: '知识库',
+    faq_hero_h1: '托管账户 <span>FAQ</span>',
+    faq_hero_desc: '关于EQC系统化策略、账户结构、费用及如何开始的完整指南。',
+    faq_cat1: '关于 EQC',
+    faq_cat2: '账户与托管',
+    faq_cat3: '策略与系统',
+    faq_cat4: '费用与成本',
+    faq_cat5: '如何开始',
     nav_home: '首页',
     nav_system: '系统',
     nav_portfolio: '投资组合',
@@ -1752,6 +1776,14 @@ const TRANSLATIONS = {
   },
   ja: {
     fala_connosco: 'お問い合わせ',
+        faq_eyebrow: 'ナレッジベース',
+    faq_hero_h1: 'マネージドアカウント <span>FAQ</span>',
+    faq_hero_desc: 'EQCのシステマティック戦略、口座構造、手数料、開始方法に関する完全ガイド。',
+    faq_cat1: 'EQCについて',
+    faq_cat2: '口座と保管',
+    faq_cat3: '戦略とシステム',
+    faq_cat4: '手数料とコスト',
+    faq_cat5: 'はじめに',
     nav_home: 'ホーム',
     nav_system: 'システム',
     nav_portfolio: 'ポートフォリオ',
@@ -1937,6 +1969,14 @@ const TRANSLATIONS = {
   },
   es: {
     fala_connosco: 'Háblanos',
+        faq_eyebrow: 'Base de Conocimiento',
+    faq_hero_h1: 'Cuenta Gestionada <span>FAQ</span>',
+    faq_hero_desc: 'Todo lo que necesita saber sobre la estrategia sistemática de EQC, estructura de cuenta, comisiones y cómo comenzar.',
+    faq_cat1: 'Acerca de EQC',
+    faq_cat2: 'Cuentas &amp; Custodia',
+    faq_cat3: 'La Estrategia &amp; Sistema',
+    faq_cat4: 'Comisiones &amp; Costos',
+    faq_cat5: 'Cómo Empezar',
     nav_home: 'Inicio',
     nav_system: 'Sistema',
     nav_portfolio: 'Portfolio',
@@ -2122,6 +2162,14 @@ const TRANSLATIONS = {
   },
   fr: {
     fala_connosco: 'Nous Contacter',
+        faq_eyebrow: 'Base de Connaissances',
+    faq_hero_h1: 'Compte Géré <span>FAQ</span>',
+    faq_hero_desc: 'Tout ce que vous devez savoir sur la stratégie systématique d'EQC, la structure du compte, les frais et comment commencer.',
+    faq_cat1: 'À propos d'EQC',
+    faq_cat2: 'Comptes &amp; Dépôt',
+    faq_cat3: 'La Stratégie &amp; Système',
+    faq_cat4: 'Frais &amp; Coûts',
+    faq_cat5: 'Commencer',
     nav_home: 'Accueil',
     nav_system: 'Système',
     nav_portfolio: 'Portfolio',
@@ -2307,6 +2355,14 @@ const TRANSLATIONS = {
   },
   ar: {
     fala_connosco: 'تواصل معنا',
+        faq_eyebrow: 'قاعدة المعرفة',
+    faq_hero_h1: 'الحساب المُدار <span>FAQ</span>',
+    faq_hero_desc: 'كل ما تحتاج معرفته عن استراتيجية EQC المنهجية وهيكل الحساب والرسوم وكيفية البدء.',
+    faq_cat1: 'حول EQC',
+    faq_cat2: 'الحسابات والحضانة',
+    faq_cat3: 'الاستراتيجية والنظام',
+    faq_cat4: 'الرسوم والتكاليف',
+    faq_cat5: 'البدء',
     nav_home: 'الرئيسية',
     nav_system: 'النظام',
     nav_portfolio: 'المحفظة',
