@@ -2739,4 +2739,219 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOUNDER'S MESSAGE POPUP
+═══════════════════════════════════════════════════════════ -->
+<div id="founder-overlay" style="
+  position:fixed;inset:0;z-index:10000;
+  background:rgba(4,10,22,0.88);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  opacity:0;transition:opacity .5s ease;pointer-events:none;
+" aria-modal="true" role="dialog" aria-labelledby="founder-title">
+  <div id="founder-modal" style="
+    position:relative;
+    max-width:680px;width:100%;
+    background:linear-gradient(145deg,rgba(5,15,32,0.98) 0%,rgba(8,20,44,0.98) 100%);
+    border:1px solid rgba(201,169,74,0.35);
+    padding:56px 56px 48px;
+    box-shadow:0 0 80px rgba(201,169,74,0.08),0 32px 64px rgba(0,0,0,0.6);
+    clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
+    transform:translateY(24px);transition:transform .5s ease;
+    max-height:90vh;overflow-y:auto;
+  ">
+    <!-- Gold top bar -->
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(201,169,74,0.8) 30%,rgba(201,169,74,0.8) 70%,transparent);"></div>
+
+    <!-- Close button -->
+    <button onclick="closeFounderPopup()" aria-label="Close" style="
+      position:absolute;top:20px;right:20px;
+      background:none;border:1px solid rgba(201,169,74,0.25);
+      color:rgba(201,169,74,0.6);
+      width:32px;height:32px;
+      font-size:14px;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      transition:all .2s;
+      clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+    " onmouseenter="this.style.borderColor='rgba(201,169,74,0.7)';this.style.color='var(--gold,#c9a94a)'"
+       onmouseleave="this.style.borderColor='rgba(201,169,74,0.25)';this.style.color='rgba(201,169,74,0.6)'">✕</button>
+
+    <!-- Eyebrow -->
+    <div style="
+      font-family:'DM Mono',monospace;
+      font-size:9px;letter-spacing:.4em;text-transform:uppercase;
+      color:rgba(201,169,74,0.7);margin-bottom:28px;
+      display:flex;align-items:center;gap:14px;
+    ">
+      <span style="display:inline-block;width:28px;height:1px;background:rgba(201,169,74,0.4);"></span>
+      <span id="founder-title" data-i18n-popup="founder_eyebrow">Uma Mensagem do Fundador</span>
+      <span style="display:inline-block;width:28px;height:1px;background:rgba(201,169,74,0.4);"></span>
+    </div>
+
+    <!-- Body text -->
+    <div id="founder-body" style="
+      font-size:14.5px;line-height:1.9;
+      color:rgba(200,210,230,0.82);
+      font-family:'Inter','Syne',sans-serif;
+    ">
+      <p style="margin:0 0 1.2em;" data-i18n-popup="founder_p1">Vivemos num universo guiado por padrões. Desde a formação das galáxias até à estrutura de uma simples concha do mar, tudo parece seguir uma lógica precisa — um código silencioso embutido na própria natureza. Sequências numéricas, proporções perfeitas e repetições geométricas não são apenas curiosidades; são evidências de que existe uma matemática oculta regendo o aparente caos.</p>
+      <p style="margin:0 0 1.2em;" data-i18n-popup="founder_p2">No mundo do trading, essa lógica também se manifesta. Por trás dos gráficos, das velas e das oscilações de preço, há uma simetria que a maioria ignora — e que poucos aprenderam a ler. A EQC parte da premissa de que o mercado financeiro, por mais volátil que pareça, é estruturado de forma inteligente por forças institucionais identificáveis. E mais: que essa estrutura pode ser observada, compreendida e incorporada num sistema.</p>
+      <p style="margin:0 0 1.2em;" data-i18n-popup="founder_p3">A teoria proprietária da EQC une dois pilares: a proporção áurea de Fibonacci, presente tanto nas leis da física quanto nos movimentos do mercado, e os order blocks — áreas de liquidez estratégica utilizadas por grandes instituições para induzir movimentos de preço. Ao combinar esses elementos com padrões matemáticos recorrentes, a leitura probabilística do mercado deixa de ser uma ilusão.</p>
+      <p style="margin:0 0 0;" data-i18n-popup="founder_p4">Este não é apenas um sistema de análise técnica. É uma mudança de perspectiva — um convite a ver o mercado como uma manifestação de algo maior, onde o acaso não reina soberano.</p>
+    </div>
+
+    <!-- Signature line -->
+    <div style="
+      margin-top:36px;padding-top:24px;
+      border-top:1px solid rgba(201,169,74,0.15);
+      display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;gap:16px;
+    ">
+      <div style="
+        font-family:'DM Mono',monospace;
+        font-size:11px;letter-spacing:.25em;text-transform:uppercase;
+        color:rgba(201,169,74,0.9);
+        font-style:italic;
+      ">Hidden in plain sight. EQC.</div>
+      <button onclick="closeFounderPopup()" style="
+        background:rgba(201,169,74,0.1);
+        border:1px solid rgba(201,169,74,0.35);
+        color:rgba(201,169,74,0.85);
+        padding:10px 24px;
+        font-family:'Syne',sans-serif;font-size:10px;font-weight:700;
+        letter-spacing:.22em;text-transform:uppercase;
+        cursor:pointer;transition:all .2s;
+        clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+      " onmouseenter="this.style.background='rgba(201,169,74,0.18)';this.style.borderColor='rgba(201,169,74,0.7)'"
+         onmouseleave="this.style.background='rgba(201,169,74,0.1)';this.style.borderColor='rgba(201,169,74,0.35)'"
+         data-i18n-popup="founder_close">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Founder's Message Popup ──────────────────────────────────────────────────
+const FOUNDER_TRANSLATIONS = {
+  pt: {
+    founder_eyebrow: 'Uma Mensagem do Fundador',
+    founder_p1: 'Vivemos num universo guiado por padrões. Desde a formação das galáxias até à estrutura de uma simples concha do mar, tudo parece seguir uma lógica precisa — um código silencioso embutido na própria natureza. Sequências numéricas, proporções perfeitas e repetições geométricas não são apenas curiosidades; são evidências de que existe uma matemática oculta regendo o aparente caos.',
+    founder_p2: 'No mundo do trading, essa lógica também se manifesta. Por trás dos gráficos, das velas e das oscilações de preço, há uma simetria que a maioria ignora — e que poucos aprenderam a ler. A EQC parte da premissa de que o mercado financeiro, por mais volátil que pareça, é estruturado de forma inteligente por forças institucionais identificáveis. E mais: que essa estrutura pode ser observada, compreendida e incorporada num sistema.',
+    founder_p3: 'A teoria proprietária da EQC une dois pilares: a proporção áurea de Fibonacci, presente tanto nas leis da física quanto nos movimentos do mercado, e os order blocks — áreas de liquidez estratégica utilizadas por grandes instituições para induzir movimentos de preço. Ao combinar esses elementos com padrões matemáticos recorrentes, a leitura probabilística do mercado deixa de ser uma ilusão.',
+    founder_p4: 'Este não é apenas um sistema de análise técnica. É uma mudança de perspectiva — um convite a ver o mercado como uma manifestação de algo maior, onde o acaso não reina soberano.',
+    founder_close: 'Entrar',
+  },
+  en: {
+    founder_eyebrow: 'A Message from the Founder',
+    founder_p1: 'We live in a universe governed by patterns. From the formation of galaxies to the structure of a simple seashell, everything seems to follow a precise logic — a silent code embedded in nature itself. Numerical sequences, perfect proportions and geometric repetitions are not mere curiosities; they are evidence that a hidden mathematics governs apparent chaos.',
+    founder_p2: 'In the world of trading, this logic also manifests. Behind charts, candles and price oscillations, there is a symmetry that most ignore — and that few have learned to read. EQC starts from the premise that financial markets, however volatile they may seem, are intelligently structured by identifiable institutional forces. And more: that this structure can be observed, understood and incorporated into a system.',
+    founder_p3: "EQC's proprietary theory unites two pillars: the golden ratio of Fibonacci, present both in the laws of physics and in market movements, and order blocks — areas of strategic liquidity used by large institutions to induce price movements. By combining these elements with recurring mathematical patterns, the probabilistic reading of the market ceases to be an illusion.",
+    founder_p4: 'This is not merely a technical analysis system. It is a shift in perspective — an invitation to see the market as a manifestation of something greater, where chance does not reign sovereign.',
+    founder_close: 'Enter',
+  },
+  zh: {
+    founder_eyebrow: '创始人寄语',
+    founder_p1: '我们生活在一个由规律主导的宇宙中。从星系的形成到一枚贝壳的结构，一切似乎都遵循着精确的逻辑——一种嵌入自然本身的无声代码。数列、完美比例和几何重复不只是奇趣；它们是一种隐藏数学支配表面混沌的证据。',
+    founder_p2: '在交易世界中，这一逻辑同样显现。在图表、K线和价格波动背后，存在着大多数人忽视、少数人学会解读的对称性。EQC的前提是：无论金融市场看起来多么波动，它都被可识别的机构力量智能地构建。更进一步：这种结构可以被观察、理解并融入一个系统。',
+    founder_p3: 'EQC的专有理论融合两大支柱：存在于物理法则和市场运动中的斐波那契黄金比例，以及大型机构用于诱导价格运动的战略流动性区域——订单块。将这些元素与循环数学规律相结合，对市场的概率性解读不再是幻觉。',
+    founder_p4: '这不仅仅是一个技术分析系统。这是一种视角的转变——一个邀请，让您将市场视为更宏大事物的体现，在那里偶然性不再是主宰。',
+    founder_close: '进入',
+  },
+  ja: {
+    founder_eyebrow: 'ファウンダーからのメッセージ',
+    founder_p1: '私たちはパターンに支配された宇宙に生きています。銀河の形成から単純な貝殻の構造まで、すべてが精密な論理に従っているように見えます——自然そのものに埋め込まれた無音のコード。数列、完璧な比率、幾何学的な繰り返しは単なる好奇心ではなく、目に見える混沌を支配する隠れた数学の証拠です。',
+    founder_p2: 'トレードの世界でも、この論理は現れます。チャート、ローソク足、価格の変動の背後に、ほとんどの人が無視し、少数の人だけが読み解くことを学んだ対称性があります。EQCは、金融市場がどれほど変動しているように見えても、識別可能な機関的力によってインテリジェントに構造化されているという前提から出発しています。そして、その構造は観察し、理解し、システムに組み込むことができます。',
+    founder_p3: 'EQCの独自理論は二つの柱を結びつけます：物理法則と市場の動きの両方に存在するフィボナッチの黄金比と、大型機関が価格の動きを誘導するために使用する戦略的流動性エリア——オーダーブロック。これらの要素と繰り返す数学的パターンを組み合わせることで、市場の確率的解読は幻想でなくなります。',
+    founder_p4: 'これは単なるテクニカル分析システムではありません。視点の転換です——市場を何か大きなものの現れとして見るための招待であり、そこでは偶然が支配者ではありません。',
+    founder_close: '入場',
+  },
+  es: {
+    founder_eyebrow: 'Un Mensaje del Fundador',
+    founder_p1: 'Vivimos en un universo guiado por patrones. Desde la formación de galaxias hasta la estructura de una simple concha marina, todo parece seguir una lógica precisa — un código silencioso incorporado en la naturaleza misma. Secuencias numéricas, proporciones perfectas y repeticiones geométricas no son meras curiosidades; son evidencias de que existe una matemática oculta que rige el aparente caos.',
+    founder_p2: 'En el mundo del trading, esta lógica también se manifiesta. Detrás de los gráficos, las velas y las oscilaciones de precio, hay una simetría que la mayoría ignora — y que pocos han aprendido a leer. EQC parte de la premisa de que el mercado financiero, por volátil que parezca, está estructurado de forma inteligente por fuerzas institucionales identificables. Y más: que esa estructura puede ser observada, comprendida e incorporada en un sistema.',
+    founder_p3: 'La teoría propietaria de EQC une dos pilares: la proporción áurea de Fibonacci, presente tanto en las leyes de la física como en los movimientos del mercado, y los order blocks — áreas de liquidez estratégica utilizadas por grandes instituciones para inducir movimientos de precio. Al combinar estos elementos con patrones matemáticos recurrentes, la lectura probabilística del mercado deja de ser una ilusión.',
+    founder_p4: 'Este no es solo un sistema de análisis técnico. Es un cambio de perspectiva — una invitación a ver el mercado como una manifestación de algo mayor, donde el azar no reina soberano.',
+    founder_close: 'Entrar',
+  },
+  fr: {
+    founder_eyebrow: 'Un Message du Fondateur',
+    founder_p1: "Nous vivons dans un univers régi par des motifs. De la formation des galaxies à la structure d'un simple coquillage, tout semble suivre une logique précise — un code silencieux inscrit dans la nature même. Les séquences numériques, les proportions parfaites et les répétitions géométriques ne sont pas de simples curiosités ; elles témoignent qu'une mathématique cachée régit le chaos apparent.",
+    founder_p2: "Dans le monde du trading, cette logique se manifeste également. Derrière les graphiques, les bougies et les oscillations de prix, il existe une symétrie que la plupart ignorent — et que peu ont appris à lire. EQC part du principe que le marché financier, aussi volatile qu'il puisse paraître, est structuré de manière intelligente par des forces institutionnelles identifiables. Et plus encore : que cette structure peut être observée, comprise et incorporée dans un système.",
+    founder_p3: "La théorie propriétaire d'EQC unit deux piliers : le ratio d'or de Fibonacci, présent à la fois dans les lois de la physique et dans les mouvements du marché, et les order blocks — des zones de liquidité stratégique utilisées par les grandes institutions pour induire des mouvements de prix. En combinant ces éléments avec des motifs mathématiques récurrents, la lecture probabiliste du marché cesse d'être une illusion.",
+    founder_p4: "Ce n'est pas seulement un système d'analyse technique. C'est un changement de perspective — une invitation à voir le marché comme la manifestation de quelque chose de plus grand, où le hasard ne règne pas en maître.",
+    founder_close: 'Entrer',
+  },
+  ar: {
+    founder_eyebrow: 'رسالة من المؤسس',
+    founder_p1: 'نعيش في كون تحكمه الأنماط. من تشكّل المجرات إلى بنية صدفة بحرية بسيطة، يبدو أن كل شيء يتبع منطقاً دقيقاً — شفرة صامتة مضمّنة في طبيعة الوجود. المتتاليات العددية والنسب المثالية والتكرارات الهندسية ليست مجرد فضول؛ بل هي أدلة على وجود رياضيات خفية تحكم الفوضى الظاهرة.',
+    founder_p2: 'في عالم التداول، يتجلى هذا المنطق أيضاً. خلف الرسوم البيانية والشموع وتذبذبات الأسعار، ثمة تناسق يتجاهله معظم الناس — ولم يتعلم قراءته سوى القليلين. تنطلق EQC من مبدأ أن الأسواق المالية، مهما بدت متقلبة، مُهيكَلة بذكاء من قِبل قوى مؤسسية قابلة للتحديد. والأكثر من ذلك: أن هذا الهيكل يمكن مراقبته وفهمه ودمجه في نظام.',
+    founder_p3: 'تجمع نظرية EQC الملكية بين ركيزتين: النسبة الذهبية لفيبوناتشي، الحاضرة في قوانين الفيزياء وحركات السوق على حدٍّ سواء، وكتل الأوامر — مناطق السيولة الاستراتيجية التي تستخدمها المؤسسات الكبرى لإحداث حركات السعر. بالجمع بين هذه العناصر والأنماط الرياضية المتكررة، تتوقف القراءة الاحتمالية للسوق عن كونها وهماً.',
+    founder_p4: 'هذا ليس مجرد نظام تحليل فني. إنه تحوّل في المنظور — دعوة لرؤية السوق كتجلٍّ لشيء أعظم، حيث لا تسود الصدفة.',
+    founder_close: 'دخول',
+  },
+};
+
+function applyFounderLang(lang) {
+  const t = FOUNDER_TRANSLATIONS[lang] || FOUNDER_TRANSLATIONS['en'];
+  document.querySelectorAll('[data-i18n-popup]').forEach(el => {
+    const k = el.getAttribute('data-i18n-popup');
+    if (t[k]) el.innerHTML = t[k];
+  });
+}
+
+function closeFounderPopup() {
+  const ov = document.getElementById('founder-overlay');
+  const mo = document.getElementById('founder-modal');
+  ov.style.opacity = '0';
+  mo.style.transform = 'translateY(24px)';
+  setTimeout(() => { ov.style.display = 'none'; }, 500);
+  try { sessionStorage.setItem('eqc_founder_seen', '1'); } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  let seen = false;
+  try { seen = !!sessionStorage.getItem('eqc_founder_seen'); } catch(e) {}
+  if (seen) return;
+
+  const ov = document.getElementById('founder-overlay');
+  const mo = document.getElementById('founder-modal');
+
+  // Apply current language
+  let lang = 'pt';
+  try { lang = localStorage.getItem('eqc_lang') || 'pt'; } catch(e) {}
+  applyFounderLang(lang);
+
+  // Show with delay
+  setTimeout(function() {
+    ov.style.pointerEvents = 'auto';
+    ov.style.opacity = '1';
+    mo.style.transform = 'translateY(0)';
+  }, 900);
+
+  // Close on overlay click
+  ov.addEventListener('click', function(e) {
+    if (e.target === ov) closeFounderPopup();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeFounderPopup();
+  });
+});
+
+// Re-translate popup when page language changes
+const _origSetLang = window.setLang;
+if (typeof _origSetLang === 'function') {
+  // Wrap after DOMContentLoaded so setLang is already defined
+  document.addEventListener('DOMContentLoaded', function() {
+    const _sl = window.setLang;
+    window.setLang = function(lang) {
+      _sl(lang);
+      applyFounderLang(lang);
+    };
+  }, true);
+}
+</script>
+
 </body></html>
