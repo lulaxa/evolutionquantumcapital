@@ -1075,7 +1075,6 @@ footer {
   .nav-right-top .nav-fala { display: none; }
 }
 </style>
-  <script src="https://www.google.com/recaptcha/api.js?render=6LexoIQsAAAAACwf9OqbxZ7QCtvZs5HhprQOGNqG"></script>
   <!-- Google tag (gtag.js) -->
   <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CSVCGMN85G"></script>
   <script>
@@ -2576,15 +2575,8 @@ function toggleFAQ(btn){
 }
 function toggleMenu(){document.querySelector('.mobile-menu')?.classList.toggle('open')}
 function toggleLangDropdown(){document.getElementById('lang-dropdown')?.classList.toggle('open')}
-function setLang(l){const u=new URL(location.href);u.searchParams.set('lang',l);location.href=u.toString()}
 const sb=document.getElementById('scrollTop');
 if(sb)window.addEventListener('scroll',()=>{sb.style.opacity=scrollY>400?'1':'0'});
-(function(){
-  const lang=new URLSearchParams(location.search).get('lang')||'en';
-  if(lang==='en'||!window.TRANSLATIONS||!window.TRANSLATIONS[lang])return;
-  const t=window.TRANSLATIONS[lang];
-  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t[k])el.innerHTML=t[k]});
-})();
 </script>
 </body>
 </html>
