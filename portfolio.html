@@ -1115,7 +1115,7 @@ img, table { max-width: 100%; }
   <a href="system.html" data-i18n="nav_system">System</a>
   <a href="portfolio.html" class="nav-active" data-i18n="nav_portfolio">Portfolio</a>
   <a href="community.html" data-i18n="nav_community">Community</a>
-  <a href="tools.html" data-i18n="nav_tools">Tools</a> <a href="faq.html" data-i18n="nav_faq">FAQ</a>
+  <a href="tools.html" data-i18n="nav_tools">Tools</a> <a href="/faq.html">FAQ</a>
   <a href="index.html#contact" class="nav-cta" data-i18n="nav_contact_link">Contact</a>
 </div>
 
@@ -1134,9 +1134,9 @@ img, table { max-width: 100%; }
         <li><a href="index.html" data-i18n="nav_home">Home</a></li>
         <li><a href="system.html" data-i18n="nav_system">System</a></li>
         <li><a href="portfolio.html" class="nav-active" data-i18n="nav_portfolio">Portfolio</a></li>
+        <li><a href="/insights/" data-i18n="nav_insights">Insights</a></li>
         <li><a href="community.html" data-i18n="nav_community">Community</a></li>
         <li><a href="tools.html" data-i18n="nav_tools">Tools</a></li>
-        <li><a href="faq.html" data-i18n="nav_faq">FAQ</a></li>
         <li><a href="index.html#contact" class="nav-cta" data-i18n="nav_contact_link">Contact</a></li>
       </ul>
       <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button><div class="lang-selector">
@@ -1182,7 +1182,6 @@ img, table { max-width: 100%; }
     <a href="portfolio.html" class="nav-active" data-i18n="nav_portfolio">Portfolio</a>
     <a href="community.html" data-i18n="nav_community">Community</a>
     <a href="tools.html" data-i18n="nav_tools">Tools</a>
-    <a href="faq.html" data-i18n="nav_faq">FAQ</a>
     <a href="index.html#contact" data-i18n="nav_contact_link">Contact</a>
   </div>
   <div class="hero-label" style="opacity:1;" data-i18n="portfolio_hero_label">// EQC Track Record</div>
@@ -1361,7 +1360,7 @@ img, table { max-width: 100%; }
 
   <div class="reveal">
     <div class="closed-title" data-i18n="closed_title">TOP 10 CLOSED POSITIONS 2026</div>
-    <div class="trades-label" id="closed-label">Loading...</div>
+    <div class="trades-label" id="closed-label" data-i18n="loading">Loading...</div>
     <table style="table-layout:fixed;width:100%">
       <thead>
         <tr>
@@ -1384,7 +1383,7 @@ img, table { max-width: 100%; }
 
   <div class="reveal" style="margin-top:48px;">
     <div class="closed-title" data-i18n="partial_title">TOP 10 POSITIONS IN PROGRESS - PARTIAL TPs</div>
-    <div class="trades-label" id="partial-label">Loading...</div>
+    <div class="trades-label" id="partial-label" data-i18n="loading">Loading...</div>
     <table style="table-layout:fixed;width:100%">
       <thead>
         <tr>
@@ -1404,7 +1403,7 @@ img, table { max-width: 100%; }
 
   <div class="reveal" style="margin-top:48px;">
     <div class="closed-title" data-i18n="open_title">TOP 10 OPEN POSITIONS</div>
-    <div class="trades-label" id="live-label">Loading...</div>
+    <div class="trades-label" id="live-label" data-i18n="loading">Loading...</div>
     <table style="table-layout:fixed;width:100%">
       <thead>
         <tr>
@@ -1686,19 +1685,8 @@ function renderPartialRows(rows) {
   const lang  = document.documentElement.lang === 'en' ? 'en' : 'pt';
   const sortedPartial = [...rows].sort((a, b) => (parseFloat(b.realPnl) || 0) - (parseFloat(a.realPnl) || 0));
   const top10partial = sortedPartial.slice(0, 10);
-  {
-    const _pl = window.currentLang || document.documentElement.lang || 'en';
-    const _partLabels = {
-      pt: `Top 10 de ${rows.length} posição(ões) com saídas parciais`,
-      en: `Top 10 of ${rows.length} position(s) with partial exits`,
-      zh: `${rows.length}个部分出场中的前10名`,
-      ja: `${rows.length}件の部分利確ポジションのトップ10`,
-      es: `Top 10 de ${rows.length} posición(es) con salidas parciales`,
-      fr: `Top 10 sur ${rows.length} position(s) avec sorties partielles`,
-      ar: `أفضل 10 من ${rows.length} مركز بمخرجات جزئية`,
-    };
-    document.getElementById('partial-label').textContent = _partLabels[_pl] || _partLabels['en'];
-  }
+  document.getElementById('partial-label').textContent =
+    lang === 'en' ? `Top 10 of ${rows.length} position(s) with partial exits` : `Top 10 de ${rows.length} posição(ões) com saídas parciais`;
   if (!rows.length) {
     tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">${lang==='en'?'No partial positions':'Sem posições parciais'}</td></tr>`;
     return;
@@ -1790,19 +1778,9 @@ function renderClosedRows(rows) {
   }
   valid.sort((a, b) => (b.realPnl || 0) - (a.realPnl || 0));
   const top10closed = valid.slice(0, 10);
-  if (label) {
-    const _cl = window.currentLang || document.documentElement.lang || 'en';
-    const _closedLabels = {
-      pt: `Top 10 de ${valid.length} posições fechadas`,
-      en: `Top 10 of ${valid.length} closed positions`,
-      zh: `前10名，共${valid.length}个已平仓`,
-      ja: `${valid.length}件中トップ10の決済済みポジション`,
-      es: `Top 10 de ${valid.length} posiciones cerradas`,
-      fr: `Top 10 sur ${valid.length} positions fermées`,
-      ar: `أفضل 10 من ${valid.length} مركزاً مغلقاً`,
-    };
-    label.textContent = _closedLabels[_cl] || _closedLabels['en'];
-  }
+  if (label) label.textContent = document.documentElement.lang === 'en'
+    ? 'Top 10 of ' + valid.length + ' closed positions'
+    : 'Top 10 de ' + valid.length + ' posições fechadas';
   // Update total KPI
   const total = valid.reduce((sum, r) => sum + (r.realPnl || 0), 0);
   const kpi = document.getElementById('kpi-total');
@@ -1948,7 +1926,7 @@ const TRANSLATIONS = {
     bench_rut_note: 'Small caps EUA',
     bench_tbill_note: 'Risk-free rate (~4,5%/ano)',
     nav_home: 'Início', nav_system: 'Sistema', nav_portfolio: 'Portfólio',
-    nav_community: 'Comunidade', nav_tools: 'Ferramentas', nav_faq: 'FAQ',
+    nav_community: 'Comunidade', nav_tools: 'Ferramentas',
     nav_contact_link: 'Contacto',
     nav_mandate: 'Mandato', nav_track: 'Historial', nav_model: 'Modelo',
     nav_activity: 'Atividade',
@@ -2085,7 +2063,7 @@ const TRANSLATIONS = {
     bench_rut_note: 'US small caps',
     bench_tbill_note: 'Risk-free rate (~4.5%/yr)',
     nav_home: 'Home', nav_system: 'System', nav_portfolio: 'Portfolio',
-    nav_community: 'Community', nav_tools: 'Tools', nav_faq: 'FAQ',
+    nav_community: 'Community', nav_tools: 'Tools',
     nav_contact_link: 'Contact',
     nav_mandate: 'Mandate', nav_track: 'Track Record', nav_model: 'Model',
     nav_activity: 'Activity',
@@ -2196,7 +2174,7 @@ const TRANSLATIONS = {
     nav_system: '系统',
     nav_portfolio: '投资组合',
     nav_community: '社区',
-    nav_tools: '工具', nav_faq: '常见问题',
+    nav_tools: '工具',
     nav_contact_link: '联系',
     nav_mandate: '使命',
     nav_track: '业绩记录',
@@ -2417,7 +2395,7 @@ const TRANSLATIONS = {
     nav_system: 'システム',
     nav_portfolio: 'ポートフォリオ',
     nav_community: 'コミュニティ',
-    nav_tools: 'ツール', nav_faq: 'よくある質問',
+    nav_tools: 'ツール',
     nav_contact_link: 'お問い合わせ',
     nav_mandate: 'マンデート',
     nav_track: '実績',
@@ -2638,7 +2616,7 @@ const TRANSLATIONS = {
     nav_system: 'Sistema',
     nav_portfolio: 'Portfolio',
     nav_community: 'Comunidad',
-    nav_tools: 'Herramientas', nav_faq: 'Preguntas',
+    nav_tools: 'Herramientas',
     nav_contact_link: 'Contacto',
     nav_mandate: 'Mandato',
     nav_track: 'Historial',
@@ -2859,7 +2837,7 @@ const TRANSLATIONS = {
     nav_system: 'Système',
     nav_portfolio: 'Portfolio',
     nav_community: 'Communauté',
-    nav_tools: 'Outils', nav_faq: 'FAQ',
+    nav_tools: 'Outils',
     nav_contact_link: 'Contact',
     nav_mandate: 'Mandat',
     nav_track: 'Bilan',
@@ -3080,7 +3058,7 @@ const TRANSLATIONS = {
     nav_system: 'النظام',
     nav_portfolio: 'المحفظة',
     nav_community: 'المجتمع',
-    nav_tools: 'الأدوات', nav_faq: 'الأسئلة',
+    nav_tools: 'الأدوات',
     nav_contact_link: 'اتصل بنا',
     nav_mandate: 'الولاية',
     nav_track: 'السجل',
