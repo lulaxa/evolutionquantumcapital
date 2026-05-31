@@ -2577,7 +2577,6 @@ function toggleFAQ(btn){
 }
 function toggleMenu(){document.querySelector('.mobile-menu')?.classList.toggle('open')}
 function toggleLangDropdown(){document.getElementById('lang-dropdown')?.classList.toggle('open')}
-function setLang(l){const u=new URL(location.href);u.searchParams.set('lang',l);location.href=u.toString()}
 const sb=document.getElementById('scrollTop');
 if(sb)window.addEventListener('scroll',()=>{sb.style.opacity=scrollY>400?'1':'0'});
 (function(){
