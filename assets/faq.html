@@ -1,0 +1,2603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SEO: Meta Description -->
+  <meta name="description" content="Answers to the most common questions about EQC's systematic managed account strategy — fees, custody, the R-system, and how to get started.">
+
+  <!-- SEO: Canonical -->
+  <link rel="canonical" href="https://www.eqc.investments/faq.html">
+
+  <!-- Hreflang: multi-language support -->
+  <link rel="alternate" hreflang="x-default" href="https://www.eqc.investments/faq.html">
+  <link rel="alternate" hreflang="en"        href="https://www.eqc.investments/faq.html">
+  <link rel="alternate" hreflang="pt"        href="https://www.eqc.investments/?lang=pt">
+  <link rel="alternate" hreflang="zh"        href="https://www.eqc.investments/?lang=zh">
+  <link rel="alternate" hreflang="ja"        href="https://www.eqc.investments/?lang=ja">
+  <link rel="alternate" hreflang="es"        href="https://www.eqc.investments/?lang=es">
+  <link rel="alternate" hreflang="fr"        href="https://www.eqc.investments/?lang=fr">
+  <link rel="alternate" hreflang="ar"        href="https://www.eqc.investments/?lang=ar">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://www.eqc.investments/">
+  <meta property="og:title"       content="Systematic Investment Management | Evolution Quantum Capital">
+  <meta property="og:description" content="Answers to the most common questions about EQC's systematic managed account strategy — fees, custody, the R-system, and how to get started.">
+  <meta property="og:image"       content="https://www.eqc.investments/assets/og-image.png">
+  <meta property="og:site_name"   content="Evolution Quantum Capital">
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:site"        content="@EvolutionQC">
+  <meta name="twitter:title"       content="Systematic Investment Management | Evolution Quantum Capital">
+  <meta name="twitter:description" content="Answers to the most common questions about EQC's systematic managed account strategy — fees, custody, the R-system, and how to get started.">
+  <meta name="twitter:image"       content="https://www.eqc.investments/assets/og-image.png">
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[
+    {"@type":"FAQPage","mainEntity":[
+      {"@type":"Question","name":"What is Evolution Quantum Capital (EQC)?","acceptedAnswer":{"@type":"Answer","text":"EQC is a systematic, rules-based investment manager applying a proprietary R-system to equity markets via IBKR managed accounts."}},
+      {"@type":"Question","name":"Do I need my own Interactive Brokers account?","acceptedAnswer":{"@type":"Answer","text":"Yes. You open and own your own IBKR account. EQC holds limited trading authority only — cannot withdraw funds or transfer assets."}},
+      {"@type":"Question","name":"What are EQC fees?","acceptedAnswer":{"@type":"Answer","text":"15% performance fee on net new profits only. No management fees. A 10% security deposit is returned in full when the relationship ends."}},
+      {"@type":"Question","name":"How does EQC R-system work?","acceptedAnswer":{"@type":"Answer","text":"Three-phase rules-based framework: R-multiple position sizing, DCA scaling, and automated profit targets and stop management."}},
+      {"@type":"Question","name":"Is my capital safe if EQC ceases operations?","acceptedAnswer":{"@type":"Answer","text":"Yes. Capital is held in your own IBKR account. SIPC protection applies up to USD 500,000."}}
+    ]},
+    {"@type":"BreadcrumbList","itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://www.eqc.investments/"},
+      {"@type":"ListItem","position":2,"name":"FAQ","item":"https://www.eqc.investments/faq.html"}
+    ]}
+  ]}
+  </script>
+
+<title>EQC Managed Account FAQ — Systematic Investing Questions Answered</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Syne:wght@400;600;700;800&amp;family=DM+Mono:wght@300;400&amp;family=Cormorant+Garamond:ital,wght@1,300;1,400;1,500&amp;display=swap" rel="stylesheet">
+<link id="favicon" rel="icon" type="image/png">
+<style>
+/* ===== VARIABLES ===== */
+:root {
+  --bg:        #050f1e;
+  --bg2:       #081628;
+  --navy:      #0b1e3a;
+  --navy2:     #0f2545;
+  --surface:   #102040;
+  --border:    rgba(180,145,60,0.18);
+  --borderb:   rgba(74,130,200,0.14);
+  --gold:      #c9a94a;
+  --goldl:     #e8cc7a;
+  --goldd:     rgba(201,169,74,0.10);
+  --blue:      #2d6abf;
+  --bluel:     rgba(45,106,191,0.18);
+  --white:     #e6eef8;
+  --muted:     rgba(230,238,248,0.45);
+  --green:     #00e87a;
+  --red:       #ff4d6a;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ===== GRID BACKGROUND ===== */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(74,130,200,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,130,200,0.05) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 15% 50%, rgba(20,60,150,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 10%, rgba(20,60,150,0.12) 0%, transparent 50%);
+}
+
+/* ===== CURSOR ===== */
+.cursor {
+  position: fixed; width: 8px; height: 8px;
+  background: var(--gold); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width .3s, height .3s, background .3s;
+}
+.cursor-ring {
+  position: fixed; width: 32px; height: 32px;
+  border: 1px solid rgba(201,169,74,0.45); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: width .3s, height .3s;
+}
+
+/* ===== NAV ===== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 60px;
+  background: linear-gradient(to bottom, rgba(5,15,30,0.97) 70%, transparent);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(74,130,200,0.08);
+}
+.nav-brand { display: flex; align-items: center; gap: 14px; }
+.nav-logo-img { width: 48px; height: 48px; object-fit: contain; }
+.nav-logo-text {
+  font-family: 'DM Serif Display', serif;
+  font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold);
+}
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  color: var(--white);
+  text-decoration: none; font-size: 11px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 600; transition: color .3s;
+}
+.nav-links a:hover { color: var(--goldl); }
+.nav-cta {
+  border: 1px solid var(--gold) !important;
+  color: var(--gold) !important;
+  padding: 8px 20px;
+  transition: all .3s !important;
+}
+.nav-cta:hover { background: var(--gold) !important; color: var(--bg) !important; }
+
+/* ===== HERO ===== */
+#hero {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 140px 60px 80px;
+  overflow: hidden;
+}
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(100px); pointer-events: none;
+}
+.orb1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(20,70,200,0.18) 0%, transparent 70%);
+  top: -100px; right: -80px;
+  animation: orbFloat 9s ease-in-out infinite;
+}
+.orb2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(201,169,74,0.08) 0%, transparent 70%);
+  bottom: 0; left: 15%;
+  animation: orbFloat 12s ease-in-out infinite reverse;
+}
+@keyframes orbFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-28px); }
+}
+
+.hero-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; letter-spacing: 0.3em;
+  color: var(--gold); text-transform: uppercase;
+  margin-bottom: 28px;
+  display: flex; align-items: center; gap: 14px;
+  opacity: 0; animation: fadeUp .8s ease forwards .3s;
+}
+.hero-label::before { content: none; }
+
+.hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(52px, 7vw, 96px);
+  line-height: 1; letter-spacing: -0.02em;
+  color: var(--white);
+  opacity: 0; animation: fadeUp .8s ease forwards .5s;
+}
+.hero-title .gold-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 400;
+  color: var(--gold);
+  font-size: clamp(58px, 7.5vw, 104px);
+  letter-spacing: 0.01em;
+  display: block;
+}
+
+.hero-tagline {
+  margin-top: 40px; max-width: 460px;
+  font-size: 15px; line-height: 1.75; color: var(--muted);
+  opacity: 0; animation: fadeUp .8s ease forwards .7s;
+}
+
+.hero-cta {
+  margin-top: 56px;
+  display: flex; gap: 20px; align-items: center;
+  opacity: 0; animation: fadeUp .8s ease forwards .9s;
+}
+.btn-primary {
+  background: var(--gold); color: var(--bg);
+  padding: 15px 34px;
+  font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  border: none; cursor: none;
+  text-decoration: none; display: inline-block;
+  transition: all .3s;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+.btn-primary:hover { background: var(--goldl); transform: translateY(-2px); }
+.btn-ghost {
+  border: 1px solid rgba(201,169,74,0.35); color: var(--muted);
+  padding: 15px 28px; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  text-decoration: none; display: inline-block;
+  transition: all .3s; cursor: none;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+.scroll-hint {
+  position: absolute; bottom: 36px; left: 60px;
+  display: flex; align-items: center; gap: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0; animation: fadeUp .8s ease forwards 1.2s;
+}
+.scroll-line { display: none; }
+
+/* Ticker */
+.ticker-wrap {
+  position: absolute; right: 60px; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 14px;
+  opacity: 0; animation: fadeIn 1s ease forwards 1.4s;
+}
+.ticker-item {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--muted);
+  display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
+  padding: 12px 16px;
+  border: 1px solid var(--borderb);
+  background: rgba(10,25,55,0.75); backdrop-filter: blur(8px);
+  min-width: 110px;
+}
+.ticker-symbol { color: var(--gold); font-size: 10px; letter-spacing: 0.2em; }
+.ticker-price { color: var(--white); font-size: 14px; }
+.up   { color: var(--green); }
+.down { color: var(--red); }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse {
+  0%,100% { opacity: .4; }
+  50%      { opacity: 1; }
+}
+
+/* ===== SHARED SECTION STYLES ===== */
+section { position: relative; z-index: 1; padding: 110px 60px; }
+
+.divider {
+  position: relative; z-index: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+}
+
+.eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 18px;
+  display: inline-block;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-color: rgba(201,169,74,0.5);
+  text-decoration-thickness: 1px;
+}
+.eyebrow::before { content: none; }
+
+.sec-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(32px, 4vw, 52px); line-height: 1.1;
+}
+
+/* ===== MANDATE ===== */
+#mandate { background: var(--navy); }
+.mandate-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; margin-top: 60px; align-items: start;
+}
+.mandate-text p {
+  font-size: 16px; line-height: 1.8; color: var(--muted); margin-bottom: 20px;
+}
+.mandate-text p strong { color: var(--white); font-weight: 600; }
+.pillars { display: flex; flex-direction: column; }
+.pillar {
+  padding: 26px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; gap: 22px; align-items: flex-start;
+  transition: padding-left .3s;
+}
+.pillar:first-child { border-top: 1px solid var(--border); }
+.pillar:hover { padding-left: 10px; }
+.pnum {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: var(--gold); opacity: .5; padding-top: 3px; flex-shrink: 0;
+}
+.pillar h4 {
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px;
+}
+.pillar p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* ===== TRACK RECORD ===== */
+#track { background: var(--bg2); }
+.track-header {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; margin-bottom: 60px; align-items: end;
+}
+.track-intro { font-size: 15px; line-height: 1.8; color: var(--muted); }
+
+.kpi-row {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border); margin-bottom: 48px;
+}
+.kpi-box {
+  background: var(--surface); padding: 32px 28px;
+  position: relative; overflow: hidden; transition: background .3s;
+}
+.kpi-box::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  transform: scaleX(0); transform-origin: left; transition: transform .4s;
+}
+.kpi-box:hover::after { transform: scaleX(1); }
+.kpi-box:hover { background: rgba(201,169,74,0.06); }
+.kpi-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 10px;
+}
+.kpi-value {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px; color: var(--goldl); line-height: 1;
+}
+.kpi-value.green { color: var(--green); }
+.kpi-sub { font-size: 11px; color: var(--muted); margin-top: 6px; font-family: 'DM Mono', monospace; }
+
+/* Trades table */
+.closed-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: var(--white);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.trades-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.trades-label::before { content: none; }
+table { width: 100%; border-collapse: collapse; }
+thead tr { border-bottom: 1px solid rgba(201,169,74,0.3); }
+thead th {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--gold); font-weight: 400; padding: 10px 16px; text-align: left;
+}
+tbody tr { border-bottom: 1px solid rgba(74,130,200,0.08); transition: background .2s; }
+tbody tr:hover { background: rgba(74,130,200,0.06); }
+tbody td { font-family: 'DM Mono', monospace; font-size: 12px; padding: 14px 16px; color: var(--muted); }
+tbody td:first-child { color: var(--white); font-weight: 400; letter-spacing: 0.08em; }
+.td-r { text-align: right; }
+.badge {
+  display: inline-block; padding: 3px 9px;
+  font-size: 9px; letter-spacing: 0.15em; font-weight: 600; border-radius: 2px;
+}
+.badge-long { background: rgba(0,232,122,0.12); color: var(--green); border: 1px solid rgba(0,232,122,0.2); }
+.badge-win  { background: rgba(0,232,122,0.12); color: var(--green); border: 1px solid rgba(0,232,122,0.2); }
+.positive   { color: var(--green) !important; }
+.disc-note  {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  color: rgba(230,238,248,0.22); margin-top: 12px; line-height: 1.6;
+}
+
+/* ===== MODEL ===== */
+#model { background: var(--navy); }
+.model-intro-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; margin-bottom: 60px; align-items: end;
+}
+.model-intro-text { font-size: 15px; line-height: 1.8; color: var(--muted); }
+.model-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+.model-card {
+  background: var(--surface); padding: 36px 30px;
+  position: relative; overflow: hidden; transition: background .4s;
+}
+.model-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  transform: scaleX(0); transform-origin: left; transition: transform .4s;
+}
+.model-card:hover::before { transform: scaleX(1); }
+.model-card:hover { background: rgba(45,106,191,0.12); }
+.model-icon {
+  width: 38px; height: 38px;
+  border: 1px solid var(--borderb);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 22px; color: var(--gold); font-size: 16px;
+}
+.model-card h3 {
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;
+}
+.model-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.model-card-accent {
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  background: var(--goldd);
+  border: 1px solid rgba(201,169,74,0.22) !important;
+}
+.model-card-accent .big-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 48px; color: var(--goldl); line-height: 1;
+}
+.model-card-accent .big-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--muted); text-align: center; margin-top: 6px;
+}
+
+/* ===== RISK ===== */
+#risk { background: var(--bg2); }
+.risk-layout {
+  display: grid; grid-template-columns: 1fr 1.3fr;
+  gap: 90px; margin-top: 56px; align-items: center;
+}
+.risk-dial-wrap {
+  display: flex; align-items: center; justify-content: center; padding: 40px;
+}
+.risk-dial { position: relative; width: 240px; height: 240px; }
+.dial-ring {
+  position: absolute; border-radius: 50%;
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+}
+.dial-ring:nth-child(1) { width: 240px; height: 240px; border: 1px solid var(--border); }
+.dial-ring:nth-child(2) { width: 185px; height: 185px; border: 1px solid rgba(74,130,200,0.25); }
+.dial-ring:nth-child(3) { width: 128px; height: 128px; background: rgba(45,106,191,0.12); border: 1px solid var(--gold); }
+.dial-center {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%); text-align: center;
+}
+.dial-center .dn { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--goldl); display: block; }
+.dial-center .dl { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
+.dial-dot {
+  position: absolute; width: 5px; height: 5px;
+  background: var(--gold); border-radius: 50%;
+  top: 50%; left: 50%; box-shadow: 0 0 10px var(--gold);
+}
+.risk-items { display: flex; flex-direction: column; gap: 20px; }
+.risk-item {
+  display: grid; grid-template-columns: auto 1fr auto;
+  gap: 18px; align-items: center;
+  padding: 18px 22px;
+  border: 1px solid var(--borderb);
+  background: rgba(12,31,56,0.6);
+  transition: all .3s;
+}
+.risk-item:hover { border-color: rgba(201,169,74,0.38); background: rgba(201,169,74,0.06); }
+.risk-icon {
+  width: 30px; height: 30px; border: 1px solid var(--borderb);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold); font-size: 13px; flex-shrink: 0;
+}
+.risk-text h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+.risk-text p  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.risk-badge {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  color: var(--gold); background: var(--goldd);
+  padding: 4px 8px; letter-spacing: 0.1em; white-space: nowrap;
+  border: 1px solid rgba(201,169,74,0.2);
+}
+
+/* ===== PHILOSOPHY ===== */
+#philosophy { background: var(--navy); text-align: center; }
+.phil-inner { max-width: 860px; margin: 0 auto; }
+.phil-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-top: 70px; }
+.phil-card {
+  padding: 44px 28px; border: 1px solid var(--border);
+  position: relative; transition: all .4s;
+}
+.phil-card:hover {
+  border-color: rgba(201,169,74,0.45);
+  transform: translateY(-8px);
+  background: rgba(15,40,80,0.8);
+}
+.phil-card::before {
+  content: '"';
+  position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+  font-family: 'DM Serif Display', serif; font-size: 52px;
+  color: var(--gold); line-height: 1;
+  background: var(--navy); padding: 0 10px;
+}
+.phil-card p {
+  font-family: 'DM Serif Display', serif; font-size: 18px;
+  font-style: italic; line-height: 1.5; color: var(--white); margin-bottom: 18px;
+}
+.phil-card span {
+  font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--gold); font-family: 'DM Mono', monospace;
+}
+
+/* ===== CUSTODY ===== */
+#custody {
+  background: var(--bg);
+  padding: 90px 60px;
+  position: relative; z-index: 1;
+}
+.custody-inner {
+  max-width: 900px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+.custody-left .eyebrow { margin-bottom: 18px; }
+.custody-left h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.1; margin-bottom: 28px;
+}
+.custody-left h2 span { color: var(--gold); }
+.custody-text {
+  font-size: 16px; line-height: 1.85; color: var(--muted);
+}
+.custody-text strong { color: var(--white); }
+.custody-right {
+  display: flex; flex-direction: column; gap: 20px;
+}
+.custody-point {
+  display: flex; gap: 18px; align-items: flex-start;
+  padding: 22px 24px;
+  border: 1px solid var(--borderb);
+  background: var(--surface);
+  transition: all .3s;
+}
+.custody-point:hover {
+  border-color: rgba(201,169,74,0.35);
+  background: rgba(201,169,74,0.05);
+}
+.custody-point-icon {
+  width: 34px; height: 34px; flex-shrink: 0;
+  border: 1px solid rgba(201,169,74,0.3);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold); font-size: 14px;
+}
+.custody-point-text h4 {
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 5px; color: var(--white);
+}
+.custody-point-text p {
+  font-size: 12px; color: var(--muted); line-height: 1.6;
+}
+@media (max-width: 900px) {
+  .custody-inner { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ===== CONTACT ===== */
+#contact { background: var(--bg2); }
+.contact-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+.contact-inner .sec-title { font-size: clamp(34px, 5vw, 64px); margin-bottom: 20px; }
+.contact-intro {
+  font-size: 15px; color: var(--muted); line-height: 1.75;
+  margin-bottom: 52px; max-width: 500px;
+  margin-left: auto; margin-right: auto;
+}
+.contact-form {
+  display: flex; flex-direction: column; gap: 18px;
+  max-width: 460px; margin: 0 auto; text-align: left;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-field { display: flex; flex-direction: column; gap: 7px; }
+.form-field label {
+  font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--muted); font-family: 'DM Mono', monospace;
+}
+.form-field input,
+.form-field select {
+  background: var(--surface); border: 1px solid var(--borderb);
+  color: var(--white); padding: 13px 15px;
+  font-family: 'Syne', sans-serif; font-size: 13px;
+  outline: none; transition: border-color .3s;
+  -webkit-appearance: none; cursor: none;
+}
+.form-field input:focus,
+.form-field select:focus { border-color: var(--gold); }
+.form-field input::placeholder { color: rgba(230,238,248,0.18); }
+.form-field select option { background: var(--surface); color: var(--white); }
+.contact-submit {
+  margin-top: 8px; width: 100%;
+  background: transparent; border: 1px solid var(--gold);
+  color: var(--gold); padding: 17px;
+  font-family: 'Syne', sans-serif; font-size: 11px;
+  font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+  cursor: none; transition: all .3s;
+  position: relative; overflow: hidden;
+}
+.contact-submit::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--gold);
+  transform: translateX(-101%);
+  transition: transform .4s cubic-bezier(.4,0,0,1);
+}
+.contact-submit:hover::before { transform: translateX(0); }
+.contact-submit span { position: relative; z-index: 1; transition: color .4s; }
+.contact-submit:hover span { color: var(--bg); }
+.contact-email { margin-top: 24px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+.contact-email a { color: var(--gold); text-decoration: none; transition: color .3s; }
+.contact-email a:hover { color: var(--goldl); }
+
+/* ===== FOOTER ===== */
+footer {
+  position: relative; z-index: 1;
+  padding: 36px 60px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 16px;
+  background: var(--bg);
+}
+.footer-brand { display: flex; align-items: center; gap: 12px; }
+.footer-logo-img { width: 28px; height: 28px; object-fit: contain; opacity: .8; }
+.footer-logo-text {
+  font-family: 'DM Serif Display', serif; font-size: 12px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
+}
+.footer-copy { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--muted); }
+
+/* ===== STANDALONE DISCLAIMER ===== */
+.disclaimer-full {
+  position: relative; z-index: 1;
+  background: rgba(5,15,30,0.98);
+  border-top: 1px solid rgba(201,169,74,0.15);
+  padding: 32px 60px;
+  text-align: center;
+}
+.disclaimer-full-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: rgba(230,238,248,0.5);
+  line-height: 1.9;
+  max-width: 860px;
+  margin: 0 auto;
+}
+@media (max-width: 900px) {
+  .disclaimer-full { padding: 24px 22px; }
+}
+
+.footer-disc {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  color: rgba(230,238,248,0.85); max-width: 260px;
+  line-height: 1.6; text-align: right;
+}
+.footer-social { display: flex; align-items: center; gap: 14px; }
+.footer-social a {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  border: 1px solid rgba(201,169,74,0.3);
+  color: var(--muted); text-decoration: none;
+  font-size: 14px; transition: all .3s;
+}
+.footer-social a:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,169,74,0.08); }
+
+/* ===== AUDIT BANNER ===== */
+.audit-banner {
+  position: relative; z-index: 1;
+  background: linear-gradient(135deg, var(--navy2) 0%, rgba(45,106,191,0.08) 100%);
+  border-top: 1px solid rgba(201,169,74,0.25);
+  border-bottom: 1px solid rgba(201,169,74,0.25);
+  padding: 22px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+}
+.audit-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.audit-icon {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(201,169,74,0.35);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold); font-size: 15px;
+  flex-shrink: 0;
+}
+.audit-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--white);
+}
+.audit-text strong {
+  display: block;
+  font-size: 12px; color: var(--goldl);
+  letter-spacing: 0.18em; margin-bottom: 2px;
+}
+.audit-sep {
+  width: 1px; height: 36px;
+  background: rgba(201,169,74,0.2);
+}
+@media (max-width: 900px) {
+  .audit-banner { flex-direction: column; gap: 20px; padding: 28px 22px; }
+  .audit-sep { width: 40px; height: 1px; }
+}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: .12s; }
+.d2 { transition-delay: .24s; }
+.d3 { transition-delay: .36s; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  nav { padding: 18px 22px; }
+  .nav-links { display: none; }
+  section { padding: 72px 22px; }
+  #hero { padding: 110px 22px 72px; }
+  .mandate-grid,
+  .model-intro-row,
+  .risk-layout,
+  .track-header { grid-template-columns: 1fr; gap: 36px; }
+  .model-cards { grid-template-columns: 1fr; }
+  .kpi-row { grid-template-columns: 1fr; gap: 1px; }
+  .phil-cards { grid-template-columns: 1fr; gap: 20px; }
+  .form-row { grid-template-columns: 1fr; }
+  .ticker-wrap { display: none; }
+  footer { flex-direction: column; gap: 16px; text-align: center; }
+  .footer-disc { text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .col-price { display: none; }
+  #closed-table th.col-price, #closed-table td.col-price { display: none; }
+  #live-table th, #live-table td { font-size: 11px; padding: 10px 6px; }
+  #closed-table th, #closed-table td { font-size: 11px; padding: 10px 6px; }
+}
+
+/* ===== SISTEMA R ===== */
+#sistema-r { padding: 100px 5vw; max-width: 1100px; margin: 0 auto; }
+.r-intro { font-size: 14px; color: var(--muted); line-height: 1.8; max-width: 640px; margin-bottom: 56px; }
+.r-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+.r-block h4 { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; }
+.r-rule { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; padding: 14px 18px; border: 1px solid rgba(201,169,74,0.12); background: rgba(201,169,74,0.03); }
+.r-rule-icon { color: var(--gold); font-size: 14px; margin-top: 1px; flex-shrink: 0; }
+.r-rule-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.r-rule-text strong { color: var(--fg); }
+.r-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+.r-table th { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; color: var(--gold); text-transform: uppercase; padding: 10px 14px; text-align: left; border-bottom: 1px solid rgba(201,169,74,0.2); }
+.r-table td { padding: 10px 14px; font-size: 12px; color: var(--muted); border-bottom: 1px solid rgba(255,255,255,0.04); }
+.r-table td:last-child { color: var(--goldl); font-family: 'DM Mono', monospace; font-weight: 600; }
+.r-reinforce { margin-top: 32px; padding: 20px 24px; border-left: 2px solid var(--gold); background: rgba(201,169,74,0.05); }
+.r-reinforce .r-reinforce-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+.r-reinforce p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+/* ===== CUSTOS ===== */
+#custos { padding: 100px 5vw; max-width: 1100px; margin: 0 auto; }
+.custos-headline { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+.custos-claim { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 56px; max-width: 500px; }
+.custos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 40px; }
+.custo-card { border: 1px solid rgba(201,169,74,0.2); padding: 40px 36px; background: rgba(201,169,74,0.03); position: relative; overflow: hidden; }
+.custo-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); }
+.custo-num { font-family: 'DM Mono', monospace; font-size: 56px; font-weight: 700; color: var(--goldl); line-height: 1; margin-bottom: 6px; }
+.custo-unit { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+.custo-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.custo-desc strong { color: var(--fg); }
+.custos-note { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: rgba(201,169,74,0.6); text-align: center; text-transform: uppercase; padding-top: 24px; border-top: 1px solid rgba(201,169,74,0.1); }
+@media(max-width:700px){ .r-layout { grid-template-columns: 1fr; } .custos-grid { grid-template-columns: 1fr; } }
+
+/* ===== TRADE SHOWCASE ===== */
+.showcase-header { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px; }
+.showcase-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); max-width: 280px; line-height: 1.9; text-align: right;
+}
+.showcase-note strong { color: var(--gold); }
+.showcase-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 20px; margin-top: 50px;
+}
+.showcase-card {
+  background: var(--surface); border: 1px solid var(--borderb);
+  padding: 26px; position: relative; transition: all .3s;
+}
+.showcase-card::before, .showcase-card::after {
+  content: ''; position: absolute; width: 10px; height: 10px;
+}
+.showcase-card::before { top: 7px; left: 7px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+.showcase-card::after  { top: 7px; right: 7px; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+.showcase-card:hover { border-color: rgba(201,169,74,0.38); background: rgba(201,169,74,0.04); transform: translateY(-3px); }
+.sc-type {
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--borderb);
+}
+.sc-type.long  { color: var(--green); }
+.sc-type.tp    { color: var(--goldl); }
+.sc-type.short { color: var(--red); }
+.sc-ticker { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--white); margin-bottom: 3px; }
+.sc-name { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+.sc-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px; }
+.sc-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.sc-val { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: var(--white); }
+.sc-val.pos { color: var(--green); }
+.sc-val.gold { color: var(--goldl); }
+.sc-val.neg { color: var(--red); }
+.sc-divider { height: 1px; background: var(--borderb); margin: 11px 0; }
+.sc-footer { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(230,238,248,0.18); text-align: center; margin-top: 14px; }
+.showcase-disc {
+  margin-top: 40px; padding: 18px 22px;
+  border-left: 2px solid rgba(201,169,74,0.3);
+  background: rgba(201,169,74,0.03);
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  line-height: 1.9; color: rgba(230,238,248,0.3);
+}
+.showcase-disc strong { color: rgba(201,169,74,0.65); }
+@media (max-width: 900px) { .showcase-grid { grid-template-columns: 1fr 1fr; } .showcase-note { text-align: left; } }
+@media (max-width: 600px) { .showcase-grid { grid-template-columns: 1fr; } }
+
+/* ===== BACK TO TOP ===== */
+#back-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  background: var(--gold);
+  color: var(--bg);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 9999;
+  box-shadow: 0 4px 16px rgba(201,169,74,0.4);
+}
+#back-to-top.visible { opacity: 1; pointer-events: all; }
+#back-to-top:hover { transform: translateY(-3px); background: var(--goldl); }
+
+/* ===== LANG TOGGLE ===== */
+.lang-selector{position:relative;margin-left:14px;}
+#lang-toggle{background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;padding:6px 14px;cursor:pointer;transition:all .3s;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;}
+#lang-toggle:hover{background:var(--gold);color:var(--bg);}
+.lang-dropdown{position:absolute;top:calc(100% + 6px);right:0;background:rgba(5,15,30,0.97);border:1px solid var(--border);backdrop-filter:blur(16px);z-index:200;display:none;flex-direction:column;min-width:140px;}
+.lang-dropdown.open{display:flex;}
+.lang-dropdown button{background:transparent;border:none;border-bottom:1px solid rgba(201,169,74,0.1);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;padding:10px 16px;cursor:pointer;text-align:left;transition:all .2s;text-transform:uppercase;}
+.lang-dropdown button:last-child{border-bottom:none;}
+.lang-dropdown button:hover{color:var(--gold);background:rgba(201,169,74,0.07);}
+.lang-dropdown button.active-lang{color:var(--goldl);}
+
+/* ===== AUDIT STRIPE ===== */
+.audit-stripe {
+  position: relative; z-index: 1;
+  background: linear-gradient(90deg, transparent, rgba(201,169,74,0.07) 20%, rgba(201,169,74,0.13) 50%, rgba(201,169,74,0.07) 80%, transparent);
+  border-top: 1px solid rgba(201,169,74,0.4);
+  border-bottom: 1px solid rgba(201,169,74,0.4);
+  padding: 18px 60px;
+  text-align: center;
+  overflow: hidden;
+}
+.audit-stripe::before {
+  content: '';
+  position: absolute; top: 0; left: -100%; right: -100%; height: 100%;
+  background: linear-gradient(90deg, transparent 30%, rgba(201,169,74,0.06) 50%, transparent 70%);
+  animation: auditSweep 4s ease-in-out infinite;
+}
+@keyframes auditSweep {
+  0%,100% { transform: translateX(-60%); }
+  50%      { transform: translateX(60%); }
+}
+.audit-stripe-text {
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(10px, 1.2vw, 14px);
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--goldl);
+  position: relative; z-index: 1;
+}
+.audit-stripe-icon {
+  color: var(--gold);
+  margin-right: 10px;
+}
+
+/* ===== NAV RIGHT ===== */
+.nav-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.nav-right-top { display: flex; align-items: center; gap: 0; }
+.nav-right-social { display: flex; align-items: center; gap: 10px; }
+.nav-right-social a {
+  display: flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px;
+  border: 1px solid rgba(201,169,74,0.25);
+  color: var(--muted); text-decoration: none;
+  font-size: 12px; transition: all .3s;
+}
+.nav-right-social a:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,169,74,0.08); }
+
+.nav-fala {
+  display: inline-flex; align-items: center;
+  border: 1px solid rgba(100,200,255,0.4);
+  color: rgba(130,210,255,0.9);
+  padding: 6px 14px; margin-left: 14px;
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  text-decoration: none; transition: all .3s;
+  white-space: nowrap;
+}
+.nav-fala:hover { background: rgba(100,200,255,0.12); border-color: rgba(100,200,255,0.7); color: #a0e0ff; }
+
+.nav-active { color: var(--goldl) !important; }
+
+
+/* ===== HAMBURGER MENU ===== */
+
+/* ===== HERO MOBILE NAV LINKS ===== */
+.hero-mobile-nav {
+  display: none;
+}
+@media (max-width: 900px) {
+  .hero-mobile-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 0;
+    margin-top: 40px;
+  }
+  .hero-mobile-nav a {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    padding: 7px 14px;
+    border: 1px solid rgba(201,169,74,0.2);
+    transition: all .3s;
+    white-space: nowrap;
+  }
+  .hero-mobile-nav a:hover { color: var(--gold); border-color: rgba(201,169,74,0.5); }
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px; height: 36px;
+  background: transparent;
+  border: 1px solid rgba(201,169,74,0.35);
+  cursor: pointer;
+  padding: 8px;
+  transition: border-color .3s;
+  flex-shrink: 0;
+}
+.hamburger:hover { border-color: var(--gold); }
+.hamburger span {
+  display: block; height: 1px;
+  background: var(--gold);
+  transition: all .3s;
+  transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(5,15,30,0.97);
+  backdrop-filter: blur(20px);
+  z-index: 99;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.mobile-menu.open { opacity: 1; }
+.mobile-menu a {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px; letter-spacing: 0.06em;
+  color: var(--white); text-decoration: none;
+  transition: color .3s;
+}
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu a.nav-cta {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase;
+  border: 1px solid var(--gold); color: var(--gold);
+  padding: 12px 28px; margin-top: 8px;
+  font-weight: 700;
+}
+.mobile-menu-close {
+  position: absolute; top: 22px; right: 22px;
+  background: transparent; border: none;
+  color: var(--muted); font-size: 28px;
+  cursor: pointer; line-height: 1;
+  transition: color .3s;
+}
+.mobile-menu-close:hover { color: var(--gold); }
+
+@media (max-width: 900px) {
+  
+/* ===== HERO MOBILE NAV LINKS ===== */
+.hero-mobile-nav {
+  display: none;
+}
+@media (max-width: 900px) {
+  .hero-mobile-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 0;
+    margin-top: 40px;
+  }
+  .hero-mobile-nav a {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    padding: 7px 14px;
+    border: 1px solid rgba(201,169,74,0.2);
+    transition: all .3s;
+    white-space: nowrap;
+  }
+  .hero-mobile-nav a:hover { color: var(--gold); border-color: rgba(201,169,74,0.5); }
+}
+
+.hamburger { display: flex; }
+  .nav-right-top .nav-links { display: none !important; }
+  .nav-right-top .nav-fala { display: none; }
+}
+</style>
+  <script src="https://www.google.com/recaptcha/api.js?render=6LexoIQsAAAAACwf9OqbxZ7QCtvZs5HhprQOGNqG"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CSVCGMN85G"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CSVCGMN85G');
+  </script>
+
+  <style>
+    .faq-hero{padding:160px 60px 80px;text-align:center;position:relative;z-index:1}
+    .faq-eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:20px;display:block}
+    .faq-hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.8rem);color:var(--white);line-height:1.15;margin-bottom:20px}
+    .faq-hero h1 span{color:var(--gold)}
+    .faq-hero p{color:var(--muted);font-size:1.05rem;max-width:640px;margin:0 auto;line-height:1.75}
+    .faq-container{max-width:860px;margin:0 auto;padding:60px 60px 120px;position:relative;z-index:1}
+    .faq-category{margin-bottom:56px}
+    .faq-category-title{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .faq-item{border:1px solid var(--border);border-radius:4px;margin-bottom:10px;background:var(--navy);overflow:hidden;transition:border-color .3s}
+    .faq-item:hover{border-color:rgba(201,169,74,.4)}
+    .faq-question{width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:20px 26px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+    .faq-question-text{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:600;color:var(--white);line-height:1.4}
+    .faq-icon{color:var(--gold);font-size:1.3rem;font-weight:300;flex-shrink:0;transition:transform .3s;width:22px;text-align:center}
+    .faq-item.open .faq-icon{transform:rotate(45deg)}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;padding:0 26px}
+    .faq-item.open .faq-answer{max-height:500px;padding:0 26px 22px}
+    .faq-answer p{color:var(--muted);font-size:.88rem;line-height:1.8}
+    .faq-answer a{color:var(--gold);text-decoration:none}
+    .faq-answer a:hover{text-decoration:underline}
+    .faq-cta{text-align:center;padding:80px 60px;border-top:1px solid var(--border);position:relative;z-index:1}
+    .faq-cta h2{font-family:'DM Serif Display',serif;font-size:2.2rem;color:var(--white);margin-bottom:14px}
+    .faq-cta p{color:var(--muted);margin-bottom:32px;font-size:.95rem}
+    .btn-gold{display:inline-block;border:1px solid var(--gold);color:var(--gold);padding:14px 36px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;text-decoration:none;transition:all .3s;border-radius:2px}
+    .btn-gold:hover{background:var(--gold);color:var(--bg)}
+    @media(max-width:768px){.faq-hero{padding:120px 24px 60px}.faq-container{padding:40px 24px 80px}.faq-cta{padding:60px 24px}}
+  </style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<nav>
+  <div class="nav-brand">
+    <img class="nav-logo-img" id="nav-logo" alt="EQC Logo" src="/assets/eqc-logo.png">
+    <span class="nav-logo-text">Evolution Quantum Capital</span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-right-top">
+      <ul class="nav-links">
+        <li><a href="index.html"  data-i18n="nav_home">Home</a></li>
+        <li><a href="system.html" data-i18n="nav_system">System</a></li>
+        <li><a href="portfolio.html" data-i18n="nav_portfolio">Portfolio</a></li>
+        <li><a href="/insights/" data-i18n="nav_insights">Insights</a></li>
+        <li><a href="community.html" data-i18n="nav_community">Community</a></li>
+        <li><a href="faq.html" class="nav-active">FAQ</a></li>
+        <li><a href="tools.html" data-i18n="nav_tools">Tools</a></li>
+        <li><a href="index.html#contact" class="nav-cta" data-i18n="nav_contact_link">Contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button><div class="lang-selector">
+        <button id="lang-toggle" onclick="toggleLangDropdown()">EN <span style="font-size:8px;opacity:0.7;">▼</span></button>
+        <div class="lang-dropdown" id="lang-dropdown">
+          <button onclick="setLang('pt')">PT - Português</button>
+          <button onclick="setLang('en')" class="active-lang">EN - English</button>
+          <button onclick="setLang('zh')">中文 - Chinese</button>
+          <button onclick="setLang('ja')">日本語 - Japanese</button>
+          <button onclick="setLang('es')">ES - Español</button>
+          <button onclick="setLang('fr')">FR - Français</button>
+          <button onclick="setLang('ar')">عربي - Arabic</button>
+        </div>
+      </div>
+      <a href="https://discord.com/channels/1496242250877763785/1496254249120825467" target="_blank" rel="noopener" class="nav-fala" data-i18n="fala_connosco">Talk to Us</a>
+    </div>
+    <div class="nav-right-social">
+      <a href="https://www.instagram.com/EvolutionQC" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram @evolutionqc">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+      </a>
+      <a href="https://x.com/EvolutionQC" target="_blank" rel="noopener" aria-label="X" title="X @EvolutionQC">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L2.25 2.25h6.988l4.27 5.647zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+      </a>
+      <a href="https://www.tradingview.com/u/evolutionqc/" target="_blank" rel="noopener" aria-label="TradingView" title="TradingView @evolutionqc">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 24 18" fill="currentColor"><path d="M15.8654 8.2789c0 1.3541-1.0978 2.4519-2.452 2.4519-1.354 0-2.4519-1.0978-2.4519-2.452 0-1.354 1.0978-2.4518 2.452-2.4518 1.3541 0 2.4519 1.0977 2.4519 2.4519zM9.75 6H0v4.9038h4.8462v7.2692H9.75Zm8.5962 0H24l-5.1058 12.173h-5.6538z"></path></svg>
+      </a>
+      <a href="https://t.me/+dN1L-SlHNN02ZWI0" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram EQC">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path></svg>
+      </a>
+      <a href="https://discord.gg/cSAJb4FZ" target="_blank" rel="noopener" aria-label="Discord" title="Discord EQC">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.082.114 18.105.13 18.12a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"></path></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-menu-close" id="menu-close" aria-label="Close">&#10005;</button>
+  <a href="/index.html" data-i18n="nav_home">Home</a>
+  <a href="/system.html" data-i18n="nav_system">System</a>
+  <a href="/portfolio.html" data-i18n="nav_portfolio">Portfolio</a>
+  <a href="/insights/" data-i18n="nav_insights">Insights</a>
+  <a href="/community.html" data-i18n="nav_community">Community</a>
+  <a href="/tools.html" data-i18n="nav_tools">Tools</a>
+  <a href="/faq.html">FAQ</a>
+  <a href="/index.html#contact" class="nav-cta" data-i18n="nav_contact_link">Contact</a>
+</div>
+
+
+<section class="faq-hero">
+  <span class="faq-eyebrow">Knowledge Base</span>
+  <h1>Managed Account <span>FAQ</span></h1>
+  <p>Everything you need to know about EQC's systematic strategy, account structure, fees, and how to get started.</p>
+</section>
+
+<div class="faq-container">
+
+  <div class="faq-category">
+    <div class="faq-category-title">About EQC</div>
+    <div class="faq-item open">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">What is Evolution Quantum Capital (EQC)?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>EQC is a systematic, rules-based investment manager. We apply a proprietary R-system to equity markets, taking positions based on clearly defined, pre-set rules rather than discretionary judgment. Our goal is asymmetric risk management: limiting downside exposure while capturing compound growth over time.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">What makes EQC different from a traditional fund or discretionary manager?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Three things set EQC apart. First, everything is rules-based — no emotional decisions, no market opinions, no deviations from the system. Second, we operate through IBKR managed accounts, meaning your capital stays in your own name and account at all times — we never hold custody. Third, our cost structure is performance-only: 15% of profits, zero monthly fees. <a href="/system.html">Learn about our system &rarr;</a></p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">Who is EQC designed for?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>EQC is designed for qualified investors — typically High-Net-Worth Individuals (HNWI), Family Offices, and Institutional allocators — who want systematic, rules-based exposure to equity markets without the complexity of running their own trading operation.</p></div>
+    </div>
+  </div>
+
+  <div class="faq-category">
+    <div class="faq-category-title">Accounts &amp; Custody</div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">Do I need my own Interactive Brokers account?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Yes. You open and own your own Interactive Brokers (IBKR) account. EQC is granted limited trading authority via IBKR's managed account programme — we can execute trades on your behalf, but we cannot withdraw your funds, transfer assets, or access your capital outside of the agreed trading mandate. Your money stays in your name, in your account, at all times.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">Is my capital safe? What happens if EQC ceases operations?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Because your capital is held in your own IBKR account, it is not at risk if EQC ceases operations. You retain full ownership and control at all times. IBKR accounts benefit from SIPC protection up to USD 500,000 (including USD 250,000 for cash). Note: SIPC covers broker insolvency, not trading losses.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">What is the minimum investment?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Minimum investment thresholds are discussed during the qualification process. Please complete the <a href="/#contact">contact form on our homepage</a> to begin a conversation. EQC is selective about who it works with to ensure the strategy is the right fit for your goals and risk tolerance.</p></div>
+    </div>
+  </div>
+
+  <div class="faq-category">
+    <div class="faq-category-title">The Strategy &amp; System</div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">How does EQC's R-system work?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>The R-system is a three-phase, rules-based framework. In Phase 1 (Positioning), initial positions are sized using pre-defined risk units (R-multiples) relative to account equity. In Phase 2 (DCA &amp; Scaling), Dollar-Cost Averaging adds to positions at defined intervals if the market moves against the entry. In Phase 3 (Management), profit targets, trailing stops, and hedge triggers activate automatically — not by emotion. <a href="/system.html">Full system overview &rarr;</a></p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">What markets does EQC trade?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>EQC primarily operates in US equity markets, with selective exposure to equity indices and related instruments. The system monitors VIX conditions and uses macro instruments (TLT, GLD) as part of its risk management overlay.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">What is the expected return and drawdown profile?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Past performance does not guarantee future results. EQC's track record — available on the <a href="/portfolio.html">Portfolio page</a> — shows verified historical metrics including total return, win rate, profit factor, maximum drawdown, and Sortino ratio. We target a Sortino ratio above 1.5 and maximum drawdown below 25%.</p></div>
+    </div>
+  </div>
+
+  <div class="faq-category">
+    <div class="faq-category-title">Fees &amp; Costs</div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">What are EQC's fees?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>EQC charges a single performance fee of 15% on net new profits. There are no management fees, no subscription fees, and no monthly charges. A 10% security deposit is required at the start of the relationship — returned in full when the relationship ends.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">How is the performance fee calculated?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>The 15% performance fee applies to net new profits above a high-water mark. If the account loses value, no fee is charged until those losses are recovered and new profits are generated. This structure fully aligns EQC's incentives with yours.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">Are there any brokerage or trading costs?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Standard IBKR brokerage commissions apply to all trades in your account, paid directly to Interactive Brokers — not to EQC. IBKR is one of the lowest-cost brokers for institutional-grade trading, typically USD 0.005 per share or less.</p></div>
+    </div>
+  </div>
+
+  <div class="faq-category">
+    <div class="faq-category-title">Getting Started</div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">How do I become an EQC investor?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>The process has four steps: (1) Submit the <a href="/#contact">contact form</a> to begin a qualification conversation. (2) If EQC is a mutual fit, you receive onboarding documentation and the fee agreement. (3) You open or designate an IBKR account and grant EQC limited trading authority. (4) Once the security deposit is placed, EQC begins managing your account.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span class="faq-question-text">How long does onboarding take?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Onboarding typically takes 5&ndash;10 business days, depending on how quickly your IBKR account is verified. If you already have an IBKR account, the process can be completed in as few as 3 business days.</p></div>
+    </div>
+  </div>
+
+</div>
+
+<section class="faq-cta">
+  <h2>Still Have Questions?</h2>
+  <p>Reach out directly &mdash; we respond to every qualified inquiry personally.</p>
+  <a href="/#contact" class="btn-gold">Request a Private Briefing &rarr;</a>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <img class="footer-logo-img" id="footer-logo" alt="EQC" src="/assets/eqc-logo.png">
+    <span class="footer-logo-text">Evolution Quantum Capital</span>
+  </div>
+  <div class="footer-social">
+    <a href="https://www.instagram.com/EvolutionQC" target="_blank" rel="noopener" aria-label="Instagram @EvolutionQC" title="Instagram @EvolutionQC">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+    </a>
+    <a href="https://x.com/EvolutionQC" target="_blank" rel="noopener" aria-label="X @EvolutionQC" title="X @EvolutionQC">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L2.25 2.25h6.988l4.27 5.647zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+    </a>
+    <a href="https://www.tradingview.com/u/evolutionqc/" target="_blank" rel="noopener" aria-label="TradingView @evolutionqc" title="TradingView @evolutionqc">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 24 18" fill="currentColor">
+        <path d="M15.8654 8.2789c0 1.3541-1.0978 2.4519-2.452 2.4519-1.354 0-2.4519-1.0978-2.4519-2.452 0-1.354 1.0978-2.4518 2.452-2.4518 1.3541 0 2.4519 1.0977 2.4519 2.4519zM9.75 6H0v4.9038h4.8462v7.2692H9.75Zm8.5962 0H24l-5.1058 12.173h-5.6538z"></path>
+      </svg>
+    </a>
+    <a href="https://t.me/+dN1L-SlHNN02ZWI0" target="_blank" rel="noopener" aria-label="Telegram EQC" title="Telegram EQC">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path></svg>
+    </a>
+    <a href="https://discord.gg/cSAJb4FZ" target="_blank" rel="noopener" aria-label="Discord EQC" title="Discord EQC">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.082.114 18.105.13 18.12a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"></path></svg>
+    </a>
+  </div>
+  <div class="footer-copy" data-i18n="footer_copy">© 2026 Evolution Quantum Capital · All Rights Reserved</div>
+</footer>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">&uarr;</button>
+
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CSVCGMN85G');
+  </script>
+<script>
+// ===== TRANSLATIONS =====
+const TRANSLATIONS = {
+  pt: {
+    partial_title: 'TOP 10 POSIÇÕES EM CURSO - TPs PARCIAIS',
+    disc_partial: 'Posições com saídas parciais já executadas. PNL% calculado por TP atingido.',
+    r_eyebrow: 'O Sistema R',
+    r_title: 'Risco Definido<br>Sempre',
+    r_intro: 'A unidade R representa o risco máximo por operação - sempre igual a 2.5% do valor da conta. Cada posição é dimensionada em torno deste valor, garantindo consistência e proteção independentemente do tamanho da carteira.',
+    r_struct_label: 'Estrutura de Entrada',
+    r_rule1: '<strong>4R por posição</strong> - exposição máxima por ativo em condições normais.',
+    r_rule2: '<strong>1 Take Profit por cada R</strong> - saída parcial progressiva.',
+    r_rule3: '<strong>4 TPs definidos tecnicamente</strong>, caso a caso, com base na estrutura do gráfico.',
+    r_rule4: '<strong>Saída de 1R em cada TP atingido</strong> - redução gradual do risco aberto.',
+    r_reinforce_label: 'Reforço de Posição',
+    r_reinforce_text: 'Possibilidade de reforço até <strong>8R por ativo</strong> - utilizado estrategicamente quando o mercado oferece uma segunda entrada a preço mais favorável, reduzindo o preço médio e melhorando o perfil risco/retorno.',
+    r_table_label: 'Valor de 1R por Tamanho de Conta',
+    r_th_size: 'Tamanho de Conta', r_th_value: 'Valor de 1R',
+    custos_eyebrow: 'Estrutura de Custos',
+    custos_title: 'Simples<br>Transparente<br>Alinhado',
+    custos_claim: 'Sem mensalidades. Sem taxas fixas. A EQC só ganha quando o cliente ganha.',
+    custo1_unit: 'Comissão de Desempenho',
+    custo1_desc: 'Cobrada <strong>apenas sobre lucros gerados</strong>. Se a operação não for lucrativa, não há qualquer comissão. Alinhamento total entre gestor e cliente.',
+    custo2_unit: 'Depósito de Garantia',
+    custo2_desc: 'Do valor total da conta, mantido na conta EQC. <strong>Exclusivamente para débito de comissões</strong> - nenhum outro acesso ao seu capital.',
+    custos_note: 'A EQC só ganha quando o cliente ganha · Sem mensalidades · Sem taxas fixas',
+    nav_home: 'Início', nav_system: 'Sistema', nav_portfolio: 'Portfólio',
+    nav_community: 'Comunidade', nav_tools: 'Ferramentas',
+    nav_contact_link: 'Contacto',
+    nav_mandate: 'Mandato', nav_track: 'Historial', nav_model: 'Modelo',
+    nav_activity: 'Atividade',
+    nav_r: 'Sistema R', nav_custos: 'Custos',
+    nav_philosophy: 'Filosofia', nav_contact: 'Contacto',
+    system_eyebrow: '// Sistema EQC',
+    system_title: 'O Sistema<br>As Suas Regras',
+    system_p1: 'A Evolution Quantum Capital opera segundo um conjunto de regras predefinidas - não há espaço para discricionariedade ou julgamento subjetivo. Cada operação é definida antes de ser aberta.',
+    system_p2: 'O risco é quantificado à entrada. O dimensionamento de posição é fixo. Os resultados são medidos em múltiplos de R - não em percentagens de ruído.',
+    system_p3: 'O sistema não reage a headlines nem a sentimento de mercado. Executa a sua vantagem estatística, operação após operação.',
+    sys1_title: 'Execução Baseada em Regras', sys1_text: 'Todos os critérios de entrada, stop-loss e take-profit são definidos antes de a posição ser aberta - e nunca ajustados por impulso.',
+    sys2_title: 'Risco Quantificado', sys2_text: 'O risco por operação é fixo em 1R. Todos os resultados são medidos nessa unidade, mantendo a avaliação de desempenho consistente.',
+    sys3_title: 'Não Discricionário', sys3_text: 'O sistema elimina o viés humano. Se o setup qualifica, a operação é executada. Se não qualifica, é descartada. Sem exceções.',
+    sys4_title: 'Historial Auditável', sys4_text: 'Cada operação é registada com data, entrada e saída verificadas. Um historial transparente - não uma seleção de destaques.',
+    showcase_eyebrow: '// Atividade Recente',
+    showcase_title: 'Operações<br>Recentes',
+    showcase_note: 'Partilhado para <strong>transparência</strong> e visibilidade da marca. Não são recomendações. A EQC não é um serviço de sinais.',
+    showcase_disc: '<strong>Importante:</strong> Os cards partilhados pela EQC têm fins <strong>informativos e de transparência</strong>. Não constituem aconselhamento de investimento nem recomendação de qualquer tipo. A EQC não é um fornecedor de sinais. Faça sempre a sua própria análise.',
+    hero_label: 'Posicionamento Assimétrico de Risco',
+    hero_tagline: 'Uma abordagem sistemática à preservação de capital e crescimento composto. O controlo do risco é primário. O retorno é uma consequência estrutural.',
+    hero_cta1: 'Pedir Acesso', hero_cta2: 'Ver Historial', hero_scroll: 'Explorar',
+    mandate_eyebrow: 'Mandato',
+    mandate_title: 'Preservação de Capital<br>Retornos Estruturais',
+    mandate_p1: 'A Evolution Quantum Capital opera sob um mandato claro: <strong>proteger o capital primeiro, fazê-lo crescer depois.</strong> Os retornos não são perseguidos, emergem como consequência de uma gestão disciplinada do risco.',
+    mandate_p2: 'Cada decisão decorre de regras predefinidas. Não há espaço para narrativa, opinião ou viés do momento. O modelo adapta-se; a disciplina não.',
+    mandate_universe_label: 'UNIVERSO DE ATUAÇÃO -',
+    mandate_universe_text: 'A EQC opera em qualquer mercado, instrumento ou classe de ativos - ações, ETFs, futuros, forex, cripto e mais. Se tiver liquidez e estrutura técnica, o sistema opera.',
+    pillar1_title: 'Abordagem Sistemática', pillar1_text: 'Execução totalmente baseada em regras em todos os regimes de mercado. Sem exceções, sem substituições.',
+    pillar2_title: 'Risco em Primeiro', pillar2_text: 'O dimensionamento de posição, entrada e saída derivam todos de parâmetros de risco, nunca de objetivos de retorno.',
+    pillar3_title: 'Crescimento Composto', pillar3_text: 'O posicionamento assimétrico captura grandes movimentos limitando as perdas, permitindo o crescimento composto a longo prazo.',
+    track_eyebrow: 'Historial',
+    track_title: 'Resultados Reais<br>Operações Fechadas',
+    track_intro: 'Todas as posições abaixo são operações fechadas com dados de entrada/saída verificados. Cada operação foi executada de forma não discricionária no âmbito do modelo EQC.',
+    kpi1_label: 'Ganho Total Fechado ($)', kpi1_sub: 'Em todas as posições fechadas',
+    kpi2_label: 'Melhor Operação', kpi2_sub: 'IBRX - ganho de 163.64%',
+    kpi3_label: 'R-Ratio Médio', kpi3_sub: 'Recompensa/risco por operação',
+    closed_title: 'TOP 10 POSIÇÕES FECHADAS 2026', open_title: 'TOP 10 POSIÇÕES ABERTAS',
+    loading: 'A carregar...',
+    disc_closed: 'Resultados passados não garantem resultados futuros. Todos os dados refletem posições fechadas executadas sob o modelo sistemático EQC. Documentação completa disponível mediante pedido em contexto privado.',
+    disc_open: 'Posições abertas em tempo real. Dados importados automaticamente via EQC Portfolio Live.',
+    audit1_title: '100% Auditável', audit1_text: 'Cada operação documentada com entrada, saída e data',
+    audit2_title: 'Precisão Humana e Proprietária', audit2_text: 'Cada decisão é sustentada por uma metodologia de AT exclusiva, não por algoritmos',
+    audit3_title: 'Transparência Total', audit3_text: 'Documentação disponível mediante pedido',
+    model_eyebrow: 'Modelo de Investimento',
+    model_title: 'Como o Sistema Funciona',
+    model_intro: 'Um processo de cinco etapas que começa na classificação do regime e termina na gestão dinâmica de posições - cada etapa regida por parâmetros predefinidos sem substituição humana.',
+    mc1_title: 'Avaliação de Regime', mc1_text: 'Classificação estrutural das condições de mercado atuais e do estado de liquidez para determinar o ambiente operacional.',
+    mc2_title: 'Risco por Posição', mc2_text: 'Cada operação tem uma perda máxima predefinida em unidades R antes da entrada. O dimensionamento da posição segue automaticamente.',
+    mc3_title: 'Entrada em Zona de Valor', mc3_text: 'Alocação progressiva de capital em zonas de valor identificadas - aumentando a exposição à medida que a convicção cresce, nunca por esperança.',
+    mc4_title: 'Saídas por R-Múltiplo', mc4_text: 'Lógica de saída definida por R-múltiplos, eliminando a tomada de decisão emocional em momentos críticos.',
+    mc5_title: 'Ajuste Dinâmico', mc5_text: 'Os parâmetros recalibram-se à medida que as condições de mercado evoluem. A estratégia adapta-se sem abandonar as regras fundamentais.',
+    mc6_label: 'Etapas<br>Sistemáticas',
+    risk_eyebrow: 'Arquitetura de Risco',
+    risk_title: 'Construído para<br>Sobreviver a<br>Qualquer Regime',
+    risk_dial: 'Núcleo de Risco',
+    ri1_title: 'Limites de Exposição por Posição', ri1_text: 'Limites máximos de exposição por operação impedem que qualquer posição individual afete materialmente a saúde da carteira.',
+    ri2_title: 'Gestão Ativa de Drawdown', ri2_text: 'Monitorização em tempo real com limites predeterminados desencadeia posturas defensivas automáticas.',
+    ri3_title: 'Execução Não Discricionária', ri3_text: 'Toda a execução segue regras do modelo. O julgamento humano limita-se à supervisão do modelo, não às decisões de operação.',
+    ri4_title: 'Convexidade acima da frequência', ri4_text: 'A carteira está estruturada para beneficiar desproporcionalmente de grandes movimentos. A taxa de sucesso é secundária face ao rácio de recompensa.',
+    phil_eyebrow: 'Filosofia',
+    phil_title: 'Três Princípios<br>Sem Exceções',
+    phil1_text: 'Disciplina acima da opinião.', phil1_label: 'O Sistema Decide',
+    phil2_text: 'Processo acima da narrativa.', phil2_label: 'Regras Acima de Tudo',
+    phil3_text: 'Assimetria acima do volume.', phil3_label: 'Qualidade acima da Quantidade',
+    audit_stripe: '✓ TODAS AS OPERAÇÕES SÃO 100% AUDITÁVEIS E COMPROVÁVEIS',
+    fala_connosco: 'Fala Connosco',
+    cust_eyebrow: 'Confiança e Transparência',
+    cust_title: 'O Seu Capital<br><span>Sempre Seu</span>',
+    cust_text: 'Risco de custódia zero. Os seus fundos permanecem na sua própria <strong>conta Interactive Brokers</strong> em todo o momento. Operamos exclusivamente via acesso de investidor - <strong>visibilidade total, exposição zero ao risco de contraparte.</strong>',
+    cp1_title: 'Sem Custódia de Fundos', cp1_text: 'Nunca detemos, movemos ou temos acesso para retirar o seu capital - em nenhum momento.',
+    cp2_title: 'A Sua Conta IBKR', cp2_text: 'Todas as operações são executadas diretamente dentro da sua própria conta Interactive Brokers.',
+    cp3_title: 'Apenas Palavra-passe de Investidor', cp3_text: 'Operamos exclusivamente via acesso de nível investidor - apenas execução de operações, nada mais.',
+    cp4_title: 'Visibilidade Total em Todo o Momento', cp4_text: 'Monitoriza cada posição, cada operação, todos os dias - em tempo real.',
+    contact_eyebrow: 'Acesso',
+    contact_title: 'Solicitar um<br>Briefing Privado',
+    contact_intro: 'Detalhes de implementação e documentação completa disponíveis em contexto privado. Investidores qualificados podem solicitar acesso abaixo.',
+    form_nome: 'Nome', form_apelido: 'Apelido', form_email: 'Email',
+    form_tipo: 'Tipo de Investidor', form_tipo_placeholder: 'Selecionar perfil',
+    form_tipo_inst: 'Investidor Institucional', form_tipo_fof: 'Fundo de Fundos',
+    form_tipo_other: 'Outro Investidor Qualificado',
+    form_montante: 'Montante de Investimento (USD)', form_montante_placeholder: 'Selecionar montante',
+    form_submit: 'Solicitar Briefing Privado →',
+    form_thanks: 'Obrigado pelo seu contacto',
+    form_thanks_sub: 'Em breve entraremos em contacto para agendar o seu briefing privado.',
+    contact_or: 'Ou contacte-nos diretamente em',
+    footer_copy: '© 2026 Evolution Quantum Capital · Todos os Direitos Reservados',
+    footer_disc: 'Este material destina-se apenas a investidores qualificados. Resultados passados não garantem resultados futuros. Não constitui oferta ou solicitação.',
+  },
+  en: {
+    partial_title: 'TOP 10 POSITIONS IN PROGRESS - PARTIAL TPs',
+    disc_partial: 'Positions with partial exits already executed. PNL% calculated per TP hit.',
+    r_eyebrow: 'The R System',
+    r_title: 'Risk Defined<br>Always',
+    r_intro: 'The R unit represents the maximum risk per trade - always equal to 2.5% of account value. Every position is sized around this unit, ensuring consistency and protection regardless of portfolio size.',
+    r_struct_label: 'Entry Structure',
+    r_rule1: '<strong>4R per position</strong> - maximum exposure per asset under normal conditions.',
+    r_rule2: '<strong>1 Take Profit per R</strong> - progressive partial exit.',
+    r_rule3: '<strong>4 TPs defined technically</strong>, case by case, based on chart structure.',
+    r_rule4: '<strong>Exit 1R at each TP hit</strong> - gradual reduction of open risk.',
+    r_reinforce_label: 'Position Reinforcement',
+    r_reinforce_text: 'Possible reinforcement up to <strong>8R per asset</strong> - used strategically when the market offers a second entry at a more favorable price, reducing average cost and improving the risk/reward profile.',
+    r_table_label: '1R Value by Account Size',
+    r_th_size: 'Account Size', r_th_value: '1R Value',
+    custos_eyebrow: 'Fee Structure',
+    custos_title: 'Simple<br>Transparent<br>Aligned',
+    custos_claim: 'No monthly fees. No fixed charges. EQC only earns when the client earns.',
+    custo1_unit: 'Performance Commission',
+    custo1_desc: 'Charged <strong>only on generated profits</strong>. If a trade is not profitable, no commission applies. Full alignment between manager and client.',
+    custo2_unit: 'Security Deposit',
+    custo2_desc: 'Of total account value, held in the EQC account. <strong>Exclusively for commission debits</strong> - no other access to your capital.',
+    custos_note: 'EQC only earns when the client earns · No monthly fees · No fixed charges',
+    nav_home: 'Home', nav_system: 'System', nav_portfolio: 'Portfolio',
+    nav_community: 'Community', nav_tools: 'Tools',
+    nav_contact_link: 'Contact',
+    nav_mandate: 'Mandate', nav_track: 'Track Record', nav_model: 'Model',
+    nav_activity: 'Activity',
+    nav_r: 'R System', nav_custos: 'Costs',
+    nav_philosophy: 'Philosophy', nav_contact: 'Contact',
+    system_eyebrow: '// EQC System',
+    system_title: 'The System<br>Its Rules',
+    system_p1: 'Evolution Quantum Capital operates according to a predefined set of rules - there is no room for discretion or subjective judgment. Every trade is fully defined before it is opened.',
+    system_p2: 'Risk is quantified at entry. Position sizing is fixed. Outcomes are measured in multiples of R - not percentages of noise.',
+    system_p3: 'The system does not react to headlines or market sentiment. It executes its edge, trade after trade.',
+    sys1_title: 'Rules-Based Execution', sys1_text: 'All entry criteria, stop-loss and take-profit levels are defined before the position is opened - and never adjusted on impulse.',
+    sys2_title: 'Quantified Risk', sys2_text: 'Risk per trade is fixed at 1R. All outcomes are measured in that unit, keeping performance evaluation consistent.',
+    sys3_title: 'Non-Discretionary', sys3_text: 'The system eliminates human bias. If the setup qualifies, the trade is taken. If not, it is passed. No exceptions.',
+    sys4_title: 'Auditable Track Record', sys4_text: 'Every trade is logged with verified entry, exit and date. A transparent performance record - not a curated highlight reel.',
+    showcase_eyebrow: '// Recent Activity',
+    showcase_title: 'Recent<br>Trades',
+    showcase_note: 'Shared for <strong>transparency</strong> and brand visibility. Not trade recommendations. EQC is not a signal service.',
+    showcase_disc: '<strong>Important:</strong> Trade cards shared by EQC are for <strong>informational and transparency purposes only</strong>. They do not constitute investment advice or recommendations of any kind. EQC is not a signal provider. Always conduct your own due diligence.',
+    hero_label: 'Asymmetric Risk Positioning',
+    hero_tagline: 'A systematic approach to capital preservation and compound growth. Risk control is primary. Return is a structural consequence.',
+    hero_cta1: 'Request Access', hero_cta2: 'View Track Record', hero_scroll: 'Explore',
+    mandate_eyebrow: 'Mandate',
+    mandate_title: 'Capital Preservation<br>Structural Returns',
+    mandate_p1: 'Evolution Quantum Capital operates under a clear mandate: <strong>protect capital first, grow it after.</strong> Returns are not pursued - they emerge as a consequence of disciplined risk management.',
+    mandate_p2: 'Every decision follows predefined rules. There is no room for narrative, opinion, or bias of the moment. The model adapts; the discipline does not.',
+    mandate_universe_label: 'UNIVERSE OF OPERATION -',
+    mandate_universe_text: 'EQC operates across any market, instrument or asset class - equities, ETFs, futures, forex, crypto and more. If it has liquidity and technical structure, EQC will trade it.',
+    pillar1_title: 'Systematic Approach', pillar1_text: 'Fully rules-based execution across all market regimes. No exceptions, no overrides.',
+    pillar2_title: 'Risk First', pillar2_text: 'Position sizing, entry and exit all derive from risk parameters - never from return objectives.',
+    pillar3_title: 'Compound Growth', pillar3_text: 'Asymmetric positioning captures large moves while capping losses, enabling long-term compound growth.',
+    track_eyebrow: 'Track Record',
+    track_title: 'Real Results<br>Closed Trades',
+    track_intro: 'All positions below are closed trades with verified entry/exit data. Each trade was executed non-discretionarily within the EQC model.',
+    kpi1_label: 'Total Closed Gain ($)', kpi1_sub: 'Across all closed positions',
+    kpi2_label: 'Best Trade', kpi2_sub: 'IBRX - 163.64% gain',
+    kpi3_label: 'Average R-Ratio', kpi3_sub: 'Reward/risk per trade',
+    closed_title: 'TOP 10 CLOSED POSITIONS 2026', open_title: 'TOP 10 OPEN POSITIONS',
+    loading: 'Loading...',
+    disc_closed: 'Past results do not guarantee future results. All data reflects closed positions executed under the EQC systematic model. Full documentation available upon request in private context.',
+    disc_open: 'Open positions in real time. Data imported automatically via EQC Portfolio Live.',
+    audit1_title: '100% Auditable', audit1_text: 'Every trade documented with entry, exit and date',
+    audit2_title: 'Human & Proprietary Precision', audit2_text: 'Every decision is backed by an exclusive TA methodology, not algorithms',
+    audit3_title: 'Full Transparency', audit3_text: 'Documentation available upon request',
+    model_eyebrow: 'Investment Model',
+    model_title: 'How the System Works',
+    model_intro: 'A five-step process that begins with regime classification and ends with dynamic position management - each step governed by predefined parameters with no human override.',
+    mc1_title: 'Regime Assessment', mc1_text: 'Structural classification of current market conditions and liquidity state to determine the operating environment.',
+    mc2_title: 'Per-Position Risk', mc2_text: 'Every trade has a predefined maximum loss in R-units before entry. Position sizing follows automatically.',
+    mc3_title: 'Entry at Value Zone', mc3_text: 'Progressive capital allocation at identified value zones - increasing exposure as conviction grows, never out of hope.',
+    mc4_title: 'R-Multiple Exits', mc4_text: 'Exit logic defined by R-multiples, eliminating emotional decision-making at critical moments.',
+    mc5_title: 'Dynamic Adjustment', mc5_text: 'Parameters recalibrate as market conditions evolve. The strategy adapts without abandoning its core rules.',
+    mc6_label: 'Systematic<br>Steps',
+    risk_eyebrow: 'Risk Architecture',
+    risk_title: 'Built to<br>Survive<br>Any Regime',
+    risk_dial: 'Risk Core',
+    ri1_title: 'Per-Position Exposure Limits', ri1_text: 'Maximum exposure limits per trade prevent any single position from materially affecting portfolio health.',
+    ri2_title: 'Active Drawdown Management', ri2_text: 'Real-time monitoring with predetermined limits triggers automatic defensive postures.',
+    ri3_title: 'Non-Discretionary Execution', ri3_text: 'All execution follows model rules. Human judgment is limited to model oversight, not trading decisions.',
+    ri4_title: 'Convexity over Frequency', ri4_text: 'The portfolio is structured to benefit disproportionately from large moves. Win rate is secondary to reward ratio.',
+    phil_eyebrow: 'Philosophy',
+    phil_title: 'Three Principles<br>No Exceptions',
+    phil1_text: 'Discipline over opinion.', phil1_label: 'The System Decides',
+    phil2_text: 'Process over narrative.', phil2_label: 'Rules Above All',
+    phil3_text: 'Asymmetry over volume.', phil3_label: 'Quality over Quantity',
+    audit_stripe: '✓ ALL OPERATIONS ARE 100% AUDITABLE AND VERIFIABLE',
+    fala_connosco: 'Talk to Us',
+    cust_eyebrow: 'Trust & Transparency',
+    cust_title: 'Your Capital<br><span>Always Yours</span>',
+    cust_text: 'Zero custody risk. Your funds remain in your own <strong>Interactive Brokers account</strong> at all times. We operate exclusively via investor access - <strong>full visibility, zero counterparty risk exposure.</strong>',
+    cp1_title: 'No Fund Custody', cp1_text: 'We never hold, move or have withdrawal access to your capital - at any time.',
+    cp2_title: 'Your IBKR Account', cp2_text: 'All trades are executed directly within your own Interactive Brokers account.',
+    cp3_title: 'Investor Password Only', cp3_text: 'We operate exclusively via investor-level access - trade execution only, nothing more.',
+    cp4_title: 'Full Visibility at All Times', cp4_text: 'Monitor every position, every trade, every day - in real time.',
+    contact_eyebrow: 'Access',
+    contact_title: 'Request a<br>Private Briefing',
+    contact_intro: 'Implementation details and full documentation available in private context. Qualified investors may request access below.',
+    form_nome: 'First Name', form_apelido: 'Last Name', form_email: 'Email',
+    form_tipo: 'Investor Type', form_tipo_placeholder: 'Select profile',
+    form_tipo_inst: 'Institutional Investor', form_tipo_fof: 'Fund of Funds',
+    form_tipo_other: 'Other Qualified Investor',
+    form_montante: 'Investment Amount (USD)', form_montante_placeholder: 'Select amount',
+    form_submit: 'Request Private Briefing →',
+    form_thanks: 'Thank you for your message',
+    form_thanks_sub: 'We will be in touch shortly to schedule your private briefing.',
+    contact_or: 'Or contact us directly at',
+    footer_copy: '© 2026 Evolution Quantum Capital · All Rights Reserved',
+    footer_disc: 'This material is intended for qualified investors only. Past results do not guarantee future performance. This does not constitute an offer or solicitation.',
+  },
+
+  zh: {
+    fala_connosco: '联系我们',
+    nav_home: '首页',
+    nav_system: '系统',
+    nav_portfolio: '投资组合',
+    nav_community: '社区',
+    nav_tools: '工具',
+    nav_contact_link: '联系',
+    nav_mandate: '使命',
+    nav_track: '业绩记录',
+    nav_model: '模型',
+    nav_activity: '活动',
+    nav_r: 'R系统',
+    nav_custos: '费用',
+    nav_philosophy: '哲学',
+    nav_contact: '联系',
+    audit_stripe: '✓ 所有操作均100%可审计和可验证',
+    hero_label: '不对称风险定位',
+    hero_tagline: '系统化的资本保全与复利增长方法。风险控制是首要目标。回报是结构性结果。',
+    hero_cta1: '申请访问',
+    hero_cta2: '查看业绩记录',
+    hero_scroll: '探索',
+    mandate_eyebrow: '使命',
+    mandate_title: '资本保全<br>结构性回报',
+    mandate_p1: 'Evolution Quantum Capital 在明确使命下运营：<strong>先保护资本，再使其增长。</strong>回报不是被追求的目标——它们是纪律性风险管理的结果。',
+    mandate_p2: '每个决定都遵循预定规则。没有叙事、意见或时机偏见的空间。模型会适应；纪律不会。',
+    mandate_universe_label: '运营范围 —',
+    mandate_universe_text: 'EQC 在任何市场、工具或资产类别上运营——股票、ETF、期货、外汇、加密货币等。只要有流动性和技术结构，系统就会交易。',
+    pillar1_title: '系统化方法',
+    pillar1_text: '在所有市场状态下完全基于规则执行。无例外，无覆盖。',
+    pillar2_title: '风险优先',
+    pillar2_text: '仓位规模、入场和出场全部来自风险参数——而非回报目标。',
+    pillar3_title: '复利增长',
+    pillar3_text: '不对称定位在限制亏损的同时捕获大行情，实现长期复利增长。',
+    phil_eyebrow: '哲学',
+    phil_title: '三大原则<br>无一例外',
+    phil1_text: '纪律高于意见。',
+    phil1_label: '系统决定',
+    phil2_text: '流程高于叙事。',
+    phil2_label: '规则高于一切',
+    phil3_text: '不对称高于数量。',
+    phil3_label: '质量高于数量',
+    sys1_title: '基于规则的执行',
+    sys1_text: '所有入场、止损和止盈标准在开仓前定义，绝不因冲动而调整。',
+    sys2_title: '量化风险',
+    sys2_text: '每笔交易风险固定为1R，所有结果以该单位衡量。',
+    sys3_title: '非主观',
+    sys3_text: '系统消除人为偏见。满足条件就执行，不满足就放弃。没有例外。',
+    sys4_title: '可审计记录',
+    sys4_text: '每笔交易均记录日期、经核实的入场和出场。透明记录，而非精选集锦。',
+    system_eyebrow: '// EQC系统',
+    system_title: '系统<br>其规则',
+    system_p1: 'EQC按照预定规则运营——没有主观判断的空间。每笔交易在开仓前已完全定义。',
+    system_p2: '风险在入场时量化。仓位规模固定。结果以R倍数衡量，而非噪音百分比。',
+    system_p3: '系统不对新闻或市场情绪作出反应。逐笔执行统计优势。',
+    model_eyebrow: '投资模型',
+    model_title: '系统如何运作',
+    model_intro: '五步流程，从市场状态分类到动态仓位管理——每步均由预定参数管理，无人为干预。',
+    mc1_title: '市场状态评估',
+    mc1_text: '对当前市场条件进行结构性分类以确定运营环境。',
+    mc2_title: '仓位风险',
+    mc2_text: '每笔交易在入场前有R单位的预定最大亏损。',
+    mc3_title: '价值区间入场',
+    mc3_text: '渐进式资本配置——随着确信度增长而增加敞口，而非出于希望。',
+    mc4_title: 'R倍数出场',
+    mc4_text: '由R倍数定义的出场逻辑，消除关键时刻的情绪化决策。',
+    mc5_title: '动态调整',
+    mc5_text: '随市场条件演变而重新校准参数。策略适应但不放弃核心规则。',
+    mc6_label: '系统性<br>步骤',
+    risk_eyebrow: '风险架构',
+    risk_title: '构建以适应<br>任何<br>市场状态',
+    risk_dial: '风险核心',
+    ri1_title: '仓位敞口限制',
+    ri1_text: '每笔交易的最大敞口限制防止任何单一仓位实质性影响投资组合健康。',
+    ri2_title: '主动回撤管理',
+    ri2_text: '实时监控，预定限制触发自动防御性姿态。',
+    ri3_title: '非主观执行',
+    ri3_text: '所有执行遵循模型规则。人工判断仅限于模型监督，而非交易决策。',
+    ri4_title: '非对称高于频率',
+    ri4_text: '投资组合结构旨在从大行情中不成比例地受益。胜率次于盈亏比。',
+    cust_eyebrow: '信任与透明',
+    cust_title: '您的资本<br><span>始终属于您</span>',
+    cust_text: '零托管风险。您的资金始终留在您自己的<strong>盈透证券账户</strong>中。我们仅通过投资者访问权限操作——<strong>完全可见，零交易对手风险。</strong>',
+    cp1_title: '无资金托管',
+    cp1_text: '我们从不持有、转移或拥有提取您资本的权限——在任何时候。',
+    cp2_title: '您的IBKR账户',
+    cp2_text: '所有交易直接在您自己的盈透证券账户内执行。',
+    cp3_title: '仅限投资者密码',
+    cp3_text: '我们仅通过投资者级别访问权限操作——仅执行交易，别无其他。',
+    cp4_title: '始终完全可见',
+    cp4_text: '实时监控每个仓位、每笔交易、每一天。',
+    contact_eyebrow: '访问',
+    contact_title: '申请<br>私人简报',
+    contact_intro: '实施细节和完整文档可在私人环境中获取。合格投资者可在下方申请访问。',
+    form_nome: '名字',
+    form_apelido: '姓氏',
+    form_email: '电子邮件',
+    form_tipo: '投资者类型',
+    form_tipo_placeholder: '选择类型',
+    form_tipo_inst: '机构投资者',
+    form_tipo_fof: '基金中的基金',
+    form_tipo_other: '其他合格投资者',
+    form_montante: '投资金额（美元）',
+    form_montante_placeholder: '选择金额',
+    form_submit: '申请私人简报 →',
+    form_thanks: '感谢您的留言',
+    form_thanks_sub: '我们将尽快与您联系，安排私人简报。',
+    contact_or: '或直接通过以下方式联系我们',
+    footer_copy: '© 2026 Evolution Quantum Capital · 版权所有',
+    footer_disc: '本材料仅供合格投资者参考。过去业绩不代表未来结果。不构成要约或招揽。',
+    partial_title: '进行中TOP10仓位 — 部分止盈',
+    disc_partial: '已执行部分出场的仓位。PNL%按每个达到的止盈计算。',
+    r_eyebrow: 'R系统',
+    r_title: '定义风险<br>始终如此',
+    r_intro: 'R单位代表每笔交易的最大风险——始终等于账户价值的2.5%。每个仓位围绕此单位规模，确保无论投资组合大小都保持一致性和保护。',
+    r_struct_label: '入场结构',
+    r_rule1: '<strong>每个仓位4R</strong> — 正常条件下每个资产的最大敞口。',
+    r_rule2: '<strong>每R一个止盈</strong> — 渐进式部分出场。',
+    r_rule3: '<strong>4个技术性止盈</strong>，逐案根据图表结构确定。',
+    r_rule4: '<strong>每达到止盈出场1R</strong> — 逐步减少开放风险。',
+    r_reinforce_label: '仓位加仓',
+    r_reinforce_text: '可加仓至<strong>每个资产8R</strong> — 当市场提供更有利价格的第二次入场时战略性使用。',
+    r_table_label: '按账户规模的1R价值',
+    r_th_size: '账户规模',
+    r_th_value: '1R价值',
+    custos_eyebrow: '费用结构',
+    custos_title: '简单<br>透明<br>一致',
+    custos_claim: '无月费。无固定收费。EQC只在客户盈利时才盈利。',
+    custo1_unit: '绩效佣金',
+    custo1_desc: '<strong>仅对产生的利润收取</strong>。如果交易不盈利，则不收取任何佣金。经理与客户完全利益一致。',
+    custo2_unit: '保证金',
+    custo2_desc: '占账户总价值，保存在EQC账户中。<strong>专用于佣金扣除</strong>。',
+    custos_note: 'EQC只在客户盈利时才盈利 · 无月费 · 无固定收费',
+    bench_eyebrow: '// EQC vs 基准',
+    bench_title: '同期<br>比较',
+    bench_intro: '自EQC模型启动以来，与同期主要指数的直接比较。',
+    bench_col_name: '基准',
+    bench_col_ret: '期间回报',
+    bench_col_alpha: 'EQC Alpha',
+    bench_col_note: '说明',
+    bench_eqc_note: 'EQC系统',
+    bench_sp500_note: '美国500大企业',
+    bench_ndx_note: '美国100大科技企业',
+    bench_rut_note: '美国小盘股',
+    bench_tbill_note: '无风险利率（约4.5%/年）',
+    track_eyebrow: '业绩记录',
+    track_title: '真实结果<br>已平仓交易',
+    track_intro: '以下所有仓位均为已平仓交易，具有经核实的入场/出场数据。每笔交易均在EQC模型框架内非主观执行。',
+    kpi1_label: '总已平仓收益（$）',
+    kpi1_sub: '所有已平仓仓位合计',
+    kpi2_label: '最佳交易',
+    kpi2_sub: 'IBRX — 163.64%收益',
+    kpi3_label: '平均R比率',
+    kpi3_sub: '每笔交易的回报/风险',
+    closed_title: 'TOP 10 已平仓仓位 2026',
+    open_title: 'TOP 10 开放仓位',
+    loading: '加载中...',
+    disc_closed: '过去业绩不代表未来结果。所有数据均反映在EQC系统模型下执行的已平仓仓位。完整文档可在私人环境中申请获取。',
+    disc_open: '实时开放仓位。数据通过EQC Portfolio Live自动导入。',
+    audit1_title: '100%可审计',
+    audit1_text: '每笔交易均记录入场、出场和日期',
+    audit2_title: '人工与专有精度',
+    audit2_text: '每个决定均由独家技术分析方法支撑，而非算法',
+    audit3_title: '完全透明',
+    audit3_text: '文档可应要求提供',
+    portfolio_title: '投资组合',
+    portfolio_title_gold: '实时',
+    portfolio_hero_label: '// EQC 业绩记录',
+    portfolio_hero_tagline: '真实交易。经核实数据。100%可审计业绩——所有市场的已平仓和开放仓位。',
+    th_ticker: '代码',
+    th_price_in: '平均入场价',
+    th_price_out: '平均出场价',
+    th_pnl_pct: 'PNL %',
+    th_pnl_usd: 'PNL ($)',
+    th_rr: '交易RR',
+    th_mae: 'MAE %',
+    th_exchange: '交易所',
+    badge_hardcap: '硬上限',
+    badge_active: '活跃',
+    badge_convex: '凸性',
+    showcase_eyebrow: '// 近期活动',
+    showcase_title: '近期<br>交易',
+    showcase_note: '为<strong>透明度</strong>和品牌可见度而分享。不是交易建议。EQC不是信号服务。',
+    showcase_disc: '<strong>重要：</strong>EQC分享的交易卡片仅供<strong>信息和透明度目的</strong>。不构成任何形式的投资建议。EQC不是信号提供商。请始终进行自己的尽职调查。',
+  },
+  ja: {
+    fala_connosco: 'お問い合わせ',
+    nav_home: 'ホーム',
+    nav_system: 'システム',
+    nav_portfolio: 'ポートフォリオ',
+    nav_community: 'コミュニティ',
+    nav_tools: 'ツール',
+    nav_contact_link: 'お問い合わせ',
+    nav_mandate: 'マンデート',
+    nav_track: '実績',
+    nav_model: 'モデル',
+    nav_activity: '活動',
+    nav_r: 'Rシステム',
+    nav_custos: 'コスト',
+    nav_philosophy: '哲学',
+    nav_contact: '連絡',
+    audit_stripe: '✓ すべての取引は100%監査可能で検証可能',
+    hero_label: '非対称リスクポジショニング',
+    hero_tagline: '資本保全と複利成長への体系的アプローチ。リスク管理が最優先です。リターンは構造的結果です。',
+    hero_cta1: 'アクセス申請',
+    hero_cta2: '実績を見る',
+    hero_scroll: '探索',
+    mandate_eyebrow: 'マンデート',
+    mandate_title: '資本保全<br>構造的リターン',
+    mandate_p1: 'Evolution Quantum Capitalは明確なマンデートの下で運営されます：<strong>まず資本を守り、次にそれを成長させる。</strong>リターンは追求されません——規律ある資金管理の結果として生まれます。',
+    mandate_p2: 'すべての決定は事前に定義されたルールに従います。ナラティブ、意見、時機のバイアスに余地はありません。モデルは適応します；規律は変わりません。',
+    mandate_universe_label: '運用範囲 —',
+    mandate_universe_text: 'EQCはあらゆる市場、商品、資産クラスで運用します——株式、ETF、先物、外国為替、暗号通貨など。流動性と技術的構造があれば、システムは取引します。',
+    pillar1_title: '体系的アプローチ',
+    pillar1_text: 'すべての市場状況でルールベースの完全実行。例外なし。',
+    pillar2_title: 'リスクファースト',
+    pillar2_text: 'ポジションサイジング、エントリー、エグジットはすべてリスクパラメータから導出。',
+    pillar3_title: '複利成長',
+    pillar3_text: '非対称ポジショニングは損失を制限しながら大きな動きをとらえ、長期的な複利成長を実現します。',
+    phil_eyebrow: '哲学',
+    phil_title: '三つの原則<br>例外なし',
+    phil1_text: '意見より規律。',
+    phil1_label: 'システムが決める',
+    phil2_text: 'ナラティブよりプロセス。',
+    phil2_label: 'ルールが最優先',
+    phil3_text: '頻度より非対称性。',
+    phil3_label: '量より質',
+    sys1_title: 'ルールベース実行',
+    sys1_text: 'すべてのエントリー、ストップロス、テイクプロフィット基準はポジション開始前に定義——衝動的に調整されることはありません。',
+    sys2_title: '定量化されたリスク',
+    sys2_text: '取引ごとのリスクは1Rに固定。すべての結果をその単位で測定。',
+    sys3_title: '非裁量的',
+    sys3_text: 'システムは人間のバイアスを排除します。セットアップが条件を満たせば取引実行。例外なし。',
+    sys4_title: '監査可能な実績',
+    sys4_text: 'すべての取引は日付、確認されたエントリーと出口とともに記録。透明な実績——ハイライトリールではありません。',
+    system_eyebrow: '// EQCシステム',
+    system_title: 'システム<br>そのルール',
+    system_p1: 'EQCは事前定義されたルールに従って運営されます——裁量や主観的判断の余地はありません。',
+    system_p2: 'リスクはエントリー時に定量化されます。ポジションサイジングは固定。結果はRの倍数で測定。',
+    system_p3: 'システムはニュースや市場センチメントに反応しません。取引ごとに統計的優位性を実行します。',
+    model_eyebrow: '投資モデル',
+    model_title: 'システムの仕組み',
+    model_intro: 'レジーム分類から始まり動的ポジション管理で終わる5ステッププロセス——各ステップは事前定義パラメータで管理。',
+    mc1_title: 'レジーム評価',
+    mc1_text: '現在の市場状況の構造的分類によりオペレーティング環境を決定。',
+    mc2_title: 'ポジションリスク',
+    mc2_text: '各取引はエントリー前にR単位の事前定義された最大損失を持ちます。',
+    mc3_title: 'バリューゾーンエントリー',
+    mc3_text: '確信が高まるにつれてエクスポージャーを増やす漸進的な資本配分。',
+    mc4_title: 'Rマルチプル出口',
+    mc4_text: 'Rマルチプルで定義された出口ロジック。重要な瞬間の感情的意思決定を排除。',
+    mc5_title: '動的調整',
+    mc5_text: '市場状況の変化に応じてパラメータを再調整。コアルールを放棄せずに適応。',
+    mc6_label: '体系的な<br>ステップ',
+    risk_eyebrow: 'リスクアーキテクチャ',
+    risk_title: 'あらゆる相場に<br>耐えるよう<br>構築',
+    risk_dial: 'リスクコア',
+    ri1_title: 'ポジション別エクスポージャー制限',
+    ri1_text: '取引ごとの最大エクスポージャー制限により、単一ポジションがポートフォリオ健全性に実質的な影響を与えることを防ぎます。',
+    ri2_title: '積極的ドローダウン管理',
+    ri2_text: '所定の制限でリアルタイム監視が自動的な防御姿勢を引き起こします。',
+    ri3_title: '非裁量実行',
+    ri3_text: 'すべての実行はモデルルールに従います。人間の判断はモデル監督に限定。',
+    ri4_title: '頻度より凸性',
+    ri4_text: 'ポートフォリオは大きな動きから不均衡に利益を得る構造。勝率は報酬比率に次ぐものです。',
+    cust_eyebrow: '信頼と透明性',
+    cust_title: 'お客様の資本<br><span>常にお客様のもの</span>',
+    cust_text: 'カストディリスクゼロ。お客様の資金は常に自身の<strong>インタラクティブブローカーズ口座</strong>に留まります。投資者アクセスのみで運用——<strong>完全な可視性、取引相手リスクゼロ。</strong>',
+    cp1_title: '資金カストディなし',
+    cp1_text: '私たちはいかなる時もお客様の資本を保有、移動、または引き出す権限を持ちません。',
+    cp2_title: 'お客様のIBKR口座',
+    cp2_text: 'すべての取引はお客様自身のインタラクティブブローカーズ口座内で直接実行されます。',
+    cp3_title: '投資者パスワードのみ',
+    cp3_text: '投資者レベルのアクセスのみで運用——取引実行のみ、それ以上でも以下でもありません。',
+    cp4_title: '常に完全な可視性',
+    cp4_text: 'すべてのポジション、すべての取引、毎日リアルタイムで監視できます。',
+    contact_eyebrow: 'アクセス',
+    contact_title: 'プライベート<br>ブリーフィング申請',
+    contact_intro: '実装詳細と完全なドキュメントはプライベートコンテキストで利用可能です。適格投資者は以下からアクセスを申請できます。',
+    form_nome: '名',
+    form_apelido: '姓',
+    form_email: 'メールアドレス',
+    form_tipo: '投資者タイプ',
+    form_tipo_placeholder: 'プロファイルを選択',
+    form_tipo_inst: '機関投資家',
+    form_tipo_fof: 'ファンド・オブ・ファンズ',
+    form_tipo_other: 'その他の適格投資家',
+    form_montante: '投資金額（USD）',
+    form_montante_placeholder: '金額を選択',
+    form_submit: 'プライベートブリーフィング申請 →',
+    form_thanks: 'お問い合わせありがとうございます',
+    form_thanks_sub: 'まもなくご連絡し、プライベートブリーフィングのスケジュールを調整します。',
+    contact_or: 'または直接ご連絡ください',
+    footer_copy: '© 2026 Evolution Quantum Capital · 全著作権所有',
+    footer_disc: '本資料は適格投資者のみを対象としています。過去の実績は将来の結果を保証しません。要約または勧誘を構成するものではありません。',
+    partial_title: '進行中TOP10ポジション — 部分TP',
+    disc_partial: '部分エグジット実行済みポジション。PNL%はTP到達ごとに計算。',
+    r_eyebrow: 'Rシステム',
+    r_title: 'リスクを定義<br>常に',
+    r_intro: 'R単位は取引ごとの最大リスクを表します——常に口座価値の2.5%。すべてのポジションはこの単位でサイジングされ、ポートフォリオ規模に関わらず一貫性と保護を確保します。',
+    r_struct_label: 'エントリー構造',
+    r_rule1: '<strong>ポジションあたり4R</strong> — 通常条件下での資産ごとの最大エクスポージャー。',
+    r_rule2: '<strong>RごとにTP1つ</strong> — 漸進的部分エグジット。',
+    r_rule3: '<strong>技術的に4つのTP</strong>、ケースバイケースでチャート構造に基づいて定義。',
+    r_rule4: '<strong>各TP到達で1Rエグジット</strong> — オープンリスクを段階的に削減。',
+    r_reinforce_label: 'ポジション強化',
+    r_reinforce_text: '<strong>資産あたり最大8R</strong>まで強化可能——市場がより有利な価格で第二エントリーを提供する際に戦略的に使用。',
+    r_table_label: '口座規模別1R価値',
+    r_th_size: '口座規模',
+    r_th_value: '1R価値',
+    custos_eyebrow: '手数料体系',
+    custos_title: 'シンプル<br>透明<br>一致',
+    custos_claim: '月額料金なし。固定料金なし。EQCはクライアントが利益を得たときだけ利益を得ます。',
+    custo1_unit: '成功報酬',
+    custo1_desc: '<strong>生成された利益のみ</strong>に課金。取引が利益を生まない場合、手数料は発生しません。マネージャーとクライアントの完全な利益一致。',
+    custo2_unit: '保証金',
+    custo2_desc: '口座総価値の一定割合をEQC口座に保有。<strong>手数料引き落とし専用</strong>。',
+    custos_note: 'EQCはクライアントが利益を得たときだけ利益を得ます · 月額料金なし · 固定料金なし',
+    bench_eyebrow: '// EQC vs ベンチマーク',
+    bench_title: '同期間<br>比較',
+    bench_intro: 'EQCモデル開始からの同期間における主要指数との直接比較。',
+    bench_col_name: 'ベンチマーク',
+    bench_col_ret: '期間リターン',
+    bench_col_alpha: 'EQC Alpha',
+    bench_col_note: '説明',
+    bench_eqc_note: 'EQCシステム',
+    bench_sp500_note: '米国500大企業',
+    bench_ndx_note: '米国上位100テック企業',
+    bench_rut_note: '米国スモールキャップ',
+    bench_tbill_note: 'リスクフリーレート（約4.5%/年）',
+    track_eyebrow: '実績',
+    track_title: '実際の結果<br>決済済み取引',
+    track_intro: '以下のすべてのポジションは、検証済みのエントリー/エグジットデータを持つ決済済み取引です。各取引はEQCモデル内で非裁量的に実行されました。',
+    kpi1_label: '総決済益（$）',
+    kpi1_sub: 'すべての決済済みポジション合計',
+    kpi2_label: 'ベスト取引',
+    kpi2_sub: 'IBRX — 163.64%益',
+    kpi3_label: '平均Rレシオ',
+    kpi3_sub: '取引ごとのリスク/リワード',
+    closed_title: 'TOP 10 決済済みポジション 2026',
+    open_title: 'TOP 10 オープンポジション',
+    loading: '読み込み中...',
+    disc_closed: '過去の実績は将来の結果を保証しません。すべてのデータはEQC体系的モデルの下で実行された決済済みポジションを反映しています。詳細な資料はプライベートコンテキストでご要請に応じて提供します。',
+    disc_open: 'リアルタイムのオープンポジション。EQC Portfolio Liveを通じて自動的にデータをインポート。',
+    audit1_title: '100%監査可能',
+    audit1_text: 'すべての取引はエントリー、エグジット、日付とともに記録',
+    audit2_title: '人工および独自の精度',
+    audit2_text: 'すべての決定はアルゴリズムではなく独自のTA方法論に基づいています',
+    audit3_title: '完全な透明性',
+    audit3_text: '要請に応じてドキュメントを提供',
+    portfolio_title: 'ポートフォリオ',
+    portfolio_title_gold: 'ライブ',
+    portfolio_hero_label: '// EQC 実績',
+    portfolio_hero_tagline: '実際の取引。検証済みデータ。100%監査可能なパフォーマンス——すべての市場の決済済みおよびオープンポジション。',
+    th_ticker: 'ティッカー',
+    th_price_in: '平均入場価格',
+    th_price_out: '平均出場価格',
+    th_pnl_pct: 'PNL %',
+    th_pnl_usd: 'PNL ($)',
+    th_rr: '取引RR',
+    th_mae: 'MAE %',
+    th_exchange: '取引所',
+    badge_hardcap: 'ハードキャップ',
+    badge_active: 'アクティブ',
+    badge_convex: 'コンベックス',
+    showcase_eyebrow: '// 最近の活動',
+    showcase_title: '最近の<br>取引',
+    showcase_note: '<strong>透明性</strong>とブランド可視性のために共有。取引推奨ではありません。EQCはシグナルサービスではありません。',
+    showcase_disc: '<strong>重要：</strong>EQCが共有する取引カードは<strong>情報提供と透明性の目的のみ</strong>です。いかなる形の投資アドバイスも構成しません。EQCはシグナルプロバイダーではありません。常に自分自身のデューデリジェンスを行ってください。',
+  },
+  es: {
+    fala_connosco: 'Háblanos',
+    nav_home: 'Inicio',
+    nav_system: 'Sistema',
+    nav_portfolio: 'Portfolio',
+    nav_community: 'Comunidad',
+    nav_tools: 'Herramientas',
+    nav_contact_link: 'Contacto',
+    nav_mandate: 'Mandato',
+    nav_track: 'Historial',
+    nav_model: 'Modelo',
+    nav_activity: 'Actividad',
+    nav_r: 'Sistema R',
+    nav_custos: 'Costos',
+    nav_philosophy: 'Filosofía',
+    nav_contact: 'Contacto',
+    audit_stripe: '✓ TODAS LAS OPERACIONES SON 100% AUDITABLES Y VERIFICABLES',
+    hero_label: 'Posicionamiento de Riesgo Asimétrico',
+    hero_tagline: 'Un enfoque sistemático para la preservación de capital y el crecimiento compuesto. El control del riesgo es lo primero. El retorno es una consecuencia estructural.',
+    hero_cta1: 'Solicitar Acceso',
+    hero_cta2: 'Ver Historial',
+    hero_scroll: 'Explorar',
+    mandate_eyebrow: 'Mandato',
+    mandate_title: 'Preservación de Capital<br>Retornos Estructurales',
+    mandate_p1: 'Evolution Quantum Capital opera bajo un mandato claro: <strong>proteger el capital primero, hacerlo crecer después.</strong> Los retornos no se persiguen - emergen como consecuencia de una gestión disciplinada del riesgo.',
+    mandate_p2: 'Cada decisión sigue reglas predefinidas. No hay espacio para narrativa, opinión o sesgo del momento. El modelo se adapta; la disciplina no.',
+    mandate_universe_label: 'UNIVERSO DE OPERACIÓN -',
+    mandate_universe_text: 'EQC opera en cualquier mercado, instrumento o clase de activo - acciones, ETFs, futuros, forex, cripto y más.',
+    pillar1_title: 'Enfoque Sistemático',
+    pillar1_text: 'Ejecución completamente basada en reglas en todos los regímenes de mercado. Sin excepciones.',
+    pillar2_title: 'Riesgo Primero',
+    pillar2_text: 'El dimensionamiento de posición, la entrada y la salida derivan de parámetros de riesgo - nunca de objetivos de retorno.',
+    pillar3_title: 'Crecimiento Compuesto',
+    pillar3_text: 'El posicionamiento asimétrico captura grandes movimientos limitando las pérdidas, permitiendo el crecimiento compuesto.',
+    phil_eyebrow: 'Filosofía',
+    phil_title: 'Tres Principios<br>Sin Excepciones',
+    phil1_text: 'Disciplina sobre opinión.',
+    phil1_label: 'El Sistema Decide',
+    phil2_text: 'Proceso sobre narrativa.',
+    phil2_label: 'Reglas Sobre Todo',
+    phil3_text: 'Asimetría sobre volumen.',
+    phil3_label: 'Calidad sobre Cantidad',
+    sys1_title: 'Ejecución Basada en Reglas',
+    sys1_text: 'Todos los criterios de entrada, stop-loss y take-profit se definen antes de abrir la posición - y nunca se ajustan por impulso.',
+    sys2_title: 'Riesgo Cuantificado',
+    sys2_text: 'El riesgo por operación está fijo en 1R. Todos los resultados se miden en esa unidad.',
+    sys3_title: 'No Discrecional',
+    sys3_text: 'El sistema elimina el sesgo humano. Si el setup califica, se ejecuta. Si no, se descarta. Sin excepciones.',
+    sys4_title: 'Historial Auditable',
+    sys4_text: 'Cada operación registrada con fecha, entrada y salida verificadas. Historial transparente.',
+    system_eyebrow: '// Sistema EQC',
+    system_title: 'El Sistema<br>Sus Reglas',
+    system_p1: 'EQC opera según un conjunto de reglas predefinidas - no hay lugar para la discrecionalidad o el juicio subjetivo.',
+    system_p2: 'El riesgo se cuantifica en la entrada. El dimensionamiento de posición es fijo. Los resultados se miden en múltiplos de R.',
+    system_p3: 'El sistema no reacciona a titulares ni al sentimiento del mercado. Ejecuta su ventaja estadística, operación tras operación.',
+    model_eyebrow: 'Modelo de Inversión',
+    model_title: 'Cómo Funciona el Sistema',
+    model_intro: 'Un proceso de cinco pasos que comienza con la clasificación del régimen y termina en la gestión dinámica de posiciones.',
+    mc1_title: 'Evaluación de Régimen',
+    mc1_text: 'Clasificación estructural de las condiciones de mercado actuales para determinar el entorno operativo.',
+    mc2_title: 'Riesgo por Posición',
+    mc2_text: 'Cada operación tiene una pérdida máxima predefinida en unidades R antes de la entrada.',
+    mc3_title: 'Entrada en Zona de Valor',
+    mc3_text: 'Asignación progresiva de capital en zonas de valor identificadas - aumentando la exposición a medida que crece la convicción.',
+    mc4_title: 'Salidas por R-Múltiplo',
+    mc4_text: 'Lógica de salida definida por R-múltiplos, eliminando la toma de decisiones emocional en momentos críticos.',
+    mc5_title: 'Ajuste Dinámico',
+    mc5_text: 'Los parámetros se recalibran a medida que evolucionan las condiciones del mercado.',
+    mc6_label: 'Pasos<br>Sistemáticos',
+    risk_eyebrow: 'Arquitectura de Riesgo',
+    risk_title: 'Construido para<br>Sobrevivir<br>Cualquier Régimen',
+    risk_dial: 'Núcleo de Riesgo',
+    ri1_title: 'Límites de Exposición por Posición',
+    ri1_text: 'Los límites de exposición máxima por operación evitan que cualquier posición individual afecte materialmente la salud del portafolio.',
+    ri2_title: 'Gestión Activa de Drawdown',
+    ri2_text: 'Monitoreo en tiempo real con límites predeterminados que activan posturas defensivas automáticas.',
+    ri3_title: 'Ejecución No Discrecional',
+    ri3_text: 'Toda la ejecución sigue las reglas del modelo. El juicio humano se limita a la supervisión del modelo.',
+    ri4_title: 'Convexidad sobre Frecuencia',
+    ri4_text: 'El portafolio está estructurado para beneficiarse desproporcionalmente de grandes movimientos.',
+    cust_eyebrow: 'Confianza y Transparencia',
+    cust_title: 'Su Capital<br><span>Siempre Suyo</span>',
+    cust_text: 'Riesgo de custodia cero. Sus fondos permanecen en su propia <strong>cuenta de Interactive Brokers</strong> en todo momento. Operamos exclusivamente mediante acceso de inversor - <strong>visibilidad total, exposición cero al riesgo de contraparte.</strong>',
+    cp1_title: 'Sin Custodia de Fondos',
+    cp1_text: 'Nunca retenemos, movemos o tenemos acceso para retirar su capital - en ningún momento.',
+    cp2_title: 'Su Cuenta IBKR',
+    cp2_text: 'Todas las operaciones se ejecutan directamente dentro de su propia cuenta de Interactive Brokers.',
+    cp3_title: 'Solo Contraseña de Inversor',
+    cp3_text: 'Operamos exclusivamente mediante acceso de nivel inversor - solo ejecución de operaciones, nada más.',
+    cp4_title: 'Visibilidad Total en Todo Momento',
+    cp4_text: 'Monitoree cada posición, cada operación, cada día - en tiempo real.',
+    contact_eyebrow: 'Acceso',
+    contact_title: 'Solicitar un<br>Briefing Privado',
+    contact_intro: 'Detalles de implementación y documentación completa disponibles en contexto privado. Los inversores cualificados pueden solicitar acceso a continuación.',
+    form_nome: 'Nombre',
+    form_apelido: 'Apellido',
+    form_email: 'Email',
+    form_tipo: 'Tipo de Inversor',
+    form_tipo_placeholder: 'Seleccionar perfil',
+    form_tipo_inst: 'Inversor Institucional',
+    form_tipo_fof: 'Fondo de Fondos',
+    form_tipo_other: 'Otro Inversor Cualificado',
+    form_montante: 'Monto de Inversión (USD)',
+    form_montante_placeholder: 'Seleccionar monto',
+    form_submit: 'Solicitar Briefing Privado →',
+    form_thanks: 'Gracias por su mensaje',
+    form_thanks_sub: 'Nos pondremos en contacto pronto para programar su briefing privado.',
+    contact_or: 'O contáctenos directamente en',
+    footer_copy: '© 2026 Evolution Quantum Capital · Todos los Derechos Reservados',
+    footer_disc: 'Este material está destinado únicamente a inversores cualificados. Los resultados pasados no garantizan resultados futuros. No constituye una oferta ni una solicitud.',
+    partial_title: 'TOP 10 POSICIONES EN CURSO - TPs PARCIALES',
+    disc_partial: 'Posiciones con salidas parciales ya ejecutadas. PNL% calculado por TP alcanzado.',
+    r_eyebrow: 'El Sistema R',
+    r_title: 'Riesgo Definido<br>Siempre',
+    r_intro: 'La unidad R representa el riesgo máximo por operación - siempre igual al 2.5% del valor de la cuenta. Cada posición se dimensiona alrededor de esta unidad.',
+    r_struct_label: 'Estructura de Entrada',
+    r_rule1: '<strong>4R por posición</strong> - exposición máxima por activo en condiciones normales.',
+    r_rule2: '<strong>1 Take Profit por R</strong> - salida parcial progresiva.',
+    r_rule3: '<strong>4 TPs definidos técnicamente</strong>, caso por caso, basado en la estructura del gráfico.',
+    r_rule4: '<strong>Salida de 1R en cada TP alcanzado</strong> - reducción gradual del riesgo abierto.',
+    r_reinforce_label: 'Refuerzo de Posición',
+    r_reinforce_text: 'Posibilidad de refuerzo hasta <strong>8R por activo</strong> - utilizado estratégicamente cuando el mercado ofrece una segunda entrada a precio más favorable.',
+    r_table_label: 'Valor de 1R por Tamaño de Cuenta',
+    r_th_size: 'Tamaño de Cuenta',
+    r_th_value: 'Valor de 1R',
+    custos_eyebrow: 'Estructura de Costos',
+    custos_title: 'Simple<br>Transparente<br>Alineado',
+    custos_claim: 'Sin tarifas mensuales. Sin cargos fijos. EQC solo gana cuando el cliente gana.',
+    custo1_unit: 'Comisión de Rendimiento',
+    custo1_desc: 'Cobrada <strong>solo sobre las ganancias generadas</strong>. Si la operación no es rentable, no se aplica ninguna comisión. Alineación total entre gestor y cliente.',
+    custo2_unit: 'Depósito de Garantía',
+    custo2_desc: 'Del valor total de la cuenta, mantenido en la cuenta EQC. <strong>Exclusivamente para débitos de comisiones</strong>.',
+    custos_note: 'EQC solo gana cuando el cliente gana · Sin tarifas mensuales · Sin cargos fijos',
+    bench_eyebrow: '// EQC vs Benchmarks',
+    bench_title: 'Mismo Período<br>Comparado',
+    bench_intro: 'Comparación directa con los principales índices en el mismo período desde el inicio del modelo EQC.',
+    bench_col_name: 'Benchmark',
+    bench_col_ret: 'Retorno Período',
+    bench_col_alpha: 'Alpha EQC',
+    bench_col_note: 'Nota',
+    bench_eqc_note: 'Sistema EQC',
+    bench_sp500_note: '500 mayores empresas EE.UU.',
+    bench_ndx_note: 'Top 100 tech EE.UU.',
+    bench_rut_note: 'Small caps EE.UU.',
+    bench_tbill_note: 'Tasa libre de riesgo (~4.5%/año)',
+    track_eyebrow: 'Historial',
+    track_title: 'Resultados Reales<br>Operaciones Cerradas',
+    track_intro: 'Todas las posiciones a continuación son operaciones cerradas con datos de entrada/salida verificados. Cada operación fue ejecutada de forma no discrecional dentro del modelo EQC.',
+    kpi1_label: 'Ganancia Total Cerrada ($)',
+    kpi1_sub: 'En todas las posiciones cerradas',
+    kpi2_label: 'Mejor Operación',
+    kpi2_sub: 'IBRX - ganancia del 163.64%',
+    kpi3_label: 'R-Ratio Promedio',
+    kpi3_sub: 'Recompensa/riesgo por operación',
+    closed_title: 'TOP 10 POSICIONES CERRADAS 2026',
+    open_title: 'TOP 10 POSICIONES ABIERTAS',
+    loading: 'Cargando...',
+    disc_closed: 'Los resultados pasados no garantizan resultados futuros. Todos los datos reflejan posiciones cerradas ejecutadas bajo el modelo sistemático EQC.',
+    disc_open: 'Posiciones abiertas en tiempo real. Datos importados automáticamente vía EQC Portfolio Live.',
+    audit1_title: '100% Auditable',
+    audit1_text: 'Cada operación documentada con entrada, salida y fecha',
+    audit2_title: 'Precisión Humana y Propietaria',
+    audit2_text: 'Cada decisión respaldada por una metodología de AT exclusiva, no por algoritmos',
+    audit3_title: 'Transparencia Total',
+    audit3_text: 'Documentación disponible bajo solicitud',
+    portfolio_title: 'Portfolio',
+    portfolio_title_gold: 'Live',
+    portfolio_hero_label: '// EQC Historial',
+    portfolio_hero_tagline: 'Operaciones reales. Datos verificados. Rendimiento 100% auditable - posiciones cerradas y abiertas en todos los mercados.',
+    th_ticker: 'Ticker',
+    th_price_in: 'Precio Entrada Méd.',
+    th_price_out: 'Precio Salida Méd.',
+    th_pnl_pct: 'PNL %',
+    th_pnl_usd: 'PNL ($)',
+    th_rr: 'Trade RR',
+    th_mae: 'MAE %',
+    th_exchange: 'Exchange',
+    badge_hardcap: 'HARD CAP',
+    badge_active: 'ACTIVO',
+    badge_convex: 'CONVEXO',
+    showcase_eyebrow: '// Actividad Reciente',
+    showcase_title: 'Operaciones<br>Recientes',
+    showcase_note: 'Compartido para <strong>transparencia</strong> y visibilidad de marca. No son recomendaciones. EQC no es un servicio de señales.',
+    showcase_disc: '<strong>Importante:</strong> Las tarjetas de operaciones compartidas por EQC son <strong>solo para fines informativos y de transparencia</strong>. No constituyen asesoramiento de inversión. EQC no es un proveedor de señales.',
+  },
+  fr: {
+    fala_connosco: 'Nous Contacter',
+    nav_home: 'Accueil',
+    nav_system: 'Système',
+    nav_portfolio: 'Portfolio',
+    nav_community: 'Communauté',
+    nav_tools: 'Outils',
+    nav_contact_link: 'Contact',
+    nav_mandate: 'Mandat',
+    nav_track: 'Bilan',
+    nav_model: 'Modèle',
+    nav_activity: 'Activité',
+    nav_r: 'Système R',
+    nav_custos: 'Coûts',
+    nav_philosophy: 'Philosophie',
+    nav_contact: 'Contact',
+    audit_stripe: '✓ TOUTES LES OPÉRATIONS SONT 100% AUDITABLES ET VÉRIFIABLES',
+    hero_label: 'Positionnement de Risque Asymétrique',
+    hero_tagline: 'Une approche systématique de la préservation du capital et de la croissance composée. Le contrôle du risque est primaire. Le rendement est une conséquence structurelle.',
+    hero_cta1: 'Demander l\'Accès',
+    hero_cta2: 'Voir le Bilan',
+    hero_scroll: 'Explorer',
+    mandate_eyebrow: 'Mandat',
+    mandate_title: 'Préservation du Capital<br>Rendements Structurels',
+    mandate_p1: 'Evolution Quantum Capital opère sous un mandat clair : <strong>protéger le capital d\'abord, le faire croître ensuite.</strong> Les rendements ne sont pas poursuivis - ils émergent comme conséquence d\'une gestion disciplinée du risque.',
+    mandate_p2: 'Chaque décision suit des règles prédéfinies. Il n\'y a pas de place pour la narration, l\'opinion ou le biais du moment. Le modèle s\'adapte ; la discipline ne change pas.',
+    mandate_universe_label: 'UNIVERS D\'OPÉRATION -',
+    mandate_universe_text: 'EQC opère sur tout marché, instrument ou classe d\'actifs - actions, ETF, futures, forex, crypto et plus.',
+    pillar1_title: 'Approche Systématique',
+    pillar1_text: 'Exécution entièrement basée sur les règles dans tous les régimes de marché. Aucune exception.',
+    pillar2_title: 'Risque en Premier',
+    pillar2_text: 'Le dimensionnement de position, l\'entrée et la sortie dérivent tous des paramètres de risque - jamais des objectifs de rendement.',
+    pillar3_title: 'Croissance Composée',
+    pillar3_text: 'Le positionnement asymétrique capture les grands mouvements tout en limitant les pertes, permettant une croissance composée à long terme.',
+    phil_eyebrow: 'Philosophie',
+    phil_title: 'Trois Principes<br>Sans Exceptions',
+    phil1_text: 'Discipline sur opinion.',
+    phil1_label: 'Le Système Décide',
+    phil2_text: 'Processus sur narration.',
+    phil2_label: 'Règles Avant Tout',
+    phil3_text: 'Asymétrie sur volume.',
+    phil3_label: 'Qualité sur Quantité',
+    sys1_title: 'Exécution Basée sur les Règles',
+    sys1_text: 'Tous les critères d\'entrée, stop-loss et take-profit sont définis avant l\'ouverture - jamais ajustés par impulsion.',
+    sys2_title: 'Risque Quantifié',
+    sys2_text: 'Le risque par opération est fixé à 1R. Tous les résultats sont mesurés dans cette unité.',
+    sys3_title: 'Non Discrétionnaire',
+    sys3_text: 'Le système élimine le biais humain. Si le setup qualifie, le trade est pris. Sinon, il est ignoré. Sans exceptions.',
+    sys4_title: 'Historique Auditable',
+    sys4_text: 'Chaque opération enregistrée avec date, entrée et sortie vérifiées. Historique transparent.',
+    system_eyebrow: '// Système EQC',
+    system_title: 'Le Système<br>Ses Règles',
+    system_p1: 'EQC opère selon un ensemble de règles prédéfinies - il n\'y a pas de place pour la discrétion ou le jugement subjectif.',
+    system_p2: 'Le risque est quantifié à l\'entrée. Le dimensionnement de position est fixe. Les résultats sont mesurés en multiples de R.',
+    system_p3: 'Le système ne réagit pas aux titres ni au sentiment du marché. Il exécute son avantage statistique, opération après opération.',
+    model_eyebrow: 'Modèle d\'Investissement',
+    model_title: 'Comment Fonctionne le Système',
+    model_intro: 'Un processus en cinq étapes qui commence par la classification du régime et se termine par la gestion dynamique des positions.',
+    mc1_title: 'Évaluation du Régime',
+    mc1_text: 'Classification structurelle des conditions de marché actuelles pour déterminer l\'environnement opérationnel.',
+    mc2_title: 'Risque par Position',
+    mc2_text: 'Chaque opération a une perte maximale prédéfinie en unités R avant l\'entrée.',
+    mc3_title: 'Entrée en Zone de Valeur',
+    mc3_text: 'Allocation progressive du capital dans des zones de valeur identifiées - augmentant l\'exposition à mesure que la conviction grandit.',
+    mc4_title: 'Sorties par R-Multiple',
+    mc4_text: 'Logique de sortie définie par des R-multiples, éliminant la prise de décision émotionnelle aux moments critiques.',
+    mc5_title: 'Ajustement Dynamique',
+    mc5_text: 'Les paramètres se recalibrent à mesure que les conditions de marché évoluent.',
+    mc6_label: 'Étapes<br>Systématiques',
+    risk_eyebrow: 'Architecture des Risques',
+    risk_title: 'Construit pour<br>Survivre à<br>Tout Régime',
+    risk_dial: 'Noyau de Risque',
+    ri1_title: 'Limites d\'Exposition par Position',
+    ri1_text: 'Les limites d\'exposition maximale par opération empêchent toute position individuelle d\'affecter matériellement la santé du portefeuille.',
+    ri2_title: 'Gestion Active du Drawdown',
+    ri2_text: 'Surveillance en temps réel avec des limites prédéterminées déclenchant des postures défensives automatiques.',
+    ri3_title: 'Exécution Non Discrétionnaire',
+    ri3_text: 'Toute l\'exécution suit les règles du modèle. Le jugement humain se limite à la supervision du modèle.',
+    ri4_title: 'Convexité sur Fréquence',
+    ri4_text: 'Le portefeuille est structuré pour bénéficier de façon disproportionnée des grands mouvements.',
+    cust_eyebrow: 'Confiance et Transparence',
+    cust_title: 'Votre Capital<br><span>Toujours le Vôtre</span>',
+    cust_text: 'Risque de garde zéro. Vos fonds restent dans votre propre <strong>compte Interactive Brokers</strong> à tout moment. Nous opérons exclusivement via l\'accès investisseur - <strong>visibilité totale, exposition zéro au risque de contrepartie.</strong>',
+    cp1_title: 'Pas de Garde de Fonds',
+    cp1_text: 'Nous ne détenons, ne déplaçons ou n\'avons jamais accès pour retirer votre capital - à aucun moment.',
+    cp2_title: 'Votre Compte IBKR',
+    cp2_text: 'Toutes les opérations sont exécutées directement dans votre propre compte Interactive Brokers.',
+    cp3_title: 'Mot de Passe Investisseur Uniquement',
+    cp3_text: 'Nous opérons exclusivement via l\'accès de niveau investisseur - exécution des transactions uniquement.',
+    cp4_title: 'Visibilité Totale en Tout Temps',
+    cp4_text: 'Surveillez chaque position, chaque opération, chaque jour - en temps réel.',
+    contact_eyebrow: 'Accès',
+    contact_title: 'Demander un<br>Briefing Privé',
+    contact_intro: 'Détails d\'implémentation et documentation complète disponibles en contexte privé. Les investisseurs qualifiés peuvent demander l\'accès ci-dessous.',
+    form_nome: 'Prénom',
+    form_apelido: 'Nom',
+    form_email: 'Email',
+    form_tipo: 'Type d\'Investisseur',
+    form_tipo_placeholder: 'Sélectionner un profil',
+    form_tipo_inst: 'Investisseur Institutionnel',
+    form_tipo_fof: 'Fonds de Fonds',
+    form_tipo_other: 'Autre Investisseur Qualifié',
+    form_montante: 'Montant d\'Investissement (USD)',
+    form_montante_placeholder: 'Sélectionner un montant',
+    form_submit: 'Demander un Briefing Privé →',
+    form_thanks: 'Merci pour votre message',
+    form_thanks_sub: 'Nous vous contacterons bientôt pour planifier votre briefing privé.',
+    contact_or: 'Ou contactez-nous directement à',
+    footer_copy: '© 2026 Evolution Quantum Capital · Tous Droits Réservés',
+    footer_disc: 'Ce matériel est destiné uniquement aux investisseurs qualifiés. Les résultats passés ne garantissent pas les résultats futurs. Ne constitue pas une offre ou une sollicitation.',
+    partial_title: 'TOP 10 POSITIONS EN COURS - TPs PARTIELS',
+    disc_partial: 'Positions avec sorties partielles déjà exécutées. PNL% calculé par TP atteint.',
+    r_eyebrow: 'Le Système R',
+    r_title: 'Risque Défini<br>Toujours',
+    r_intro: 'L\'unité R représente le risque maximum par opération - toujours égal à 2,5% de la valeur du compte.',
+    r_struct_label: 'Structure d\'Entrée',
+    r_rule1: '<strong>4R par position</strong> - exposition maximale par actif dans des conditions normales.',
+    r_rule2: '<strong>1 Take Profit par R</strong> - sortie partielle progressive.',
+    r_rule3: '<strong>4 TPs définis techniquement</strong>, au cas par cas, basé sur la structure du graphique.',
+    r_rule4: '<strong>Sortie de 1R à chaque TP atteint</strong> - réduction graduelle du risque ouvert.',
+    r_reinforce_label: 'Renforcement de Position',
+    r_reinforce_text: 'Possibilité de renforcement jusqu\'à <strong>8R par actif</strong> - utilisé stratégiquement lorsque le marché offre une deuxième entrée à un prix plus favorable.',
+    r_table_label: 'Valeur de 1R par Taille de Compte',
+    r_th_size: 'Taille du Compte',
+    r_th_value: 'Valeur de 1R',
+    custos_eyebrow: 'Structure des Frais',
+    custos_title: 'Simple<br>Transparent<br>Aligné',
+    custos_claim: 'Pas de frais mensuels. Pas de charges fixes. EQC ne gagne que lorsque le client gagne.',
+    custo1_unit: 'Commission de Performance',
+    custo1_desc: 'Facturée <strong>uniquement sur les profits générés</strong>. Si l\'opération n\'est pas rentable, aucune commission ne s\'applique. Alignement total entre gestionnaire et client.',
+    custo2_unit: 'Dépôt de Garantie',
+    custo2_desc: 'De la valeur totale du compte, conservé dans le compte EQC. <strong>Exclusivement pour les débits de commissions</strong>.',
+    custos_note: 'EQC ne gagne que lorsque le client gagne · Pas de frais mensuels · Pas de charges fixes',
+    bench_eyebrow: '// EQC vs Benchmarks',
+    bench_title: 'Même Période<br>Comparée',
+    bench_intro: 'Comparaison directe avec les principaux indices sur la même période depuis le lancement du modèle EQC.',
+    bench_col_name: 'Benchmark',
+    bench_col_ret: 'Rendement Période',
+    bench_col_alpha: 'Alpha EQC',
+    bench_col_note: 'Note',
+    bench_eqc_note: 'Système EQC',
+    bench_sp500_note: '500 plus grandes entreprises US',
+    bench_ndx_note: 'Top 100 tech US',
+    bench_rut_note: 'Small caps US',
+    bench_tbill_note: 'Taux sans risque (~4,5%/an)',
+    track_eyebrow: 'Bilan',
+    track_title: 'Résultats Réels<br>Trades Fermés',
+    track_intro: 'Toutes les positions ci-dessous sont des trades fermés avec des données d\'entrée/sortie vérifiées. Chaque trade a été exécuté de façon non discrétionnaire dans le cadre du modèle EQC.',
+    kpi1_label: 'Gain Total Fermé ($)',
+    kpi1_sub: 'Sur toutes les positions fermées',
+    kpi2_label: 'Meilleur Trade',
+    kpi2_sub: 'IBRX - gain de 163.64%',
+    kpi3_label: 'R-Ratio Moyen',
+    kpi3_sub: 'Récompense/risque par trade',
+    closed_title: 'TOP 10 POSITIONS FERMÉES 2026',
+    open_title: 'TOP 10 POSITIONS OUVERTES',
+    loading: 'Chargement...',
+    disc_closed: 'Les résultats passés ne garantissent pas les résultats futurs. Toutes les données reflètent des positions fermées exécutées sous le modèle systématique EQC.',
+    disc_open: 'Positions ouvertes en temps réel. Données importées automatiquement via EQC Portfolio Live.',
+    audit1_title: '100% Auditable',
+    audit1_text: 'Chaque trade documenté avec entrée, sortie et date',
+    audit2_title: 'Précision Humaine et Propriétaire',
+    audit2_text: 'Chaque décision soutenue par une méthodologie d\'AT exclusive, pas des algorithmes',
+    audit3_title: 'Transparence Totale',
+    audit3_text: 'Documentation disponible sur demande',
+    portfolio_title: 'Portfolio',
+    portfolio_title_gold: 'Live',
+    portfolio_hero_label: '// EQC Bilan',
+    portfolio_hero_tagline: 'Trades réels. Données vérifiées. Performance 100% auditable - positions fermées et ouvertes sur tous les marchés.',
+    th_ticker: 'Ticker',
+    th_price_in: 'Prix Entrée Moy.',
+    th_price_out: 'Prix Sortie Moy.',
+    th_pnl_pct: 'PNL %',
+    th_pnl_usd: 'PNL ($)',
+    th_rr: 'Trade RR',
+    th_mae: 'MAE %',
+    th_exchange: 'Exchange',
+    badge_hardcap: 'HARD CAP',
+    badge_active: 'ACTIF',
+    badge_convex: 'CONVEXE',
+    showcase_eyebrow: '// Activité Récente',
+    showcase_title: 'Trades<br>Récents',
+    showcase_note: 'Partagé pour la <strong>transparence</strong> et la visibilité de marque. Pas des recommandations. EQC n\'est pas un service de signaux.',
+    showcase_disc: '<strong>Important :</strong> Les cartes de trades partagées par EQC sont <strong>uniquement à des fins d\'information et de transparence</strong>. Elles ne constituent pas un conseil en investissement. EQC n\'est pas un fournisseur de signaux.',
+  },
+  ar: {
+    fala_connosco: 'تواصل معنا',
+    nav_home: 'الرئيسية',
+    nav_system: 'النظام',
+    nav_portfolio: 'المحفظة',
+    nav_community: 'المجتمع',
+    nav_tools: 'الأدوات',
+    nav_contact_link: 'اتصل بنا',
+    nav_mandate: 'الولاية',
+    nav_track: 'السجل',
+    nav_model: 'النموذج',
+    nav_activity: 'النشاط',
+    nav_r: 'نظام R',
+    nav_custos: 'التكاليف',
+    nav_philosophy: 'الفلسفة',
+    nav_contact: 'اتصل',
+    audit_stripe: '✓ جميع العمليات قابلة للتدقيق والتحقق بنسبة 100%',
+    hero_label: 'تحديد المخاطر غير المتماثلة',
+    hero_tagline: 'نهج منهجي لحفظ رأس المال والنمو المركّب. إدارة المخاطر هي الأولوية. العائد نتيجة هيكلية.',
+    hero_cta1: 'طلب الوصول',
+    hero_cta2: 'عرض السجل',
+    hero_scroll: 'استكشاف',
+    mandate_eyebrow: 'الولاية',
+    mandate_title: 'حفظ رأس المال<br>عوائد هيكلية',
+    mandate_p1: 'تعمل Evolution Quantum Capital تحت ولاية واضحة: <strong>حماية رأس المال أولاً، ثم تنميته.</strong> العوائد لا تُسعى — بل تظهر كنتيجة لإدارة منضبطة للمخاطر.',
+    mandate_p2: 'كل قرار يتبع قواعد محددة مسبقاً. لا مجال للسرد أو الرأي أو التحيز اللحظي. النموذج يتكيف؛ الانضباط لا يتغير.',
+    mandate_universe_label: 'نطاق العمليات —',
+    mandate_universe_text: 'تعمل EQC في أي سوق أو أداة أو فئة أصول — أسهم، ETF، عقود آجلة، فوركس، تشفير والمزيد.',
+    pillar1_title: 'نهج منهجي',
+    pillar1_text: 'تنفيذ كامل قائم على القواعد في جميع أنظمة السوق. لا استثناءات.',
+    pillar2_title: 'المخاطر أولاً',
+    pillar2_text: 'حجم المركز والدخول والخروج كلها مشتقة من معاملات المخاطر.',
+    pillar3_title: 'النمو المركّب',
+    pillar3_text: 'يلتقط التحديد غير المتماثل التحركات الكبيرة مع تحديد الخسائر، مما يتيح النمو المركّب طويل الأمد.',
+    phil_eyebrow: 'الفلسفة',
+    phil_title: 'ثلاثة مبادئ<br>بلا استثناءات',
+    phil1_text: 'الانضباط فوق الرأي.',
+    phil1_label: 'النظام يقرر',
+    phil2_text: 'العملية فوق السرد.',
+    phil2_label: 'القواعد فوق كل شيء',
+    phil3_text: 'عدم التماثل فوق الحجم.',
+    phil3_label: 'الجودة فوق الكمية',
+    sys1_title: 'تنفيذ قائم على القواعد',
+    sys1_text: 'جميع معايير الدخول ووقف الخسارة وجني الأرباح محددة قبل فتح المركز — ولا تُعدّل باندفاع.',
+    sys2_title: 'مخاطرة مقيّسة',
+    sys2_text: 'المخاطرة لكل صفقة ثابتة عند 1R. جميع النتائج تقاس بهذه الوحدة.',
+    sys3_title: 'غير تقديري',
+    sys3_text: 'النظام يزيل التحيز البشري. إذا استوفى الإعداد المعايير، يُنفَّذ. إذا لم يستوفِ، يُتجاهل. بلا استثناءات.',
+    sys4_title: 'سجل قابل للتدقيق',
+    sys4_text: 'كل صفقة مسجلة بتاريخ ودخول وخروج موثقين. سجل شفاف.',
+    system_eyebrow: '// نظام EQC',
+    system_title: 'النظام<br>قواعده',
+    system_p1: 'تعمل EQC وفق مجموعة من القواعد المحددة مسبقاً — لا مجال للتقدير أو الحكم الذاتي.',
+    system_p2: 'يتم قياس المخاطرة عند الدخول. حجم المركز ثابت. النتائج تقاس بمضاعفات R.',
+    system_p3: 'النظام لا يتفاعل مع الأخبار أو مشاعر السوق. ينفذ ميزته الإحصائية، صفقة بعد صفقة.',
+    model_eyebrow: 'نموذج الاستثمار',
+    model_title: 'كيف يعمل النظام',
+    model_intro: 'عملية من خمس خطوات تبدأ بتصنيف النظام وتنتهي بإدارة المراكز الديناميكية.',
+    mc1_title: 'تقييم النظام',
+    mc1_text: 'التصنيف الهيكلي لظروف السوق الحالية لتحديد البيئة التشغيلية.',
+    mc2_title: 'مخاطر المركز',
+    mc2_text: 'كل صفقة لها حد أقصى للخسارة محدد مسبقاً بوحدات R قبل الدخول.',
+    mc3_title: 'الدخول في منطقة القيمة',
+    mc3_text: 'تخصيص تدريجي لرأس المال في مناطق القيمة المحددة.',
+    mc4_title: 'خروج بمضاعف R',
+    mc4_text: 'منطق خروج محدد بمضاعفات R، يقضي على اتخاذ القرار العاطفي في اللحظات الحرجة.',
+    mc5_title: 'التعديل الديناميكي',
+    mc5_text: 'إعادة معايرة المعاملات مع تطور ظروف السوق.',
+    mc6_label: 'خطوات<br>منهجية',
+    risk_eyebrow: 'هندسة المخاطر',
+    risk_title: 'مبني للصمود<br>في أي<br>نظام سوقي',
+    risk_dial: 'نواة المخاطر',
+    ri1_title: 'حدود التعرض لكل مركز',
+    ri1_text: 'تمنع حدود التعرض القصوى لكل صفقة أي مركز فردي من التأثير جوهرياً على صحة المحفظة.',
+    ri2_title: 'إدارة نشطة للسحب',
+    ri2_text: 'مراقبة في الوقت الفعلي مع حدود محددة مسبقاً تُطلق مواقف دفاعية تلقائية.',
+    ri3_title: 'تنفيذ غير تقديري',
+    ri3_text: 'جميع عمليات التنفيذ تتبع قواعد النموذج. الحكم البشري مقيد بالإشراف على النموذج.',
+    ri4_title: 'التقعر فوق التكرار',
+    ri4_text: 'المحفظة مبنية للاستفادة بشكل غير متناسب من التحركات الكبيرة.',
+    cust_eyebrow: 'الثقة والشفافية',
+    cust_title: 'رأس مالك<br><span>دائماً ملكك</span>',
+    cust_text: 'مخاطر حضانة صفرية. تبقى أموالك في <strong>حساب إنتراكتيف بروكرز</strong> الخاص بك في جميع الأوقات. نعمل حصراً عبر وصول المستثمر — <strong>رؤية كاملة، تعرض صفري لمخاطر الطرف المقابل.</strong>',
+    cp1_title: 'لا حضانة للأموال',
+    cp1_text: 'لا نحتجز أو ننقل أو نملك صلاحية سحب رأس مالك — في أي وقت.',
+    cp2_title: 'حساب IBKR الخاص بك',
+    cp2_text: 'جميع الصفقات تُنفَّذ مباشرة داخل حساب إنتراكتيف بروكرز الخاص بك.',
+    cp3_title: 'كلمة مرور المستثمر فقط',
+    cp3_text: 'نعمل حصراً عبر وصول مستوى المستثمر — تنفيذ الصفقات فقط.',
+    cp4_title: 'رؤية كاملة في جميع الأوقات',
+    cp4_text: 'راقب كل مركز وكل صفقة كل يوم — في الوقت الفعلي.',
+    contact_eyebrow: 'الوصول',
+    contact_title: 'طلب<br>إحاطة خاصة',
+    contact_intro: 'تفاصيل التنفيذ والوثائق الكاملة متاحة في سياق خاص. يمكن للمستثمرين المؤهلين طلب الوصول أدناه.',
+    form_nome: 'الاسم الأول',
+    form_apelido: 'اسم العائلة',
+    form_email: 'البريد الإلكتروني',
+    form_tipo: 'نوع المستثمر',
+    form_tipo_placeholder: 'اختر ملفاً',
+    form_tipo_inst: 'مستثمر مؤسسي',
+    form_tipo_fof: 'صندوق الصناديق',
+    form_tipo_other: 'مستثمر مؤهل آخر',
+    form_montante: 'مبلغ الاستثمار (USD)',
+    form_montante_placeholder: 'اختر المبلغ',
+    form_submit: 'طلب إحاطة خاصة →',
+    form_thanks: 'شكراً على رسالتك',
+    form_thanks_sub: 'سنتواصل معك قريباً لجدولة إحاطتك الخاصة.',
+    contact_or: 'أو تواصل معنا مباشرة على',
+    footer_copy: '© 2026 Evolution Quantum Capital · جميع الحقوق محفوظة',
+    footer_disc: 'هذه المادة مخصصة للمستثمرين المؤهلين فقط. النتائج السابقة لا تضمن النتائج المستقبلية. لا تشكل عرضاً أو التماساً.',
+    partial_title: 'أفضل 10 مراكز جارية — TPs جزئية',
+    disc_partial: 'مراكز مع مخارج جزئية منفذة بالفعل. PNL% محسوب لكل TP تم الوصول إليه.',
+    r_eyebrow: 'نظام R',
+    r_title: 'المخاطرة محددة<br>دائماً',
+    r_intro: 'تمثل وحدة R الحد الأقصى للمخاطرة لكل صفقة — دائماً ما تعادل 2.5% من قيمة الحساب.',
+    r_struct_label: 'هيكل الدخول',
+    r_rule1: '<strong>4R لكل مركز</strong> — الحد الأقصى للتعرض لكل أصل في الظروف الطبيعية.',
+    r_rule2: '<strong>جني ربح واحد لكل R</strong> — خروج جزئي تدريجي.',
+    r_rule3: '<strong>4 TPs محددة تقنياً</strong>، حالة بحالة، بناءً على بنية الرسم البياني.',
+    r_rule4: '<strong>خروج 1R عند كل TP</strong> — تقليل تدريجي للمخاطر المفتوحة.',
+    r_reinforce_label: 'تعزيز المركز',
+    r_reinforce_text: 'إمكانية التعزيز حتى <strong>8R لكل أصل</strong> — يُستخدم استراتيجياً عندما يقدم السوق دخولاً ثانياً بسعر أفضل.',
+    r_table_label: 'قيمة 1R حسب حجم الحساب',
+    r_th_size: 'حجم الحساب',
+    r_th_value: 'قيمة 1R',
+    custos_eyebrow: 'هيكل التكاليف',
+    custos_title: 'بسيط<br>شفاف<br>متوافق',
+    custos_claim: 'لا رسوم شهرية. لا رسوم ثابتة. EQC تكسب فقط عندما يكسب العميل.',
+    custo1_unit: 'عمولة الأداء',
+    custo1_desc: 'تُحصَّل <strong>فقط على الأرباح المولَّدة</strong>. إذا لم تكن الصفقة مربحة، لا تُطبَّق أي عمولة. توافق تام بين المدير والعميل.',
+    custo2_unit: 'وديعة ضمان',
+    custo2_desc: 'من إجمالي قيمة الحساب، محتفظ بها في حساب EQC. <strong>حصرياً لخصم العمولات</strong>.',
+    custos_note: 'EQC تكسب فقط عندما يكسب العميل · لا رسوم شهرية · لا رسوم ثابتة',
+    bench_eyebrow: '// EQC مقابل المعايير',
+    bench_title: 'نفس الفترة<br>مقارنة',
+    bench_intro: 'مقارنة مباشرة مع المؤشرات الرئيسية في نفس الفترة منذ بداية نموذج EQC.',
+    bench_col_name: 'المعيار',
+    bench_col_ret: 'عائد الفترة',
+    bench_col_alpha: 'ألفا EQC',
+    bench_col_note: 'ملاحظة',
+    bench_eqc_note: 'نظام EQC',
+    bench_sp500_note: 'أكبر 500 شركة أمريكية',
+    bench_ndx_note: 'أكبر 100 شركة تقنية أمريكية',
+    bench_rut_note: 'شركات صغيرة أمريكية',
+    bench_tbill_note: 'معدل خالٍ من المخاطر (~4.5%/سنة)',
+    track_eyebrow: 'السجل',
+    track_title: 'نتائج حقيقية<br>صفقات مغلقة',
+    track_intro: 'جميع المراكز أدناه صفقات مغلقة مع بيانات دخول/خروج موثقة. تم تنفيذ كل صفقة بشكل غير تقديري ضمن نموذج EQC.',
+    kpi1_label: 'إجمالي الربح المغلق ($)',
+    kpi1_sub: 'عبر جميع المراكز المغلقة',
+    kpi2_label: 'أفضل صفقة',
+    kpi2_sub: 'IBRX — ربح 163.64%',
+    kpi3_label: 'متوسط نسبة R',
+    kpi3_sub: 'المكافأة/المخاطرة لكل صفقة',
+    closed_title: 'أفضل 10 مراكز مغلقة 2026',
+    open_title: 'أفضل 10 مراكز مفتوحة',
+    loading: 'جاري التحميل...',
+    disc_closed: 'النتائج السابقة لا تضمن النتائج المستقبلية. تعكس جميع البيانات مراكز مغلقة منفذة تحت النموذج المنهجي لـ EQC.',
+    disc_open: 'مراكز مفتوحة في الوقت الفعلي. البيانات مستوردة تلقائياً عبر EQC Portfolio Live.',
+    audit1_title: '100% قابل للتدقيق',
+    audit1_text: 'كل صفقة موثقة بدخول وخروج وتاريخ',
+    audit2_title: 'دقة بشرية وخاصة',
+    audit2_text: 'كل قرار مدعوم بمنهجية تحليل تقني حصرية، وليس خوارزميات',
+    audit3_title: 'شفافية كاملة',
+    audit3_text: 'الوثائق متاحة عند الطلب',
+    portfolio_title: 'المحفظة',
+    portfolio_title_gold: 'مباشر',
+    portfolio_hero_label: '// سجل EQC',
+    portfolio_hero_tagline: 'صفقات حقيقية. بيانات موثقة. أداء قابل للتدقيق 100%.',
+    th_ticker: 'الرمز',
+    th_price_in: 'متوسط سعر الدخول',
+    th_price_out: 'متوسط سعر الخروج',
+    th_pnl_pct: 'PNL %',
+    th_pnl_usd: 'PNL ($)',
+    th_rr: 'Trade RR',
+    th_mae: 'MAE %',
+    th_exchange: 'البورصة',
+    badge_hardcap: 'حد أقصى',
+    badge_active: 'نشط',
+    badge_convex: 'محدب',
+    showcase_eyebrow: '// النشاط الأخير',
+    showcase_title: 'صفقات<br>أخيرة',
+    showcase_note: 'مشاركة من أجل <strong>الشفافية</strong> ورؤية العلامة التجارية. ليست توصيات. EQC ليست خدمة إشارات.',
+    showcase_disc: '<strong>مهم:</strong> بطاقات الصفقات التي تشاركها EQC هي <strong>لأغراض المعلومات والشفافية فقط</strong>. لا تشكل نصيحة استثمارية. EQC ليست مزوداً للإشارات.',
+  },
+};
+
+
+// ===== HAMBURGER MENU =====
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const btn  = document.getElementById('hamburger');
+  const isOpen = menu.classList.contains('open');
+  if (isOpen) {
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+    setTimeout(() => { menu.style.display = 'none'; }, 300);
+  } else {
+    menu.style.display = 'flex';
+    requestAnimationFrame(() => menu.classList.add('open'));
+    btn.classList.add('open');
+  }
+}
+document.getElementById('menu-close')?.addEventListener('click', toggleMenu);
+// Close on link click
+document.querySelectorAll('.mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    const menu = document.getElementById('mobile-menu');
+    const btn  = document.getElementById('hamburger');
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+    setTimeout(() => { menu.style.display = 'none'; }, 300);
+  });
+});
+
+let currentLang = 'en';
+
+const STATIC_I18N_KEYS = new Set();
+const LANG_LABELS = {pt:'PT', en:'EN', zh:'中文', ja:'日本語', es:'ES', fr:'FR', ar:'عربي'};
+
+function toggleLangDropdown(){
+  document.getElementById('lang-dropdown').classList.toggle('open');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.lang-selector'))
+    document.getElementById('lang-dropdown').classList.remove('open');
+});
+
+function setLang(lang) {
+  if (typeof TRANSLATIONS === 'undefined') return;
+  const t  = TRANSLATIONS[lang] || {};
+  const fb = TRANSLATIONS['en'] || TRANSLATIONS['pt'] || {};
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const val = t[key] !== undefined ? t[key] : fb[key];
+    if (val !== undefined) el.innerHTML = val;
+  });
+  const lbl = LANG_LABELS[lang] || lang.toUpperCase();
+  document.getElementById('lang-toggle').innerHTML = lbl + ' <span style="font-size:8px;opacity:0.7;">▼</span>';
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+  currentLang = lang;
+  try { localStorage.setItem('eqc_lang', lang); } catch(e) {}
+  document.querySelectorAll('.lang-dropdown button').forEach(btn => {
+    btn.classList.toggle('active-lang', btn.getAttribute('onclick') === `setLang('${lang}')`);
+  });
+  document.getElementById('lang-dropdown').classList.remove('open');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Default English; auto-detect browser language; remember the visitor choice
+  let saved = null;
+  try { saved = localStorage.getItem('eqc_lang'); } catch(e) {}
+  const bl = (navigator.language || 'en').slice(0,2).toLowerCase();
+  const map = {pt:'pt',en:'en',zh:'zh',ja:'ja',es:'es',fr:'fr',ar:'ar'};
+  setLang(saved || map[bl] || 'en');
+});
+</script>
+
+<script>
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+if(cur&&ring)document.addEventListener('mousemove',e=>{cur.style.left=ring.style.left=e.clientX+'px';cur.style.top=ring.style.top=e.clientY+'px'});
+
+function toggleFAQ(btn){
+  const item=btn.closest('.faq-item'),isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el=>el.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+function toggleMenu(){document.querySelector('.mobile-menu')?.classList.toggle('open')}
+function toggleLangDropdown(){document.getElementById('lang-dropdown')?.classList.toggle('open')}
+const sb=document.getElementById('scrollTop');
+if(sb)window.addEventListener('scroll',()=>{sb.style.opacity=scrollY>400?'1':'0'});
+(function(){
+  const lang=new URLSearchParams(location.search).get('lang')||'en';
+  if(lang==='en'||!window.TRANSLATIONS||!window.TRANSLATIONS[lang])return;
+  const t=window.TRANSLATIONS[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t[k])el.innerHTML=t[k]});
+})();
+</script>
+</body>
+</html>
