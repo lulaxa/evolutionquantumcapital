@@ -1108,13 +1108,13 @@ footer {
 <!-- ===== MOBILE MENU ===== -->
 <div class="mobile-menu" id="mobile-menu">
   <button class="mobile-menu-close" id="menu-close" aria-label="Fechar menu">✕</button>
-  <a href="index.html" data-i18n="nav_home">Home</a>
-  <a href="system.html" data-i18n="nav_system">System</a>
-  <a href="portfolio.html" data-i18n="nav_portfolio">Portfolio</a>
+  <a href="/" data-i18n="nav_home">Home</a>
+  <a href="/system.html" data-i18n="nav_system">System</a>
+  <a href="/portfolio.html" data-i18n="nav_portfolio">Portfolio</a>
   <a href="/insights/" data-i18n="nav_insights">Insights</a>
-  <a href="community.html" data-i18n="nav_community">Community</a>
-  <a href="tools.html" data-i18n="nav_tools">Tools</a> <a href="/faq.html">FAQ</a>
-  <a href="index.html#contact" class="nav-cta" data-i18n="nav_contact_link">Contact</a>
+  <a href="/community.html" data-i18n="nav_community">Community</a>
+  <a href="/tools.html" data-i18n="nav_tools">Tools</a> <a href="/faq.html">FAQ</a>
+  <a href="/#contact" class="nav-cta" data-i18n="nav_contact_link">Contact</a>
 </div>
 
 <div class="cursor" id="cursor"></div>
@@ -1129,14 +1129,14 @@ footer {
   <div class="nav-right">
     <div class="nav-right-top">
       <ul class="nav-links">
-        <li><a href="index.html" class="nav-active" data-i18n="nav_home">Home</a></li>
-        <li><a href="system.html" data-i18n="nav_system">System</a></li>
-        <li><a href="portfolio.html" data-i18n="nav_portfolio">Portfolio</a></li>
+        <li><a href="/" class="nav-active" data-i18n="nav_home">Home</a></li>
+        <li><a href="/system.html" data-i18n="nav_system">System</a></li>
+        <li><a href="/portfolio.html" data-i18n="nav_portfolio">Portfolio</a></li>
         <li><a href="/insights/" data-i18n="nav_insights">Insights</a></li>
-        <li><a href="community.html" data-i18n="nav_community">Community</a></li>
-        <li><a href="tools.html" data-i18n="nav_tools">Tools</a></li>
+        <li><a href="/community.html" data-i18n="nav_community">Community</a></li>
+        <li><a href="/tools.html" data-i18n="nav_tools">Tools</a></li>
         <li><a href="/faq.html" data-i18n="nav_faq">FAQ</a></li>
-        <li><a href="index.html#contact" class="nav-cta" data-i18n="nav_contact_link">Contact</a></li>
+        <li><a href="/#contact" class="nav-cta" data-i18n="nav_contact_link">Contact</a></li>
       </ul>
       <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button><div class="lang-selector">
         <button id="lang-toggle" onclick="toggleLangDropdown()">EN <span style="font-size:8px;opacity:0.7;">▼</span></button>
@@ -1186,14 +1186,19 @@ footer {
 
   <p class="hero-tagline" data-i18n="hero_tagline">A systematic approach to capital preservation and compound growth. Risk control is primary. Return is a structural consequence.</p>
 
+  <div class="hero-cta">
+    <a href="/portfolio.html" class="btn-primary" data-i18n="hero_cta_track">View Track Record</a>
+    <a href="#contact" class="btn-ghost" data-i18n="hero_cta_contact">Request Briefing</a>
+  </div>
+
   <div class="hero-mobile-nav">
-      <a href="index.html" data-i18n="nav_home">Home</a>
-    <a href="system.html" data-i18n="nav_system">System</a>
-    <a href="portfolio.html" data-i18n="nav_portfolio">Portfolio</a>
+      <a href="/" data-i18n="nav_home">Home</a>
+    <a href="/system.html" data-i18n="nav_system">System</a>
+    <a href="/portfolio.html" data-i18n="nav_portfolio">Portfolio</a>
     <a href="/insights/" data-i18n="nav_insights">Insights</a>
-    <a href="community.html" data-i18n="nav_community">Community</a>
-    <a href="tools.html" data-i18n="nav_tools">Tools</a>
-    <a href="index.html#contact" data-i18n="nav_contact_link">Contact</a>
+    <a href="/community.html" data-i18n="nav_community">Community</a>
+    <a href="/tools.html" data-i18n="nav_tools">Tools</a>
+    <a href="/#contact" data-i18n="nav_contact_link">Contact</a>
   </div>
 
   <div class="scroll-hint">
@@ -1374,8 +1379,11 @@ footer {
       </a>
     </div>
     <p class="contact-email reveal d3">
-      <span data-i18n="contact_or">Or contact us directly at</span>
+      <span data-i18n="contact_general">General enquiries:</span>
       <a href="mailto:info@eqc.investments" style="color:var(--gold)">info@eqc.investments</a>
+      <br>
+      <span data-i18n="contact_analysis">Portfolio &amp; analysis consultation:</span>
+      <a href="mailto:portfolio@eqc.investments" style="color:var(--gold)">portfolio@eqc.investments</a>
     </p>
   </div>
 </section>
