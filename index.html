@@ -1444,6 +1444,7 @@ async function handleSubmit(e) {
       form.style.display = 'none';
       const msg = document.getElementById('form-success');
       if (msg) msg.style.display = 'block';
+      if (typeof gtag === 'function') { gtag('event', 'generate_lead', { form_name: 'contact' }); }
     } else {
       btn.textContent = document.documentElement.lang === 'en' ? 'Error sending. Please try again.' : 'Erro ao enviar. Tente novamente.';
     }
