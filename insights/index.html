@@ -14,7 +14,9 @@
 <title>Market Insights &amp; Weekly Screener Reports | EQC</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#050f1e;--bg2:#081628;--navy:#0b1e3a;--navy2:#0f2545;--surface:#102040;--border:rgba(180,145,60,.18);--borderb:rgba(74,130,200,.14);--gold:#c9a94a;--goldl:#e8cc7a;--goldd:rgba(201,169,74,.10);--blue:#2d6abf;--bluel:rgba(45,106,191,.18);--white:#e6eef8;--muted:rgba(230,238,248,.45);--green:#00e87a;--red:#ff4d6a;}
+:root{--bg:#050f1e;--bg2:#081628;--navy:#0b1e3a;--surface:#102040;
+--border:rgba(180,145,60,.18);--gold:#c9a94a;--goldl:#e8cc7a;--blue:#2d6abf;
+--white:#e6eef8;--muted:rgba(230,238,248,.55);--green:#00e87a;--red:#ff4d6a;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--white);font-family:'Syne',sans-serif;
@@ -192,10 +194,16 @@ color:var(--muted);font-size:28px;cursor:pointer;line-height:1;transition:color 
   <div style="border:1px solid rgba(201,169,74,0.25);background:rgba(201,169,74,0.03);padding:22px;margin-bottom:24px;">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
       <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#c9a94a;">US vs Asia &mdash; History</div>
-      <div style="display:flex;align-items:center;gap:10px;"><div id="mi-chart-tabs" style="display:flex;gap:6px;"></div><button id="mi-chart-reset" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 10px;cursor:pointer;background:transparent;border:1px solid rgba(201,169,74,0.25);color:#8899bb;">Reset Zoom</button></div>
+      <div style="display:flex;align-items:center;gap:10px;"><div id="mi-chart-tabs" style="display:flex;gap:6px;"></div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <button id="mi-zoom-out" title="Zoom out" style="font-family:'DM Mono',monospace;font-size:12px;padding:5px 12px;cursor:pointer;background:transparent;border:1px solid rgba(201,169,74,0.25);color:#8899bb;">&minus;</button>
+          <button id="mi-chart-reset" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 10px;cursor:pointer;background:transparent;border:1px solid rgba(201,169,74,0.25);color:#8899bb;">Reset Zoom</button>
+          <button id="mi-zoom-in" title="Zoom in" style="font-family:'DM Mono',monospace;font-size:12px;padding:5px 12px;cursor:pointer;background:transparent;border:1px solid rgba(201,169,74,0.25);color:#8899bb;">&plus;</button>
+        </div>
+      </div>
     </div>
     <div style="position:relative;height:320px;"><canvas id="mi-chart"></canvas></div>
-    <div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#5a6b85;">Scroll or pinch to zoom &middot; drag to pan &middot; Reset Zoom to restore</div>
+    <div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#5a6b85;">Scroll or pinch to zoom &middot; drag to pan &middot; Reset Zoom to restore &middot; botões +/&minus; para zoom por clique</div>
   </div>
 
   <div id="mi-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;"></div>
@@ -265,6 +273,10 @@ color:var(--muted);font-size:28px;cursor:pointer;line-height:1;transition:color 
   if(typeof Chart !== 'undefined' && typeof ChartZoom !== 'undefined'){ Chart.register(ChartZoom); }
   var resetBtn = document.getElementById('mi-chart-reset');
   if(resetBtn){ resetBtn.addEventListener('click', function(){ if(chart) chart.resetZoom(); }); }
+  var miZoomIn = document.getElementById('mi-zoom-in');
+  if(miZoomIn){ miZoomIn.addEventListener('click', function(){ if(chart) chart.zoom({x:1.15}); }); }
+  var miZoomOut = document.getElementById('mi-zoom-out');
+  if(miZoomOut){ miZoomOut.addEventListener('click', function(){ if(chart) chart.zoom({x:0.87}); }); }
 
   function chartTabs(){
     var el = document.getElementById('mi-chart-tabs');
@@ -338,6 +350,172 @@ color:var(--muted);font-size:28px;cursor:pointer;line-height:1;transition:color 
 })();
 </script>
 <!-- ===== /EQC MARKET INDEX LIVE ===== -->
+
+<!-- ===== EQC CAPITAL ROTATION (RRG) ===== -->
+<div class="wrap" id="rotation-live" style="margin-top:8px;margin-bottom:56px;">
+  <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#c9a94a;margin-bottom:6px;">// Live Readings</div>
+  <h2 style="font-family:'DM Serif Display',serif;font-size:28px;color:#ffffff;margin:0 0 6px;">EQC Capital Rotation</h2>
+  <p id="rot-updated" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#8899bb;margin:0 0 10px;"></p>
+  <p style="font-family:'DM Mono',monospace;font-size:11px;color:#8899bb;line-height:1.7;max-width:680px;margin:0 0 24px;">Relative Rotation Graph — força relativa (eixo X) vs momentum dessa força (eixo Y) contra o S&amp;P 500, semanal. Cada ponto é um índice global; o rasto mostra o caminho percorrido no período seleccionado.</p>
+
+  <div style="border:1px solid rgba(201,169,74,0.25);background:rgba(201,169,74,0.03);padding:22px;margin-bottom:24px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+      <div id="rot-chart-tabs" style="display:flex;gap:6px;"></div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <button id="rot-zoom-out" title="Zoom out" style="font-family:'DM Mono',monospace;font-size:12px;padding:5px 12px;cursor:pointer;background:transparent;border:1px solid rgba(201,169,74,0.25);color:#8899bb;">&minus;</button>
+        <button id="rot-chart-reset" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 10px;cursor:pointer;background:transparent;border:1px solid rgba(201,169,74,0.25);color:#8899bb;">Reset Zoom</button>
+        <button id="rot-zoom-in" title="Zoom in" style="font-family:'DM Mono',monospace;font-size:12px;padding:5px 12px;cursor:pointer;background:transparent;border:1px solid rgba(201,169,74,0.25);color:#8899bb;">&plus;</button>
+      </div>
+    </div>
+    <div style="position:relative;height:460px;"><canvas id="rot-chart"></canvas></div>
+    <div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#5a6b85;">Scroll ou pinch para zoom &middot; arrasta para navegar &middot; Reset Zoom restaura &middot; botões +/&minus; para zoom por clique</div>
+  </div>
+
+  <div id="rot-list" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-bottom:22px;"></div>
+
+  <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#5a6b85;line-height:1.8;">
+    Benchmark: S&amp;P 500 (proxy de FTSE:RU500). Todos os componentes são proxies livres do EQC Global RS Monitor — sem fonte gratuita para os índices FTSE Russell exactos.
+    Eixos normalizados em torno de 100: acima = mais forte / a acelerar que a sua própria base recente; abaixo = mais fraco / a travar.
+  </div>
+</div>
+
+<script>
+(function(){
+  var MONO = "font-family:'DM Mono',monospace;";
+  var QCOL = { LEADING:'#3dba5e', IMPROVING:'#55c8e0', WEAKENING:'#c9a94a', LAGGING:'#e85252', NEUTRAL:'#8899bb' };
+  var rotState = { data:null, tf:'1Y' };
+  var rotChart = null;
+  if(typeof Chart !== 'undefined' && typeof ChartZoom !== 'undefined'){ Chart.register(ChartZoom); }
+
+  function rotTabs(){
+    var el = document.getElementById('rot-chart-tabs');
+    if(!el) return;
+    el.innerHTML = ['1W','1M','YTD','1Y'].map(function(t){
+      var on = t===rotState.tf;
+      return '<button data-rtf="'+t+'" style="'+MONO+'font-size:10px;letter-spacing:0.1em;padding:5px 10px;cursor:pointer;background:'+(on?'rgba(201,169,74,0.15)':'transparent')+';border:1px solid '+(on?'#c9a94a':'rgba(201,169,74,0.25)')+';color:'+(on?'#c9a94a':'#8899bb')+';">'+t+'</button>';
+    }).join('');
+    el.querySelectorAll('button').forEach(function(b){
+      b.addEventListener('click', function(){ rotState.tf = b.dataset.rtf; renderRotChart(); renderRotList(); });
+    });
+  }
+
+  function sliceByTf(trail, tf){
+    if(!trail || !trail.length) return [];
+    if(tf==='1W') return trail.slice(-2);
+    if(tf==='1M') return trail.slice(-5);
+    if(tf==='1Y') return trail.slice(-52);
+    // YTD
+    var yr = new Date().getFullYear();
+    var jan1 = yr + '-01-01';
+    var out = trail.filter(function(p){ return p.date >= jan1; });
+    return out.length ? out : trail.slice(-1);
+  }
+
+  var rotZonePlugin = { id:'rotZones', beforeDatasetsDraw:function(ch){
+    var xs = ch.scales.x, ys = ch.scales.y, ctx = ch.ctx;
+    if(!xs || !ys) return;
+    var x100 = xs.getPixelForValue(100), y100 = ys.getPixelForValue(100);
+    ctx.save();
+    ctx.fillStyle = 'rgba(61,186,94,0.07)';  ctx.fillRect(x100, ys.top, xs.right-x100, y100-ys.top);      // LEADING
+    ctx.fillStyle = 'rgba(201,169,74,0.06)'; ctx.fillRect(x100, y100, xs.right-x100, ys.bottom-y100);     // WEAKENING
+    ctx.fillStyle = 'rgba(232,82,82,0.06)';  ctx.fillRect(xs.left, y100, x100-xs.left, ys.bottom-y100);   // LAGGING
+    ctx.fillStyle = 'rgba(85,200,224,0.06)'; ctx.fillRect(xs.left, ys.top, x100-xs.left, y100-ys.top);    // IMPROVING
+    ctx.strokeStyle = 'rgba(201,169,74,0.5)'; ctx.setLineDash([4,4]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x100, ys.top); ctx.lineTo(x100, ys.bottom); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(xs.left, y100); ctx.lineTo(xs.right, y100); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.font = "10px 'DM Mono', monospace"; ctx.fillStyle = 'rgba(136,153,187,0.7)';
+    ctx.fillText('LEADING',   xs.right-58, ys.top+14);
+    ctx.fillText('WEAKENING', xs.right-72, ys.bottom-8);
+    ctx.fillText('LAGGING',   xs.left+8,   ys.bottom-8);
+    ctx.fillText('IMPROVING', xs.left+8,   ys.top+14);
+    ctx.restore();
+  }};
+
+  function renderRotChart(){
+    rotTabs();
+    if(!rotState.data || typeof Chart === 'undefined') return;
+    var comps = rotState.data.components;
+    var datasets = comps.map(function(c){
+      var pts = sliceByTf(c.trail, rotState.tf).map(function(p){ return {x:p.x, y:p.y, d:p.date}; });
+      var n = pts.length;
+      var radii = pts.map(function(_, i){ return i===n-1 ? 7 : 2.5; });
+      var borders = pts.map(function(_, i){ return i===n-1 ? 2 : 0; });
+      return {
+        label: c.label, data: pts, showLine: true,
+        borderColor: c.color, backgroundColor: c.color,
+        borderWidth: 2, borderDash: [6,4],
+        pointRadius: radii, pointBorderColor: '#ffffff', pointBorderWidth: borders,
+        pointBackgroundColor: c.color, tension: 0
+      };
+    });
+    var allX = datasets.flatMap(function(d){ return d.data.map(function(p){ return p.x; }); });
+    var allY = datasets.flatMap(function(d){ return d.data.map(function(p){ return p.y; }); });
+    var pad = 2;
+    var xMin = Math.min.apply(null, allX)-pad, xMax = Math.max.apply(null, allX)+pad;
+    var yMin = Math.min.apply(null, allY)-pad, yMax = Math.max.apply(null, allY)+pad;
+
+    if(rotChart){ rotChart.data.datasets = datasets; rotChart.options.scales.x.min = xMin; rotChart.options.scales.x.max = xMax;
+      rotChart.options.scales.y.min = yMin; rotChart.options.scales.y.max = yMax; rotChart.update(); return; }
+
+    rotChart = new Chart(document.getElementById('rot-chart'), {
+      type: 'scatter',
+      data: { datasets: datasets },
+      options: { responsive:true, maintainAspectRatio:false,
+        scales: {
+          x: { type:'linear', min:xMin, max:xMax, title:{ display:true, text:'RS-Ratio (força relativa)', color:'#8899bb', font:{ family:'DM Mono', size:9 } },
+               grid:{ color:'rgba(255,255,255,0.05)' }, ticks:{ color:'#8899bb', font:{ family:'DM Mono', size:9 } } },
+          y: { type:'linear', min:yMin, max:yMax, title:{ display:true, text:'RS-Momentum', color:'#8899bb', font:{ family:'DM Mono', size:9 } },
+               grid:{ color:'rgba(255,255,255,0.05)' }, ticks:{ color:'#8899bb', font:{ family:'DM Mono', size:9 } } } },
+        plugins: { legend:{ labels:{ color:'#e6eef8', font:{ family:'DM Mono', size:9 }, boxWidth:12, boxHeight:2 } },
+                   tooltip:{ backgroundColor:'rgba(5,15,30,0.92)', borderColor:'rgba(201,169,74,0.4)', borderWidth:1,
+                             titleFont:{ family:'DM Mono', size:10 }, bodyFont:{ family:'DM Mono', size:10 },
+                             callbacks:{ label:function(ctx){ var p=ctx.raw; return ctx.dataset.label+'  x='+p.x.toFixed(2)+' y='+p.y.toFixed(2)+' ('+p.d+')'; } } },
+                   zoom:{ pan:{ enabled:true, mode:'xy' },
+                          zoom:{ wheel:{ enabled:true }, pinch:{ enabled:true }, drag:{ enabled:false }, mode:'xy' },
+                          limits:{ x:{ min:60, max:140 }, y:{ min:60, max:140 } } } } },
+      plugins: [rotZonePlugin]
+    });
+  }
+
+  function renderRotList(){
+    var el = document.getElementById('rot-list');
+    if(!el || !rotState.data) return;
+    var comps = rotState.data.components.slice().sort(function(a,b){
+      return (b.current.x - 100 + (b.current.y-100)) - (a.current.x - 100 + (a.current.y-100));
+    });
+    el.innerHTML = comps.map(function(c){
+      var col = QCOL[c.current.quadrant] || '#8899bb';
+      return '<div style="border:1px solid rgba(201,169,74,0.18);padding:10px 12px;display:flex;justify-content:space-between;align-items:center;">'
+        + '<span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+c.color+';margin-right:8px;"></span>'
+        + '<span style="'+MONO+'font-size:12px;color:#ffffff;">'+c.label+'</span></span>'
+        + '<span style="'+MONO+'font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:'+col+';">'+c.current.quadrant+'</span></div>';
+    }).join('');
+  }
+
+  var rotResetBtn = document.getElementById('rot-chart-reset');
+  if(rotResetBtn){ rotResetBtn.addEventListener('click', function(){ if(rotChart) rotChart.resetZoom(); }); }
+  var rotZoomIn = document.getElementById('rot-zoom-in');
+  if(rotZoomIn){ rotZoomIn.addEventListener('click', function(){ if(rotChart) rotChart.zoom(1.15); }); }
+  var rotZoomOut = document.getElementById('rot-zoom-out');
+  if(rotZoomOut){ rotZoomOut.addEventListener('click', function(){ if(rotChart) rotChart.zoom(0.87); }); }
+
+  fetch('/data/rs_rotation.json', {cache:'no-store'})
+    .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(j){
+      rotState.data = j;
+      document.getElementById('rot-updated').textContent = 'Last updated: ' + j.generated_at;
+      renderRotChart();
+      renderRotList();
+    })
+    .catch(function(){
+      document.getElementById('rot-list').innerHTML =
+        '<p style="'+MONO+'font-size:11px;color:#8899bb;">Live data temporarily unavailable.</p>';
+    });
+})();
+</script>
+<!-- ===== /EQC CAPITAL ROTATION ===== -->
+
 <div class="wrap" style="margin-bottom:64px;"><div style="border:1px solid rgba(201,169,74,0.25);background:rgba(201,169,74,0.03);padding:32px;text-align:center;"><div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#c9a94a;margin-bottom:12px;">// Screeners</div><h2 style="font-family:'DM Serif Display',serif;font-size:24px;color:#ffffff;margin:0 0 12px;">Daily &amp; Weekly Screeners &mdash; on Telegram</h2><p style="font-family:'DM Mono',monospace;font-size:12px;color:#8899bb;line-height:1.8;max-width:560px;margin:0 auto 20px;">All EQC screener results &mdash; daily oversold/overbought scans across 16,000+ stocks in 33 markets, weekly summaries and sector rotation analysis &mdash; are shared in our Telegram community.</p><a href="https://t.me/+dN1L-SlHNN02ZWI0" target="_blank" rel="noopener" style="display:inline-block;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#c9a94a;border:1px solid #c9a94a;padding:12px 28px;text-decoration:none;">Join the Telegram &rarr;</a></div></div>
 <footer>
   <div class="footer-brand">
