@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 """
 EQC Capital Rotation — LAYOUT C: lista/tabela agrupada por quadrante,
-sem grafico XY nenhum. Cada linha = 1 indice, seta a mostrar a direccao
-das ultimas 3 semanas, agrupado por LEADING/IMPROVING/WEAKENING/LAGGING.
+sem grafico XY nenhum. Cada linha = 1 indice, seta solida (nao uma linha
+fina) a mostrar a direccao da ultima semana, agrupado por
+LEADING/IMPROVING/WEAKENING/LAGGING.
 """
 
 import json
@@ -27,6 +28,7 @@ EQC_WEBSITE = "www.eqc.investments"
 FOLDER   = os.path.dirname(os.path.abspath(__file__))
 DATAFILE = os.path.join(FOLDER, "data", "rs_rotation.json")
 OUTDIR   = os.path.join(FOLDER, "assets", "cards")
+ARROW_WEEKS = 2  # 2 pontos de rasto = 1 segmento = ultima semana
 
 QUAD_ORDER = [
     ("LEADING",   GREEN,     "lidera — força e a acelerar"),
@@ -76,21 +78,37 @@ def gold_bracket(draw, x, y, size=36, thick=2, flip_x=False, flip_y=False):
     draw.line([(ax, sy), (ax, ey)], fill=GOLD, width=thick)
 
 
-def draw_direction_arrow(d, cx, cy, dx, dy, color, length=26, head=11):
-    """Seta clara: haste + triangulo solido na ponta (nao depende de glifo)."""
+def draw_direction_arrow(d, cx, cy, dx, dy, color, length=28, shaft_w=6, head_len=13, head_w=20):
+    """Seta solida e inequivoca: barra (retangulo cheio) + cabeca larga
+    (triangulo cheio) -- ao contrario da versao anterior (linha fina de
+    4px + triangulo pequeno), que ao tamanho da lista lia-se como um
+    simples tracinho colorido, nao uma seta. Nao depende de glifo de fonte."""
     import math
     flat = abs(dx) < 1e-6 and abs(dy) < 1e-6
     ang = 0.0 if flat else math.atan2(-dy, dx)  # -dy: y cresce para baixo no ecran
+    ux, uy = math.cos(ang), math.sin(ang)
+    perp_x, perp_y = -uy, ux
     half = length / 2
-    x0, y0 = cx - half * math.cos(ang), cy - half * math.sin(ang)
-    x1, y1 = cx + half * math.cos(ang), cy + half * math.sin(ang)
-    d.line([(x0, y0), (x1, y1)], fill=color, width=4)
-    left_a  = ang + math.pi - 2.6
-    right_a = ang + math.pi + 2.6
-    tip = (x1 + 3 * math.cos(ang), y1 + 3 * math.sin(ang))
-    p1 = (x1 + head * math.cos(left_a), y1 + head * math.sin(left_a))
-    p2 = (x1 + head * math.cos(right_a), y1 + head * math.sin(right_a))
-    d.polygon([tip, p1, p2], fill=color)
+    tail = (cx - half * ux, cy - half * uy)
+    tip  = (cx + half * ux, cy + half * uy)
+    head_base = (tip[0] - head_len * ux, tip[1] - head_len * uy)
+
+    sw = shaft_w / 2
+    shaft = [
+        (tail[0] + sw * perp_x, tail[1] + sw * perp_y),
+        (head_base[0] + sw * perp_x, head_base[1] + sw * perp_y),
+        (head_base[0] - sw * perp_x, head_base[1] - sw * perp_y),
+        (tail[0] - sw * perp_x, tail[1] - sw * perp_y),
+    ]
+    d.polygon(shaft, fill=color)
+
+    hw = head_w / 2
+    head = [
+        (head_base[0] + hw * perp_x, head_base[1] + hw * perp_y),
+        tip,
+        (head_base[0] - hw * perp_x, head_base[1] - hw * perp_y),
+    ]
+    d.polygon(head, fill=color)
 
 
 def compute_height(data: dict):
@@ -155,9 +173,9 @@ def generate(data: dict, output_path: str):
 
         for c in rows:
             color = tuple(int(c["color"][i:i+2], 16) for i in (1, 3, 5))
-            trail3 = c["trail"][-3:]
-            dx = trail3[-1]["x"] - trail3[0]["x"]
-            dy = trail3[-1]["y"] - trail3[0]["y"]
+            trailN = c["trail"][-ARROW_WEEKS:]
+            dx = trailN[-1]["x"] - trailN[0]["x"]
+            dy = trailN[-1]["y"] - trailN[0]["y"]
 
             d.ellipse([left + 4, y + 6, left + 20, y + 22], fill=color)
             d.text((left + 34, y), c["label"], fill=WHITE, font=name_font)

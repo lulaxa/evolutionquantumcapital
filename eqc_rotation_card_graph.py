@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-EQC Capital Rotation — LAYOUT B: snapshot + seta curta (3 semanas), sem rasto
+EQC Capital Rotation — LAYOUT B: snapshot + seta curta (1 semana), sem rasto
 completo. Muito menos linhas cruzadas que a v1 (RRG classico com 10 semanas
 de rasto) -- mostra so onde cada indice esta agora e para onde se moveu
-recentemente.
+na ultima semana.
 """
 
 import json
@@ -28,7 +28,7 @@ EQC_WEBSITE = "www.eqc.investments"
 FOLDER   = os.path.dirname(os.path.abspath(__file__))
 DATAFILE = os.path.join(FOLDER, "data", "rs_rotation.json")
 OUTDIR   = os.path.join(FOLDER, "assets", "cards")
-ARROW_WEEKS = 3  # so as ultimas N semanas viram seta (nao rasto completo)
+ARROW_WEEKS = 2  # 2 pontos de rasto = 1 segmento = ultima semana (era 3 = 2 semanas)
 
 
 def find_font(names):
@@ -119,7 +119,9 @@ def generate(data: dict, output_path: str):
     centered_x(d, "CAPITAL ROTATION", f(POPPINS_MEDIUM, 26), y, GOLD)
     y += 34
     bench_label = data["benchmark"]["label"]
-    sub = f"vs {bench_label}  ·  posição actual  ·  seta = últimas {ARROW_WEEKS} semanas"
+    weeks_shown = ARROW_WEEKS - 1
+    week_label = "última semana" if weeks_shown == 1 else f"últimas {weeks_shown} semanas"
+    sub = f"vs {bench_label}  ·  posição actual  ·  seta = {week_label}"
     centered_x(d, sub, f(POPPINS_LIGHT, 16), y, BLUE_GREY)
     y += 28
     draw_line(d, y)
