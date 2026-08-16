@@ -120,8 +120,8 @@ def generate(data: dict, output_path: str):
     y += 34
     bench_label = data["benchmark"]["label"]
     weeks_shown = ARROW_WEEKS - 1
-    week_label = "última semana" if weeks_shown == 1 else f"últimas {weeks_shown} semanas"
-    sub = f"vs {bench_label}  ·  posição actual  ·  seta = {week_label}"
+    week_label = "last week" if weeks_shown == 1 else f"last {weeks_shown} weeks"
+    sub = f"vs {bench_label}  ·  current position  ·  arrow = {week_label}"
     centered_x(d, sub, f(POPPINS_LIGHT, 16), y, BLUE_GREY)
     y += 28
     draw_line(d, y)
@@ -198,7 +198,7 @@ def generate(data: dict, output_path: str):
     foot_y = SIZE - 96 if clipped else SIZE - 78
     fy = foot_y + 8
     if clipped:
-        note = f"eixo ±{AXIS_HALF:.0f} pts — fora do intervalo: {', '.join(clipped)}"
+        note = f"axis ±{AXIS_HALF:.0f} pts — out of range: {', '.join(clipped)}"
         centered_x(d, note, f(POPPINS_LIGHT, 13), fy, blend(BLUE_GREY, GOLD, 0.4))
         fy += 22
     centered_x(d, "RULE-BASED  ·  NON-DISCRETIONARY  ·  EQC", f(POPPINS_LIGHT, 15), fy, FOOTER)

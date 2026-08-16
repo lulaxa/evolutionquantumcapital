@@ -31,11 +31,11 @@ OUTDIR   = os.path.join(FOLDER, "assets", "cards")
 ARROW_WEEKS = 2  # 2 pontos de rasto = 1 segmento = ultima semana
 
 QUAD_ORDER = [
-    ("LEADING",   GREEN,     "lidera — força e a acelerar"),
-    ("IMPROVING", CYAN,      "a recuperar força"),
-    ("WEAKENING", GOLD,      "ainda forte, mas a perder fôlego"),
-    ("LAGGING",   RED,       "fraco — sem força relativa"),
-    ("NEUTRAL",   BLUE_GREY, "à volta da base — sem sinal claro"),
+    ("LEADING",   GREEN,     "leading — strong and accelerating"),
+    ("IMPROVING", CYAN,      "regaining strength"),
+    ("WEAKENING", GOLD,      "still strong, but losing steam"),
+    ("LAGGING",   RED,       "weak — no relative strength"),
+    ("NEUTRAL",   BLUE_GREY, "around the baseline — no clear signal"),
 ]
 
 
@@ -143,7 +143,7 @@ def generate(data: dict, output_path: str):
     centered_x(d, "CAPITAL ROTATION", f(POPPINS_MEDIUM, 26), y, GOLD)
     y += 34
     bench_label = data["benchmark"]["label"]
-    centered_x(d, f"vs {bench_label}  ·  rotação semanal", f(POPPINS_LIGHT, 16), y, BLUE_GREY)
+    centered_x(d, f"vs {bench_label}  ·  weekly rotation", f(POPPINS_LIGHT, 16), y, BLUE_GREY)
     y += 30
     draw_line(d, y)
     y += 26
