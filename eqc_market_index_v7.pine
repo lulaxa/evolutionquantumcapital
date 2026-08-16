@@ -1,0 +1,657 @@
+//@version=6
+// =============================================================
+//  MARKET INDEX — Multi-TF + SMC + Intelligence
+//  4-point cycles per anchor:
+//    Start (0 + INVALIDATION) -> Ref/topo (50) -> Mania (85) -> Target/extreme (100)
+//    Mania / Target = 0  -> falls back to global ratios (retro-compatible)
+//    Price crossing Start in the opposite direction -> cycle INVALIDATED (NA)
+//  Components: QQQ, MAGS, ARKK, BTC, VIX(fixed)
+// =============================================================
+indicator("Market Index", overlay = false, scale = scale.right, max_labels_count = 500, max_lines_count = 500)
+
+// ===================== FIBONACCI RATIOS (fallback when Mania/Target = 0) =====================
+grpF = "Fibonacci Ratios (fallback)"
+r_mania   = input.float(4.618, "Mania ratio (-> 85)",   group = grpF, step = 0.001)
+r_extreme = input.float(5.2,   "Extreme ratio (-> 100)", group = grpF, step = 0.001)
+
+// ===================== WEIGHTS =====================
+grpW = "Index Weights"
+w_qqq  = input.float(0.25, "QQQ",  group = grpW)
+w_mags = input.float(0.20, "MAGS", group = grpW)
+w_arkk = input.float(0.20, "ARKK", group = grpW)
+w_btc  = input.float(0.20, "BTC",  group = grpW)
+w_vix  = input.float(0.15, "VIX",  group = grpW)
+
+// ===================== SHOW COMPONENTS =====================
+grpS = "Show Components"
+show_qqq  = input.bool(true, "Show QQQ",  group = grpS)
+show_mags = input.bool(true, "Show MAGS", group = grpS)
+show_arkk = input.bool(true, "Show ARKK", group = grpS)
+show_btc  = input.bool(true, "Show BTC",  group = grpS)
+show_vix  = input.bool(true, "Show VIX",  group = grpS)
+
+// ===================== SMOOTHING & MOMENTUM =====================
+grpSm = "Smoothing & Momentum"
+smooth_on  = input.bool(false, "Smooth the index line", group = grpSm)
+smooth_len = input.int(3, "Smoothing (EMA len)", minval = 1, group = grpSm)
+mom_len    = input.int(3, "Momentum lookback (bars)", minval = 1, group = grpSm)
+
+// ===================== LINE ZONES (color + value) =====================
+grpZ = "Line Zones (color & value)"
+lvl_mania = input.int(85, "Mania >=",        inline = "z1", group = grpZ)
+col_mania = input.color(color.red,    "color", inline = "z1", group = grpZ)
+lvl_euf   = input.int(70, "Euphoria >=",     inline = "z2", group = grpZ)
+col_euf   = input.color(color.orange, "color", inline = "z2", group = grpZ)
+lvl_bull  = input.int(50, "Healthy bull >=", inline = "z3", group = grpZ)
+col_bull  = input.color(color.green,  "color", inline = "z3", group = grpZ)
+lvl_recup = input.int(30, "Recovery >=",     inline = "z4", group = grpZ)
+col_recup = input.color(color.yellow, "color", inline = "z4", group = grpZ)
+col_fear  = input.color(#7e57c2, "Fear < Recovery color", inline = "z5", group = grpZ)
+
+// ===================== TIMEFRAME SELECTOR =====================
+fb_tf = input.string("Weekly (W)", "Other TFs (e.g. Daily) use",
+     options = ["Weekly (W)", "Monthly (M)", "Quarterly (3M)", "Semiannual (6M)", "Annual (12M)"],
+     group = "Timeframe Selector")
+sel(w, m, q, s, y) =>
+    out = fb_tf == "Monthly (M)" ? m : fb_tf == "Quarterly (3M)" ? q : fb_tf == "Semiannual (6M)" ? s : fb_tf == "Annual (12M)" ? y : w
+    if timeframe.isweekly
+        out := w
+    else if timeframe.ismonthly
+        mlt = timeframe.multiplier
+        out := mlt == 12 ? y : mlt == 6 ? s : mlt == 3 ? q : m
+    out
+
+// ===================== ANCHORS PER TF  (Start / Ref / Mania / Target) =====================
+ttCycle = "Start = measurement start (score 0 + invalidation). Ref = swing extreme / Fib 1.0 (score 50). Mania = 4.618 level (score 85). Target = 5.2 / exhaustion (score 100). Mania & Target = 0 -> use global ratios. Start<Ref = ascending; Start>Ref = descending. Cross Start the opposite way -> invalidated."
+
+gQ = "QQQ  (start / ref / mania / target per TF)"
+qqqW_lo = input.float(402.39, "W start",  inline="qW", group=gQ, tooltip=ttCycle)
+qqqW_hi = input.float(467.83, "ref",      inline="qW", group=gQ)
+qqqW_mn = input.float(0.0,    "mania",    inline="qW", group=gQ)
+qqqW_tg = input.float(0.0,    "target",   inline="qW", group=gQ)
+qqqM_lo = input.float(405.98, "M start",  inline="qM", group=gQ)
+qqqM_hi = input.float(483.84, "ref",      inline="qM", group=gQ)
+qqqM_mn = input.float(0.0,    "mania",    inline="qM", group=gQ)
+qqqM_tg = input.float(0.0,    "target",   inline="qM", group=gQ)
+qqqQ_lo = input.float(164.93, "3M start", inline="qQ", group=gQ)
+qqqQ_hi = input.float(237.47, "ref",      inline="qQ", group=gQ)
+qqqQ_mn = input.float(0.0,    "mania",    inline="qQ", group=gQ)
+qqqQ_tg = input.float(0.0,    "target",   inline="qQ", group=gQ)
+qqqS_lo = input.float(402.39, "6M start", inline="qS", group=gQ)
+qqqS_hi = input.float(552.80, "ref",      inline="qS", group=gQ)
+qqqS_mn = input.float(0.0,    "mania",    inline="qS", group=gQ)
+qqqS_tg = input.float(0.0,    "target",   inline="qS", group=gQ)
+qqqY_lo = input.float(19.76,  "12M start",inline="qY", group=gQ)
+qqqY_hi = input.float(42.60,  "ref",      inline="qY", group=gQ)
+qqqY_mn = input.float(0.0,    "mania",    inline="qY", group=gQ)
+qqqY_tg = input.float(0.0,    "target",   inline="qY", group=gQ)
+
+gMg = "MAGS  (start / ref / mania / target per TF)"
+magsW_lo = input.float(34.64, "W start",  inline="mW", group=gMg, tooltip=ttCycle)
+magsW_hi = input.float(42.50, "ref",      inline="mW", group=gMg)
+magsW_mn = input.float(0.0,   "mania",    inline="mW", group=gMg)
+magsW_tg = input.float(0.0,   "target",   inline="mW", group=gMg)
+magsM_lo = input.float(0.0,   "M start",  inline="mM", group=gMg)
+magsM_hi = input.float(0.0,   "ref",      inline="mM", group=gMg)
+magsM_mn = input.float(0.0,   "mania",    inline="mM", group=gMg)
+magsM_tg = input.float(0.0,   "target",   inline="mM", group=gMg)
+magsQ_lo = input.float(0.0,   "3M start", inline="mQ", group=gMg)
+magsQ_hi = input.float(0.0,   "ref",      inline="mQ", group=gMg)
+magsQ_mn = input.float(0.0,   "mania",    inline="mQ", group=gMg)
+magsQ_tg = input.float(0.0,   "target",   inline="mQ", group=gMg)
+magsS_lo = input.float(0.0,   "6M start", inline="mS", group=gMg)
+magsS_hi = input.float(0.0,   "ref",      inline="mS", group=gMg)
+magsS_mn = input.float(0.0,   "mania",    inline="mS", group=gMg)
+magsS_tg = input.float(0.0,   "target",   inline="mS", group=gMg)
+magsY_lo = input.float(0.0,   "12M start",inline="mY", group=gMg)
+magsY_hi = input.float(0.0,   "ref",      inline="mY", group=gMg)
+magsY_mn = input.float(0.0,   "mania",    inline="mY", group=gMg)
+magsY_tg = input.float(0.0,   "target",   inline="mY", group=gMg)
+
+gArk = "ARKK  (start / ref / mania / target per TF)"
+arkkW_lo = input.float(0.0, "W start",  inline="aW", group=gArk, tooltip=ttCycle)
+arkkW_hi = input.float(0.0, "ref",      inline="aW", group=gArk)
+arkkW_mn = input.float(0.0, "mania",    inline="aW", group=gArk)
+arkkW_tg = input.float(0.0, "target",   inline="aW", group=gArk)
+arkkM_lo = input.float(0.0, "M start",  inline="aM", group=gArk)
+arkkM_hi = input.float(0.0, "ref",      inline="aM", group=gArk)
+arkkM_mn = input.float(0.0, "mania",    inline="aM", group=gArk)
+arkkM_tg = input.float(0.0, "target",   inline="aM", group=gArk)
+arkkQ_lo = input.float(0.0, "3M start", inline="aQ", group=gArk)
+arkkQ_hi = input.float(0.0, "ref",      inline="aQ", group=gArk)
+arkkQ_mn = input.float(0.0, "mania",    inline="aQ", group=gArk)
+arkkQ_tg = input.float(0.0, "target",   inline="aQ", group=gArk)
+arkkS_lo = input.float(0.0, "6M start", inline="aS", group=gArk)
+arkkS_hi = input.float(0.0, "ref",      inline="aS", group=gArk)
+arkkS_mn = input.float(0.0, "mania",    inline="aS", group=gArk)
+arkkS_tg = input.float(0.0, "target",   inline="aS", group=gArk)
+arkkY_lo = input.float(0.0, "12M start",inline="aY", group=gArk)
+arkkY_hi = input.float(0.0, "ref",      inline="aY", group=gArk)
+arkkY_mn = input.float(0.0, "mania",    inline="aY", group=gArk)
+arkkY_tg = input.float(0.0, "target",   inline="aY", group=gArk)
+
+gB = "BTC  (start / ref / mania / target per TF)"
+btcW_lo = input.float(126230.09, "W start",  inline="bW", group=gB, tooltip=ttCycle)
+btcW_hi = input.float(103133.52, "ref",      inline="bW", group=gB)
+btcW_mn = input.float(0.0,       "mania",    inline="bW", group=gB)
+btcW_tg = input.float(0.0,       "target",   inline="bW", group=gB)
+btcM_lo = input.float(49098.86,  "M start",  inline="bM", group=gB)
+btcM_hi = input.float(65875.13,  "ref",      inline="bM", group=gB)
+btcM_mn = input.float(0.0,       "mania",    inline="bM", group=gB)
+btcM_tg = input.float(0.0,       "target",   inline="bM", group=gB)
+btcQ_lo = input.float(124501.31, "3M start", inline="bQ", group=gB)
+btcQ_hi = input.float(105145.31, "ref",      inline="bQ", group=gB)
+btcQ_mn = input.float(0.0,       "mania",    inline="bQ", group=gB)
+btcQ_tg = input.float(0.0,       "target",   inline="bQ", group=gB)
+btcS_lo = input.float(6863.68,   "6M start", inline="bS", group=gB)
+btcS_hi = input.float(3125.90,   "ref",      inline="bS", group=gB)
+btcS_mn = input.float(0.0,       "mania",    inline="bS", group=gB)
+btcS_tg = input.float(0.0,       "target",   inline="bS", group=gB)
+btcY_lo = input.float(0.0,       "12M start",inline="bY", group=gB)
+btcY_hi = input.float(0.0,       "ref",      inline="bY", group=gB)
+btcY_mn = input.float(0.0,       "mania",    inline="bY", group=gB)
+btcY_tg = input.float(0.0,       "target",   inline="bY", group=gB)
+
+// ===================== VIX (FIXED) =====================
+gV = "VIX  (fixed)"
+vix_fear = input.float(80.0, "VIX fear (peak)",  group = gV)
+vix_calm = input.float(13.0, "VIX calm (floor)", group = gV)
+
+// ===================== ACTIVE ANCHORS (per TF) =====================
+qqq_st  = sel(qqqW_lo, qqqM_lo, qqqQ_lo, qqqS_lo, qqqY_lo)
+qqq_rf  = sel(qqqW_hi, qqqM_hi, qqqQ_hi, qqqS_hi, qqqY_hi)
+qqq_mn  = sel(qqqW_mn, qqqM_mn, qqqQ_mn, qqqS_mn, qqqY_mn)
+qqq_tg  = sel(qqqW_tg, qqqM_tg, qqqQ_tg, qqqS_tg, qqqY_tg)
+mags_st = sel(magsW_lo, magsM_lo, magsQ_lo, magsS_lo, magsY_lo)
+mags_rf = sel(magsW_hi, magsM_hi, magsQ_hi, magsS_hi, magsY_hi)
+mags_mn = sel(magsW_mn, magsM_mn, magsQ_mn, magsS_mn, magsY_mn)
+mags_tg = sel(magsW_tg, magsM_tg, magsQ_tg, magsS_tg, magsY_tg)
+arkk_st = sel(arkkW_lo, arkkM_lo, arkkQ_lo, arkkS_lo, arkkY_lo)
+arkk_rf = sel(arkkW_hi, arkkM_hi, arkkQ_hi, arkkS_hi, arkkY_hi)
+arkk_mn = sel(arkkW_mn, arkkM_mn, arkkQ_mn, arkkS_mn, arkkY_mn)
+arkk_tg = sel(arkkW_tg, arkkM_tg, arkkQ_tg, arkkS_tg, arkkY_tg)
+btc_st  = sel(btcW_lo, btcM_lo, btcQ_lo, btcS_lo, btcY_lo)
+btc_rf  = sel(btcW_hi, btcM_hi, btcQ_hi, btcS_hi, btcY_hi)
+btc_mn  = sel(btcW_mn, btcM_mn, btcQ_mn, btcS_mn, btcY_mn)
+btc_tg  = sel(btcW_tg, btcM_tg, btcQ_tg, btcS_tg, btcY_tg)
+
+// ===================== SOURCES =====================
+qqq  = request.security("NASDAQ:QQQ",      timeframe.period, close)
+mags = request.security("AMEX:MAGS",       timeframe.period, close)
+arkk = request.security("AMEX:ARKK",       timeframe.period, close)
+btc  = request.security("BINANCE:BTCUSDT", timeframe.period, close)
+vix  = request.security("CBOE:VIX",        timeframe.period, close)
+
+// ===================== FIB SCORE (4-point: start / ref / mania / target) =====================
+fibScore(src, start, ref, mania, target) =>
+    float sc = na
+    asc = start <= ref
+    if asc
+        has_mn = mania  != 0.0 and mania  > ref
+        has_tg = target != 0.0 and target > (has_mn ? mania : ref)
+        if src < start
+            sc := na
+        else if src <= ref
+            sc := 50.0 * (src - start) / (ref - start)
+        else if has_mn and has_tg
+            sc := src <= mania  ? 50.0 + 35.0 * (src - ref) / (mania - ref) :
+                  src <= target ? 85.0 + 15.0 * (src - mania) / (target - mania) : 100.0
+        else if has_tg
+            sc := src >= target ? 100.0 : 50.0 + 50.0 * (src - ref) / (target - ref)
+        else
+            amp = ref - start
+            fM  = start + amp * r_mania
+            fE  = start + amp * r_extreme
+            sc := src <= fM ? 50.0 + 35.0 * (src - ref) / (fM - ref) :
+                  src <= fE ? 85.0 + 15.0 * (src - fM) / (fE - fM) : 100.0
+    else
+        has_mn = mania  != 0.0 and mania  < ref
+        has_tg = target != 0.0 and target < (has_mn ? mania : ref)
+        if src > start
+            sc := na
+        else if src >= ref
+            sc := 15.0 + 35.0 * (src - ref) / (start - ref)
+        else if has_mn and has_tg
+            sc := src >= mania  ? 5.0 + 10.0 * (src - mania) / (ref - mania) :
+                  src >= target ? 5.0 * (src - target) / (mania - target) : 0.0
+        else if has_tg
+            sc := src <= target ? 0.0 : 15.0 * (src - target) / (ref - target)
+        else
+            amp = start - ref
+            eM  = ref - amp * (r_mania   - 1.0)
+            eE  = ref - amp * (r_extreme - 1.0)
+            sc := src >= eM ? 15.0 - 10.0 * (ref - src) / (ref - eM) :
+                  src >= eE ?  5.0 -  5.0 * (eM - src) / (eM - eE) : 0.0
+    sc
+
+fibScoreInv(src, fear, calm) =>
+    amp = fear - calm
+    fM  = calm - amp * (r_mania   - 1.0)
+    fE  = calm - amp * (r_extreme - 1.0)
+    sc = 0.0
+    if src >= fear
+        sc := 0.0
+    else if src >= calm
+        sc := 50.0 * (fear - src) / (fear - calm)
+    else if src >= fM
+        sc := 50.0 + 35.0 * (calm - src) / (calm - fM)
+    else if src >= fE
+        sc := 85.0 + 15.0 * (fM - src) / (fM - fE)
+    else
+        sc := 100.0
+    sc
+
+// Validity + invalidation flags
+qqq_set  = not na(qqq)  and qqq_rf  != qqq_st
+mags_set = not na(mags) and mags_rf != mags_st
+arkk_set = not na(arkk) and arkk_rf != arkk_st
+btc_set  = not na(btc)  and btc_rf  != btc_st
+
+qqq_inval  = qqq_set  and (qqq_st  <= qqq_rf  ? qqq  < qqq_st  : qqq  > qqq_st)
+mags_inval = mags_set and (mags_st <= mags_rf ? mags < mags_st : mags > mags_st)
+arkk_inval = arkk_set and (arkk_st <= arkk_rf ? arkk < arkk_st : arkk > arkk_st)
+btc_inval  = btc_set  and (btc_st  <= btc_rf  ? btc  < btc_st  : btc  > btc_st)
+
+qqq_s  = qqq_set  ? fibScore(qqq,  qqq_st,  qqq_rf,  qqq_mn,  qqq_tg)  : na
+mags_s = mags_set ? fibScore(mags, mags_st, mags_rf, mags_mn, mags_tg) : na
+arkk_s = arkk_set ? fibScore(arkk, arkk_st, arkk_rf, arkk_mn, arkk_tg) : na
+btc_s  = btc_set  ? fibScore(btc,  btc_st,  btc_rf,  btc_mn,  btc_tg)  : na
+vix_s  = (not na(vix) and vix_fear != vix_calm) ? fibScoreInv(vix, vix_fear, vix_calm) : na
+
+// ===================== INDEX =====================
+num = 0.0
+den = 0.0
+if not na(qqq_s)
+    num += qqq_s  * w_qqq
+    den += w_qqq
+if not na(mags_s)
+    num += mags_s * w_mags
+    den += w_mags
+if not na(arkk_s)
+    num += arkk_s * w_arkk
+    den += w_arkk
+if not na(btc_s)
+    num += btc_s  * w_btc
+    den += w_btc
+if not na(vix_s)
+    num += vix_s  * w_vix
+    den += w_vix
+readiness_raw = den > 0 ? num / den : na
+readiness     = smooth_on and not na(readiness_raw) ? ta.ema(readiness_raw, smooth_len) : readiness_raw
+idx_mom = not na(readiness) and not na(readiness[mom_len]) ? readiness - readiness[mom_len] : na
+
+// ===================== PLOT INDEX =====================
+col = readiness >= lvl_mania ? col_mania :
+      readiness >= lvl_euf   ? col_euf :
+      readiness >= lvl_bull  ? col_bull : col_recup
+plot(readiness, "Market Index", color = col, linewidth = 2)
+
+hline(lvl_mania, "Mania",        color = col_mania, linestyle = hline.style_dashed)
+hline(lvl_euf,   "Euphoria",     color = col_euf,   linestyle = hline.style_dotted)
+hline(lvl_bull,  "Healthy bull", color = col_bull,  linestyle = hline.style_dotted)
+hline(lvl_recup, "Recovery",     color = col_recup, linestyle = hline.style_dotted)
+bgcolor(readiness >= lvl_mania ? color.new(col_mania, 88) : na)
+
+// ===================== COMPONENTS (lines) =====================
+plot(show_qqq  ? qqq_s  : na, "Comp QQQ",  color = color.new(color.blue,    0), linewidth = 1)
+plot(show_mags ? mags_s : na, "Comp MAGS", color = color.new(color.purple,  0), linewidth = 1)
+plot(show_arkk ? arkk_s : na, "Comp ARKK", color = color.new(color.fuchsia, 0), linewidth = 1)
+plot(show_btc  ? btc_s  : na, "Comp BTC",  color = color.new(color.orange,  0), linewidth = 1)
+plot(show_vix  ? vix_s  : na, "Comp VIX",  color = color.new(color.aqua,    0), linewidth = 1)
+
+// =====================================================================
+//  SMC STRUCTURE OVER THE INDEX LINE
+// =====================================================================
+grpSMC = "Index SMC"
+show_Struct = input.bool(true,  "Structure (BOS / CHoCH)",     group = grpSMC)
+struct_pick = input.string("All", "Show", options = ["All", "BOS", "CHoCH"], group = grpSMC)
+swing_len   = input.int(25,     "Swing length",                minval = 3, group = grpSMC)
+show_hl     = input.bool(true,  "Strong / Weak High-Low",      group = grpSMC)
+present     = input.bool(true,  "Show ONLY current structure (else all)", group = grpSMC)
+show_liq    = input.bool(true,  "Liquidity levels",            group = grpSMC)
+liq_max     = input.int(15,     "Max liquidity levels per side", minval = 1, group = grpSMC)
+show_ema    = input.bool(true,  "Index EMA",                   group = grpSMC)
+ema_len     = input.int(20,     "EMA length",                  minval = 1, group = grpSMC)
+bull_css    = input.color(#84ea9a, "Bullish color (demand)", group = grpSMC)
+bear_css    = input.color(#e85252, "Bearish color (supply)", group = grpSMC)
+
+TRANSP = color.new(color.white, 100)
+t_bos   = "Break of Structure"
+t_choch = "CHoCH"
+t_shigh = "Strong High"
+t_wlow  = "Weak Low"
+t_slow  = "Strong Low"
+t_whigh = "Weak High"
+
+idx_ema = ta.ema(readiness, ema_len)
+plot(show_ema ? idx_ema : na, "Index EMA", color = color.new(color.purple, 0), linewidth = 2)
+
+swings_idx(len) =>
+    var int os = 0
+    upper = ta.highest(readiness, len)
+    lower = ta.lowest(readiness, len)
+    rl = readiness[len]
+    os := rl > upper ? 0 : rl < lower ? 1 : nz(os[1])
+    top = os == 0 and os[1] != 0 ? rl : 0.0
+    btm = os == 1 and os[1] != 1 ? rl : 0.0
+    [top, btm]
+
+[s_top, s_btm] = swings_idx(swing_len)
+
+var float top_y     = na
+var int   top_x     = na
+var bool  top_cross = false
+var float btm_y     = na
+var int   btm_x     = na
+var bool  btm_cross = false
+var int   trend     = 0
+var float trail_up   = na
+var int   trail_up_x = na
+var float trail_dn   = na
+var int   trail_dn_x = na
+
+if s_top != 0.0
+    top_y := s_top
+    top_x := bar_index - swing_len
+    top_cross := true
+    trail_up := s_top
+    trail_up_x := bar_index - swing_len
+if s_btm != 0.0
+    btm_y := s_btm
+    btm_x := bar_index - swing_len
+    btm_cross := true
+    trail_dn := s_btm
+    trail_dn_x := bar_index - swing_len
+
+if not na(readiness)
+    trail_up := na(trail_up) ? readiness : math.max(readiness, trail_up)
+    trail_up_x := readiness == trail_up ? bar_index : trail_up_x
+    trail_dn := na(trail_dn) ? readiness : math.min(readiness, trail_dn)
+    trail_dn_x := readiness == trail_dn ? bar_index : trail_dn_x
+
+var line  stLine = na
+var label stLbl  = na
+okShow(choch) =>
+    show_Struct and (struct_pick == "All" or (struct_pick == "BOS" and not choch) or (struct_pick == "CHoCH" and choch))
+
+bos_bull   = false
+bos_bear   = false
+choch_bull = false
+choch_bear = false
+
+if not na(top_y) and ta.crossover(readiness, top_y) and top_cross
+    choch = trend < 0
+    bos_bull   := not choch
+    choch_bull := choch
+    if okShow(choch)
+        if present
+            line.delete(stLine)
+            label.delete(stLbl)
+        stLine := line.new(top_x, top_y, bar_index, top_y, color = bull_css, style = line.style_solid)
+        stLbl  := label.new(int(math.avg(top_x, bar_index)), top_y, choch ? t_choch : t_bos, color = TRANSP, textcolor = bull_css, style = label.style_label_down, size = size.small)
+    top_cross := false
+    trend := 1
+
+if not na(btm_y) and ta.crossunder(readiness, btm_y) and btm_cross
+    choch = trend > 0
+    bos_bear   := not choch
+    choch_bear := choch
+    if okShow(choch)
+        if present
+            line.delete(stLine)
+            label.delete(stLbl)
+        stLine := line.new(btm_x, btm_y, bar_index, btm_y, color = bear_css, style = line.style_dashed)
+        stLbl  := label.new(int(math.avg(btm_x, bar_index)), btm_y, choch ? t_choch : t_bos, color = TRANSP, textcolor = bear_css, style = label.style_label_up, size = size.small)
+    btm_cross := false
+    trend := -1
+
+var line  extTop    = na
+var label extTopLbl = na
+var line  extBtm    = na
+var label extBtmLbl = na
+if show_hl and barstate.islast
+    line.delete(extTop)
+    label.delete(extTopLbl)
+    extTop    := line.new(trail_up_x, trail_up, bar_index + 20, trail_up, color = bear_css, style = line.style_dotted)
+    extTopLbl := label.new(bar_index + 20, trail_up, trend < 0 ? t_shigh : t_whigh, color = TRANSP, textcolor = bear_css, style = label.style_label_left, size = size.small)
+    line.delete(extBtm)
+    label.delete(extBtmLbl)
+    extBtm    := line.new(trail_dn_x, trail_dn, bar_index + 20, trail_dn, color = bull_css, style = line.style_dotted)
+    extBtmLbl := label.new(bar_index + 20, trail_dn, trend > 0 ? t_slow : t_wlow, color = TRANSP, textcolor = bull_css, style = label.style_label_left, size = size.small)
+
+// ---- Liquidity levels (with SWEEP classification) ----
+var line[]  liqUp  = array.new_line()
+var float[] liqUpY = array.new_float()
+var line[]  liqDn  = array.new_line()
+var float[] liqDnY = array.new_float()
+liq_sweep_up = false
+liq_sweep_dn = false
+
+if show_liq and s_top != 0.0
+    lnU = line.new(bar_index - swing_len, s_top, bar_index, s_top, color = color.new(bear_css, 40), style = line.style_dotted, extend = extend.right)
+    array.push(liqUp, lnU)
+    array.push(liqUpY, s_top)
+    if array.size(liqUp) > liq_max
+        line.delete(array.shift(liqUp))
+        array.shift(liqUpY)
+if show_liq and s_btm != 0.0
+    lnD = line.new(bar_index - swing_len, s_btm, bar_index, s_btm, color = color.new(bull_css, 40), style = line.style_dotted, extend = extend.right)
+    array.push(liqDn, lnD)
+    array.push(liqDnY, s_btm)
+    if array.size(liqDn) > liq_max
+        line.delete(array.shift(liqDn))
+        array.shift(liqDnY)
+
+if show_liq
+    iu = 0
+    while iu < array.size(liqUpY)
+        lvlU = array.get(liqUpY, iu)
+        if readiness > lvlU and readiness[1] <= lvlU
+            lU = array.get(liqUp, iu)
+            line.set_extend(lU, extend.none)
+            line.set_x2(lU, bar_index)
+            line.set_color(lU, color.new(color.gray, 60))
+            array.remove(liqUp, iu)
+            array.remove(liqUpY, iu)
+            liq_sweep_up := true
+        else
+            iu += 1
+    idn = 0
+    while idn < array.size(liqDnY)
+        lvlD = array.get(liqDnY, idn)
+        if readiness < lvlD and readiness[1] >= lvlD
+            lD = array.get(liqDn, idn)
+            line.set_extend(lD, extend.none)
+            line.set_x2(lD, bar_index)
+            line.set_color(lD, color.new(color.gray, 60))
+            array.remove(liqDn, idn)
+            array.remove(liqDnY, idn)
+            liq_sweep_dn := true
+        else
+            idn += 1
+
+// =====================================================================
+//  DIVERGENCES
+// =====================================================================
+grpDiv = "Divergences"
+show_div = input.bool(true, "Detect divergences", group = grpDiv)
+div_len  = input.int(5, "Divergence pivot lookback", minval = 2, group = grpDiv)
+
+cnt_v  = (na(qqq_s)?0:1) + (na(mags_s)?0:1) + (na(arkk_s)?0:1) + (na(btc_s)?0:1) + (na(vix_s)?0:1)
+sum_v  = nz(qqq_s) + nz(mags_s) + nz(arkk_s) + nz(btc_s) + nz(vix_s)
+breadth = cnt_v > 0 ? sum_v / cnt_v : na
+
+ph_idx = ta.pivothigh(readiness, div_len, div_len)
+pl_idx = ta.pivotlow(readiness,  div_len, div_len)
+var float lastPH_idx = na
+var float lastPH_brd = na
+var float lastPL_idx = na
+var float lastPL_brd = na
+bear_div = false
+bull_div = false
+if not na(ph_idx)
+    brd_at = breadth[div_len]
+    if not na(lastPH_idx) and not na(brd_at) and not na(lastPH_brd)
+        bear_div := ph_idx > lastPH_idx and brd_at < lastPH_brd
+    lastPH_idx := ph_idx
+    lastPH_brd := brd_at
+if not na(pl_idx)
+    brd_at = breadth[div_len]
+    if not na(lastPL_idx) and not na(brd_at) and not na(lastPL_brd)
+        bull_div := pl_idx < lastPL_idx and brd_at > lastPL_brd
+    lastPL_idx := pl_idx
+    lastPL_brd := brd_at
+
+plotshape(show_div and bear_div, "Bearish div", style = shape.triangledown, location = location.absolute, color = bear_css, size = size.tiny, offset = -div_len, text = "div")
+plotshape(show_div and bull_div, "Bullish div", style = shape.triangleup, location = location.absolute, color = bull_css, size = size.tiny, offset = -div_len, text = "div")
+
+// =====================================================================
+//  MOMENTUM — histogram
+// =====================================================================
+grpMom = "Momentum (histogram)"
+show_mom_hist = input.bool(true, "Show momentum histogram", group = grpMom)
+mom_up_css   = input.color(#26a69a, "Accelerating color", group = grpMom)
+mom_dn_css   = input.color(#ef5350, "Decelerating color", group = grpMom)
+mom_rising = not na(idx_mom) and not na(idx_mom[1]) ? idx_mom > idx_mom[1] : true
+mom_col = na(idx_mom) ? na :
+          idx_mom >= 0 ? (mom_rising ? mom_up_css : color.new(mom_up_css, 55)) :
+                         (mom_rising ? color.new(mom_dn_css, 55) : mom_dn_css)
+plot(show_mom_hist ? idx_mom : na, "Momentum", color = mom_col, style = plot.style_columns, linewidth = 2)
+
+// =====================================================================
+//  CONFLUENCE
+// =====================================================================
+grpConf = "Confluence"
+show_conf  = input.bool(true, "Mark confluence signals", group = grpConf)
+conf_min   = input.int(3, "Minimum strength to signal", minval = 1, maxval = 5, group = grpConf)
+ema_cross_up = ta.crossover(readiness, idx_ema)
+ema_cross_dn = ta.crossunder(readiness, idx_ema)
+bull_f1 = bos_bull or choch_bull
+bull_f2 = liq_sweep_dn
+bull_f3 = bull_div
+bull_f4 = ema_cross_up
+bull_f5 = not na(idx_mom) and idx_mom > 0 and mom_rising
+bear_f1 = bos_bear or choch_bear
+bear_f2 = liq_sweep_up
+bear_f3 = bear_div
+bear_f4 = ema_cross_dn
+bear_f5 = not na(idx_mom) and idx_mom < 0 and not mom_rising
+bull_strength = (bull_f1?1:0) + (bull_f2?1:0) + (bull_f3?1:0) + (bull_f4?1:0) + (bull_f5?1:0)
+bear_strength = (bear_f1?1:0) + (bear_f2?1:0) + (bear_f3?1:0) + (bear_f4?1:0) + (bear_f5?1:0)
+conf_bull = bull_strength >= conf_min and bull_strength > bear_strength
+conf_bear = bear_strength >= conf_min and bear_strength > bull_strength
+plotshape(show_conf and conf_bull, "Bullish confluence", style = shape.labelup, location = location.bottom, color = bull_css, textcolor = color.black, size = size.small, text = "UP")
+plotshape(show_conf and conf_bear, "Bearish confluence", style = shape.labeldown, location = location.top, color = bear_css, textcolor = color.black, size = size.small, text = "DN")
+
+// =====================================================================
+//  LIVE COMPONENTS TABLE
+// =====================================================================
+grpTbl = "Table"
+show_tbl = input.bool(true, "Show components table", group = grpTbl)
+tbl_pos  = input.string("Top right", "Table position", options = ["Top right", "Top left", "Bottom right", "Bottom left"], group = grpTbl)
+f_pos(p) =>
+    p == "Top left" ? position.top_left :
+     p == "Bottom right" ? position.bottom_right :
+     p == "Bottom left" ? position.bottom_left : position.top_right
+
+tf_name = timeframe.isweekly ? "Weekly (W)" :
+          timeframe.ismonthly and timeframe.multiplier == 1  ? "Monthly (M)" :
+          timeframe.ismonthly and timeframe.multiplier == 3  ? "Quarterly (3M)" :
+          timeframe.ismonthly and timeframe.multiplier == 6  ? "Semiannual (6M)" :
+          timeframe.ismonthly and timeframe.multiplier == 12 ? "Annual (12M)" :
+          "Other TF -> uses " + fb_tf
+
+regime = na(readiness) ? "NO DATA" :
+          readiness >= lvl_mania ? "MANIA" :
+          readiness >= lvl_euf   ? "EUPHORIA" :
+          readiness >= lvl_bull  ? "HEALTHY BULL" :
+          readiness >= lvl_recup ? "RECOVERY" : "BOTTOM / FEAR"
+zoneCol(v) => na(v) ? color.gray :
+          v >= lvl_mania ? col_mania :
+          v >= lvl_euf   ? col_euf :
+          v >= lvl_bull  ? col_bull :
+          v >= lvl_recup ? col_recup : col_fear
+regime_col = zoneCol(readiness)
+
+fmt(x) => na(x) ? "—" : str.tostring(x, "#.0")
+cycTxt(st, rf, inval) => st == rf ? "—" : inval ? "INVAL" : (st <= rf ? "ASC" : "DESC")
+cycCol(inval) => inval ? color.red : color.silver
+
+var table tb = table.new(f_pos(tbl_pos), 4, 8, border_width = 1, frame_width = 1, frame_color = color.new(color.gray, 50))
+if show_tbl and barstate.islast
+    table.clear(tb, 0, 0, 3, 7)
+    table.cell(tb, 0, 0, "EQC Index", text_color = color.white, text_size = size.small, bgcolor = color.new(color.black, 20))
+    table.cell(tb, 1, 0, tf_name,     text_color = color.white, text_size = size.small, bgcolor = color.new(color.black, 20))
+    table.cell(tb, 2, 0, "Score",     text_color = color.white, text_size = size.small, bgcolor = color.new(color.black, 20))
+    table.cell(tb, 3, 0, "Cycle",     text_color = color.white, text_size = size.small, bgcolor = color.new(color.black, 20))
+
+    table.cell(tb, 0, 1, "QQQ",  text_color = color.blue,   text_size = size.small)
+    table.cell(tb, 1, 1, "w=" + str.tostring(w_qqq, "#.00"), text_color = color.silver, text_size = size.small)
+    table.cell(tb, 2, 1, fmt(qqq_s), text_color = zoneCol(qqq_s), text_size = size.small, bgcolor = color.new(zoneCol(qqq_s), 82))
+    table.cell(tb, 3, 1, cycTxt(qqq_st, qqq_rf, qqq_inval), text_color = cycCol(qqq_inval), text_size = size.small)
+
+    table.cell(tb, 0, 2, "MAGS", text_color = color.purple, text_size = size.small)
+    table.cell(tb, 1, 2, "w=" + str.tostring(w_mags, "#.00"), text_color = color.silver, text_size = size.small)
+    table.cell(tb, 2, 2, fmt(mags_s), text_color = zoneCol(mags_s), text_size = size.small, bgcolor = color.new(zoneCol(mags_s), 82))
+    table.cell(tb, 3, 2, cycTxt(mags_st, mags_rf, mags_inval), text_color = cycCol(mags_inval), text_size = size.small)
+
+    table.cell(tb, 0, 3, "ARKK", text_color = color.fuchsia, text_size = size.small)
+    table.cell(tb, 1, 3, "w=" + str.tostring(w_arkk, "#.00"), text_color = color.silver, text_size = size.small)
+    table.cell(tb, 2, 3, fmt(arkk_s), text_color = zoneCol(arkk_s), text_size = size.small, bgcolor = color.new(zoneCol(arkk_s), 82))
+    table.cell(tb, 3, 3, cycTxt(arkk_st, arkk_rf, arkk_inval), text_color = cycCol(arkk_inval), text_size = size.small)
+
+    table.cell(tb, 0, 4, "BTC",  text_color = color.orange, text_size = size.small)
+    table.cell(tb, 1, 4, "w=" + str.tostring(w_btc, "#.00"), text_color = color.silver, text_size = size.small)
+    table.cell(tb, 2, 4, fmt(btc_s), text_color = zoneCol(btc_s), text_size = size.small, bgcolor = color.new(zoneCol(btc_s), 82))
+    table.cell(tb, 3, 4, cycTxt(btc_st, btc_rf, btc_inval), text_color = cycCol(btc_inval), text_size = size.small)
+
+    table.cell(tb, 0, 5, "VIX",  text_color = color.aqua,   text_size = size.small)
+    table.cell(tb, 1, 5, "w=" + str.tostring(w_vix, "#.00"), text_color = color.silver, text_size = size.small)
+    table.cell(tb, 2, 5, fmt(vix_s), text_color = zoneCol(vix_s), text_size = size.small, bgcolor = color.new(zoneCol(vix_s), 82))
+    table.cell(tb, 3, 5, "INV", text_color = color.silver, text_size = size.small)
+
+    table.cell(tb, 0, 6, "INDEX", text_color = color.white, text_size = size.small, bgcolor = color.new(color.black, 40))
+    table.cell(tb, 1, 6, "mom " + (na(idx_mom) ? "—" : (idx_mom >= 0 ? "+" : "") + str.tostring(idx_mom, "#.0")),
+         text_color = na(idx_mom) ? color.gray : (idx_mom >= 0 ? bull_css : bear_css), text_size = size.small, bgcolor = color.new(color.black, 40))
+    table.cell(tb, 2, 6, fmt(readiness), text_color = zoneCol(readiness), text_size = size.small, bgcolor = color.new(zoneCol(readiness), 70))
+    table.cell(tb, 3, 6, str.tostring(cnt_v) + "/5", text_color = color.silver, text_size = size.small, bgcolor = color.new(color.black, 40))
+
+    table.cell(tb, 0, 7, "REGIME", text_color = color.white, text_size = size.small, bgcolor = color.new(color.black, 60))
+    table.cell(tb, 1, 7, regime, text_color = color.white, text_size = size.small, bgcolor = color.new(regime_col, 30))
+    table.cell(tb, 2, 7, "trend", text_color = color.silver, text_size = size.small, bgcolor = color.new(color.black, 60))
+    table.cell(tb, 3, 7, trend > 0 ? "UP" : trend < 0 ? "DOWN" : "—",
+         text_color = trend > 0 ? bull_css : trend < 0 ? bear_css : color.gray, text_size = size.small, bgcolor = color.new(color.black, 60))
+
+// =====================================================================
+//  ALERTS
+// =====================================================================
+enter_mania = ta.crossover(readiness, lvl_mania)
+exit_mania  = ta.crossunder(readiness, lvl_mania)
+enter_euf   = ta.crossover(readiness, lvl_euf)
+enter_bull  = ta.crossover(readiness, lvl_bull)
+exit_bull   = ta.crossunder(readiness, lvl_bull)
+enter_recup = ta.crossover(readiness, lvl_recup)
+into_fear   = ta.crossunder(readiness, lvl_recup)
+
+alertcondition(enter_mania, "Entered MANIA",   "EQC Index entered MANIA.")
+alertcondition(exit_mania,  "Left MANIA",       "EQC Index left MANIA.")
+alertcondition(enter_euf,   "Entered EUPHORIA", "EQC Index entered EUPHORIA.")
+alertcondition(enter_bull,  "Entered BULL",     "EQC Index entered HEALTHY BULL.")
+alertcondition(exit_bull,   "Lost BULL",        "EQC Index lost HEALTHY BULL.")
+alertcondition(enter_recup, "Entered RECOVERY", "EQC Index entered RECOVERY.")
+alertcondition(into_fear,   "Entered FEAR",     "EQC Index dropped into BOTTOM / FEAR.")
+alertcondition(bos_bull,   "Bullish BOS",   "EQC Index: bullish Break of Structure.")
+alertcondition(bos_bear,   "Bearish BOS",   "EQC Index: bearish Break of Structure.")
+alertcondition(choch_bull, "Bullish CHoCH", "EQC Index: bullish CHoCH.")
+alertcondition(choch_bear, "Bearish CHoCH", "EQC Index: bearish CHoCH.")
+alertcondition(liq_sweep_up, "High sweep", "EQC Index: high liquidity taken.")
+alertcondition(liq_sweep_dn, "Low sweep",  "EQC Index: low liquidity taken.")
+alertcondition(bull_div, "Bullish divergence", "EQC Index: BULLISH divergence.")
+alertcondition(bear_div, "Bearish divergence", "EQC Index: BEARISH divergence.")
+alertcondition(ema_cross_up, "Crossed EMA up",   "EQC Index crossed EMA up.")
+alertcondition(ema_cross_dn, "Crossed EMA down", "EQC Index crossed EMA down.")
+alertcondition(conf_bull, "BULLISH confluence", "EQC Index: BULLISH confluence.")
+alertcondition(conf_bear, "BEARISH confluence", "EQC Index: BEARISH confluence.")
+
+any_event = bos_bull or bos_bear or choch_bull or choch_bear or liq_sweep_up or liq_sweep_dn or bull_div or bear_div or enter_mania or into_fear
+alertcondition(any_event, "ANY EQC event", "EQC Index: event detected.")

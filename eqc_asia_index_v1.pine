@@ -1,0 +1,734 @@
+//@version=6
+// =============================================================
+//  EQC ASIA INDEX — v1 (EQC) — Multi-TF + SMC + Intelligence
+//  Same engine as Market Index v7 (US), Asian components:
+//   - Nikkei 225 (Japan)  w=0.25  — mega-cap Asia / liquidity
+//   - CSI 300  (China)    w=0.25  — domestic China risk appetite
+//   - KOSPI    (Korea)    w=0.20  — high-beta / semis, the "canary"
+//   - HSI      (HK)       w=0.15  — offshore China / tech risk
+//   - VIX      (fixed)    w=0.15  — complacency (invert)
+//  Engine (identical to v7 final):
+//   - 4-point cycle model per TF: Start(0) / Ref(50) / Mania(85) / Target(100)
+//   - Start crossed in opposite direction = INVALIDATED (NA, weight redistributes)
+//   - Mania & Target = 0  -> fallback to global Fib ratios (4.618 / 5.2)
+//   - Target only         -> 3-point model (85 interpolated)
+//   - Descending cycle: Start > Ref (swap order) -> maps 50..0 (cooling)
+//   - Outside/undefined cycle = NA (no false historical tail)
+//   - VIX with FIXED values (independent of TF)
+//   - SMC on the index line, divergences, momentum, confluence, table, alerts
+// =============================================================
+indicator("EQC Asia Index", overlay = false, scale = scale.right, max_labels_count = 500, max_lines_count = 500)
+
+// ===================== FIBONACCI RATIOS (fallback) =====================
+grpF = "Fibonacci Ratios (fallback when Mania/Target = 0)"
+r_mania   = input.float(4.618, "Mania ratio (-> 85)",    group = grpF, step = 0.001)
+r_extreme = input.float(5.2,   "Extreme ratio (-> 100)", group = grpF, step = 0.001)
+
+// ===================== SYMBOLS =====================
+grpSym = "Symbols"
+sym_ni    = input.symbol("TVC:NI225",  "Japan (Nikkei 225)", group = grpSym)
+sym_csi   = input.symbol("SSE:000300", "China (CSI 300)",    group = grpSym)
+sym_kospi = input.symbol("KRX:KOSPI",  "Korea (KOSPI)",      group = grpSym)
+sym_hsi   = input.symbol("TVC:HSI",    "Hong Kong (HSI)",    group = grpSym)
+sym_vix   = input.symbol("CBOE:VIX",   "Volatility (VIX)",   group = grpSym)
+
+// ===================== WEIGHTS =====================
+grpW = "Index Weights"
+w_ni    = input.float(0.25, "Nikkei", group = grpW)
+w_csi   = input.float(0.25, "CSI300", group = grpW)
+w_kospi = input.float(0.20, "KOSPI",  group = grpW)
+w_hsi   = input.float(0.15, "HSI",    group = grpW)
+w_vix   = input.float(0.15, "VIX",    group = grpW)
+
+// ===================== SHOW COMPONENTS =====================
+grpS = "Show Components"
+show_ni    = input.bool(true, "Show Nikkei", group = grpS)
+show_csi   = input.bool(true, "Show CSI300", group = grpS)
+show_kospi = input.bool(true, "Show KOSPI",  group = grpS)
+show_hsi   = input.bool(true, "Show HSI",    group = grpS)
+show_vix   = input.bool(true, "Show VIX",    group = grpS)
+
+// ===================== SMOOTHING & MOMENTUM =====================
+grpSm = "Smoothing & Momentum"
+smooth_on  = input.bool(false, "Smooth the index line", group = grpSm)
+smooth_len = input.int(3, "Smoothing (EMA len)", minval = 1, group = grpSm,
+     tooltip = "Applies an EMA to the index to reduce noise. The raw score still feeds the table.")
+mom_len    = input.int(3, "Momentum lookback (bars)", minval = 1, group = grpSm,
+     tooltip = "Index change over the last N bars. >0 = sentiment accelerating.")
+
+// ===================== LINE ZONES (color + value) =====================
+grpZ = "Line Zones (color & value)"
+lvl_mania = input.int(85, "Mania >=",        inline = "z1", group = grpZ)
+col_mania = input.color(color.red,    "color", inline = "z1", group = grpZ)
+lvl_euf   = input.int(70, "Euphoria >=",     inline = "z2", group = grpZ)
+col_euf   = input.color(color.orange, "color", inline = "z2", group = grpZ)
+lvl_hbull = input.int(60, "Healthy bull >=", inline = "z3", group = grpZ)
+col_hbull = input.color(color.green,  "color", inline = "z3", group = grpZ)
+lvl_ebull = input.int(50, "Early bull >=",   inline = "z3b", group = grpZ)
+col_ebull = input.color(#8bc34a,      "color", inline = "z3b", group = grpZ)
+lvl_recup = input.int(30, "Recovery >=",     inline = "z4", group = grpZ)
+col_recup = input.color(color.yellow, "color", inline = "z4", group = grpZ)
+col_fear  = input.color(#7e57c2, "Fear < Recovery color", inline = "z5", group = grpZ)
+
+// ===================== TIMEFRAME SELECTOR =====================
+fb_tf = input.string("Weekly (W)", "Other TFs (e.g. Daily) use",
+     options = ["Weekly (W)", "Monthly (M)", "Quarterly (3M)", "Semiannual (6M)", "Annual (12M)"],
+     group = "Timeframe Selector")
+sel(w, m, q, s, y) =>
+    out = fb_tf == "Monthly (M)" ? m : fb_tf == "Quarterly (3M)" ? q : fb_tf == "Semiannual (6M)" ? s : fb_tf == "Annual (12M)" ? y : w
+    if timeframe.isweekly
+        out := w
+    else if timeframe.ismonthly
+        mlt = timeframe.multiplier
+        out := mlt == 12 ? y : mlt == 6 ? s : mlt == 3 ? q : m
+    out
+
+// ===================== ANCHORS PER TF (4-POINT MODEL) =====================
+// Each cycle = 4 prices you measured with your Fib tool:
+//   Start  -> score 0 AND invalidation: price crossing it against the cycle kills the cycle (INVAL)
+//   Ref    -> score 50 (the top / Fib 1.0 of the leg)
+//   Mania  -> score 85 (your 4.618 level). Leave 0 to fall back to ratios.
+//   Target -> score 100 (your 5.2 / exhaustion level). Leave 0 to fall back to ratios.
+// Start < Ref = ASCENDING cycle ; Start > Ref = DESCENDING (swap the order to mark a downtrend).
+ttCycle = "Start = beginning of the measurement (score 0 + invalidation). Ref = extreme of the leg (score 50). Mania = your 4.618 level (score 85). Target = your 5.2 / exhaustion (score 100). Start > Ref marks a DESCENDING cycle. Mania & Target at 0 -> global ratios are used."
+
+gN = "Nikkei 225  (start / ref / mania / target per TF)"
+niW_s = input.float(0.0, "W",   inline="nW", group=gN, tooltip=ttCycle)
+niW_r = input.float(0.0, "",    inline="nW", group=gN)
+niW_m = input.float(0.0, "",    inline="nW", group=gN)
+niW_t = input.float(0.0, "",    inline="nW", group=gN)
+niM_s = input.float(0.0, "M",   inline="nM", group=gN)
+niM_r = input.float(0.0, "",    inline="nM", group=gN)
+niM_m = input.float(0.0, "",    inline="nM", group=gN)
+niM_t = input.float(0.0, "",    inline="nM", group=gN)
+niQ_s = input.float(0.0, "3M",  inline="nQ", group=gN)
+niQ_r = input.float(0.0, "",    inline="nQ", group=gN)
+niQ_m = input.float(0.0, "",    inline="nQ", group=gN)
+niQ_t = input.float(0.0, "",    inline="nQ", group=gN)
+niS_s = input.float(0.0, "6M",  inline="nS", group=gN)
+niS_r = input.float(0.0, "",    inline="nS", group=gN)
+niS_m = input.float(0.0, "",    inline="nS", group=gN)
+niS_t = input.float(0.0, "",    inline="nS", group=gN)
+niY_s = input.float(0.0, "12M", inline="nY", group=gN)
+niY_r = input.float(0.0, "",    inline="nY", group=gN)
+niY_m = input.float(0.0, "",    inline="nY", group=gN)
+niY_t = input.float(0.0, "",    inline="nY", group=gN)
+
+gC = "CSI 300  (start / ref / mania / target per TF)"
+csW_s = input.float(0.0, "W",   inline="cW", group=gC, tooltip=ttCycle)
+csW_r = input.float(0.0, "",    inline="cW", group=gC)
+csW_m = input.float(0.0, "",    inline="cW", group=gC)
+csW_t = input.float(0.0, "",    inline="cW", group=gC)
+csM_s = input.float(0.0, "M",   inline="cM", group=gC)
+csM_r = input.float(0.0, "",    inline="cM", group=gC)
+csM_m = input.float(0.0, "",    inline="cM", group=gC)
+csM_t = input.float(0.0, "",    inline="cM", group=gC)
+csQ_s = input.float(0.0, "3M",  inline="cQ", group=gC)
+csQ_r = input.float(0.0, "",    inline="cQ", group=gC)
+csQ_m = input.float(0.0, "",    inline="cQ", group=gC)
+csQ_t = input.float(0.0, "",    inline="cQ", group=gC)
+csS_s = input.float(0.0, "6M",  inline="cS", group=gC)
+csS_r = input.float(0.0, "",    inline="cS", group=gC)
+csS_m = input.float(0.0, "",    inline="cS", group=gC)
+csS_t = input.float(0.0, "",    inline="cS", group=gC)
+csY_s = input.float(0.0, "12M", inline="cY", group=gC)
+csY_r = input.float(0.0, "",    inline="cY", group=gC)
+csY_m = input.float(0.0, "",    inline="cY", group=gC)
+csY_t = input.float(0.0, "",    inline="cY", group=gC)
+
+gK = "KOSPI  (start / ref / mania / target per TF)"
+koW_s = input.float(0.0, "W",   inline="kW", group=gK, tooltip=ttCycle)
+koW_r = input.float(0.0, "",    inline="kW", group=gK)
+koW_m = input.float(0.0, "",    inline="kW", group=gK)
+koW_t = input.float(0.0, "",    inline="kW", group=gK)
+koM_s = input.float(0.0, "M",   inline="kM", group=gK)
+koM_r = input.float(0.0, "",    inline="kM", group=gK)
+koM_m = input.float(0.0, "",    inline="kM", group=gK)
+koM_t = input.float(0.0, "",    inline="kM", group=gK)
+koQ_s = input.float(0.0, "3M",  inline="kQ", group=gK)
+koQ_r = input.float(0.0, "",    inline="kQ", group=gK)
+koQ_m = input.float(0.0, "",    inline="kQ", group=gK)
+koQ_t = input.float(0.0, "",    inline="kQ", group=gK)
+koS_s = input.float(0.0, "6M",  inline="kS", group=gK)
+koS_r = input.float(0.0, "",    inline="kS", group=gK)
+koS_m = input.float(0.0, "",    inline="kS", group=gK)
+koS_t = input.float(0.0, "",    inline="kS", group=gK)
+koY_s = input.float(0.0, "12M", inline="kY", group=gK)
+koY_r = input.float(0.0, "",    inline="kY", group=gK)
+koY_m = input.float(0.0, "",    inline="kY", group=gK)
+koY_t = input.float(0.0, "",    inline="kY", group=gK)
+
+gH = "HSI  (start / ref / mania / target per TF)"
+hsW_s = input.float(0.0, "W",   inline="hW", group=gH, tooltip=ttCycle)
+hsW_r = input.float(0.0, "",    inline="hW", group=gH)
+hsW_m = input.float(0.0, "",    inline="hW", group=gH)
+hsW_t = input.float(0.0, "",    inline="hW", group=gH)
+hsM_s = input.float(0.0, "M",   inline="hM", group=gH)
+hsM_r = input.float(0.0, "",    inline="hM", group=gH)
+hsM_m = input.float(0.0, "",    inline="hM", group=gH)
+hsM_t = input.float(0.0, "",    inline="hM", group=gH)
+hsQ_s = input.float(0.0, "3M",  inline="hQ", group=gH)
+hsQ_r = input.float(0.0, "",    inline="hQ", group=gH)
+hsQ_m = input.float(0.0, "",    inline="hQ", group=gH)
+hsQ_t = input.float(0.0, "",    inline="hQ", group=gH)
+hsS_s = input.float(0.0, "6M",  inline="hS", group=gH)
+hsS_r = input.float(0.0, "",    inline="hS", group=gH)
+hsS_m = input.float(0.0, "",    inline="hS", group=gH)
+hsS_t = input.float(0.0, "",    inline="hS", group=gH)
+hsY_s = input.float(0.0, "12M", inline="hY", group=gH)
+hsY_r = input.float(0.0, "",    inline="hY", group=gH)
+hsY_m = input.float(0.0, "",    inline="hY", group=gH)
+hsY_t = input.float(0.0, "",    inline="hY", group=gH)
+
+// ===================== VIX (FIXED values, same across all TFs) =====================
+gV = "VIX  (fixed)"
+vix_fear = input.float(80.0, "VIX fear (peak)",  group = gV)
+vix_calm = input.float(13.0, "VIX calm (floor)", group = gV)
+
+// ===================== ACTIVE ANCHORS (per TF) =====================
+ni_s0 = sel(niW_s, niM_s, niQ_s, niS_s, niY_s)
+ni_r0 = sel(niW_r, niM_r, niQ_r, niS_r, niY_r)
+ni_m0 = sel(niW_m, niM_m, niQ_m, niS_m, niY_m)
+ni_t0 = sel(niW_t, niM_t, niQ_t, niS_t, niY_t)
+
+cs_s0 = sel(csW_s, csM_s, csQ_s, csS_s, csY_s)
+cs_r0 = sel(csW_r, csM_r, csQ_r, csS_r, csY_r)
+cs_m0 = sel(csW_m, csM_m, csQ_m, csS_m, csY_m)
+cs_t0 = sel(csW_t, csM_t, csQ_t, csS_t, csY_t)
+
+ko_s0 = sel(koW_s, koM_s, koQ_s, koS_s, koY_s)
+ko_r0 = sel(koW_r, koM_r, koQ_r, koS_r, koY_r)
+ko_m0 = sel(koW_m, koM_m, koQ_m, koS_m, koY_m)
+ko_t0 = sel(koW_t, koM_t, koQ_t, koS_t, koY_t)
+
+hs_s0 = sel(hsW_s, hsM_s, hsQ_s, hsS_s, hsY_s)
+hs_r0 = sel(hsW_r, hsM_r, hsQ_r, hsS_r, hsY_r)
+hs_m0 = sel(hsW_m, hsM_m, hsQ_m, hsS_m, hsY_m)
+hs_t0 = sel(hsW_t, hsM_t, hsQ_t, hsS_t, hsY_t)
+
+// ===================== SOURCES =====================
+ni    = request.security(sym_ni,    timeframe.period, close)
+csi   = request.security(sym_csi,   timeframe.period, close)
+kospi = request.security(sym_kospi, timeframe.period, close)
+hsi   = request.security(sym_hsi,   timeframe.period, close)
+vix   = request.security(sym_vix,   timeframe.period, close)
+
+// ===================== 4-POINT SCORE ENGINE =====================
+// Start(0) / Ref(50) / Mania(85) / Target(100). Directional; invalidation on Start.
+// Mania & Target = 0 -> fallback to global ratios. Target only -> 3-point (85 interpolated).
+score4(src, pS, pR, pM, pT) =>
+    float sc    = na
+    bool  inval = false
+    if not na(src) and pS != pR and pS > 0 and pR > 0
+        if pS < pR
+            // -------- ASCENDING cycle --------
+            if src < pS
+                inval := true
+            else
+                amp     = pR - pS
+                use3pt  = pT > 0 and pM <= 0
+                fM      = pM > 0 ? pM : pS + amp * r_mania
+                fE      = pT > 0 ? pT : pS + amp * r_extreme
+                if src <= pR
+                    sc := 50.0 * (src - pS) / (pR - pS)
+                else if use3pt
+                    sc := math.min(100.0, 50.0 + 50.0 * (src - pR) / (fE - pR))
+                else if src <= fM
+                    sc := 50.0 + 35.0 * (src - pR) / (fM - pR)
+                else if src <= fE
+                    sc := 85.0 + 15.0 * (src - fM) / (fE - fM)
+                else
+                    sc := 100.0
+        else
+            // -------- DESCENDING cycle (Start above, Ref below) --------
+            if src > pS
+                inval := true
+            else
+                amp     = pS - pR
+                use3pt  = pT > 0 and pM <= 0
+                eM      = pM > 0 ? pM : pR - amp * (r_mania   - 1.0)
+                eE      = pT > 0 ? pT : pR - amp * (r_extreme - 1.0)
+                if src >= pR
+                    sc := 50.0 - 35.0 * (pS - src) / (pS - pR)
+                else if use3pt
+                    sc := math.max(0.0, 15.0 - 15.0 * (pR - src) / (pR - eE))
+                else if src >= eM
+                    sc := 15.0 - 10.0 * (pR - src) / (pR - eM)
+                else if src >= eE
+                    sc := 5.0 - 5.0 * (eM - src) / (eM - eE)
+                else
+                    sc := 0.0
+    [sc, inval]
+
+// Inverted score for VIX (fixed levels, low VIX = complacency = high score)
+fibScoreInv(src, fear, calm) =>
+    amp = fear - calm
+    fM  = calm - amp * (r_mania   - 1.0)
+    fE  = calm - amp * (r_extreme - 1.0)
+    sc = 0.0
+    if src >= fear
+        sc := 0.0
+    else if src >= calm
+        sc := 50.0 * (fear - src) / (fear - calm)
+    else if src >= fM
+        sc := 50.0 + 35.0 * (calm - src) / (calm - fM)
+    else if src >= fE
+        sc := 85.0 + 15.0 * (fM - src) / (fE - fM)
+    else
+        sc := 100.0
+    sc
+
+// Per-component score (NA = excluded: no data, no cycle, outside cycle, or INVALIDATED)
+[ni_sc, ni_inv] = score4(ni,    ni_s0, ni_r0, ni_m0, ni_t0)
+[cs_sc, cs_inv] = score4(csi,   cs_s0, cs_r0, cs_m0, cs_t0)
+[ko_sc, ko_inv] = score4(kospi, ko_s0, ko_r0, ko_m0, ko_t0)
+[hs_sc, hs_inv] = score4(hsi,   hs_s0, hs_r0, hs_m0, hs_t0)
+vix_sc = (not na(vix) and vix_fear != vix_calm) ? fibScoreInv(vix, vix_fear, vix_calm) : na
+
+// ===================== INDEX (only valid scores contribute) =====================
+num = 0.0
+den = 0.0
+if not na(ni_sc)
+    num += ni_sc * w_ni
+    den += w_ni
+if not na(cs_sc)
+    num += cs_sc * w_csi
+    den += w_csi
+if not na(ko_sc)
+    num += ko_sc * w_kospi
+    den += w_kospi
+if not na(hs_sc)
+    num += hs_sc * w_hsi
+    den += w_hsi
+if not na(vix_sc)
+    num += vix_sc * w_vix
+    den += w_vix
+readiness_raw = den > 0 ? num / den : na
+readiness     = smooth_on and not na(readiness_raw) ? ta.ema(readiness_raw, smooth_len) : readiness_raw
+
+// ===================== MOMENTUM / VELOCITY =====================
+idx_mom = not na(readiness) and not na(readiness[mom_len]) ? readiness - readiness[mom_len] : na
+
+// ===================== PLOT INDEX =====================
+col = readiness >= lvl_mania ? col_mania :
+      readiness >= lvl_euf   ? col_euf :
+      readiness >= lvl_hbull ? col_hbull :
+      readiness >= lvl_ebull ? col_ebull : col_recup
+plot(readiness, "Asia Index", color = col, linewidth = 2)
+
+hline(lvl_mania, "Mania",        color = col_mania, linestyle = hline.style_dashed)
+hline(lvl_euf,   "Euphoria",     color = col_euf,   linestyle = hline.style_dotted)
+hline(lvl_hbull, "Healthy bull", color = col_hbull, linestyle = hline.style_dotted)
+hline(lvl_ebull, "Early bull",   color = col_ebull, linestyle = hline.style_dotted)
+hline(lvl_recup, "Recovery",     color = col_recup, linestyle = hline.style_dotted)
+bgcolor(readiness >= lvl_mania ? color.new(col_mania, 88) : na)
+
+// ===================== COMPONENTS (lines) =====================
+plot(show_ni    ? ni_sc  : na, "Comp Nikkei", color = color.new(color.blue,    0), linewidth = 1)
+plot(show_csi   ? cs_sc  : na, "Comp CSI300", color = color.new(color.red,     0), linewidth = 1)
+plot(show_kospi ? ko_sc  : na, "Comp KOSPI",  color = color.new(color.purple,  0), linewidth = 1)
+plot(show_hsi   ? hs_sc  : na, "Comp HSI",    color = color.new(color.orange,  0), linewidth = 1)
+plot(show_vix   ? vix_sc : na, "Comp VIX",    color = color.new(color.aqua,    0), linewidth = 1)
+
+// =====================================================================
+//  SMC STRUCTURE OVER THE INDEX LINE (same engine as v7)
+// =====================================================================
+grpSMC = "Index SMC"
+show_Struct = input.bool(true,  "Structure (BOS / CHoCH)",     group = grpSMC)
+struct_pick = input.string("All", "Show", options = ["All", "BOS", "CHoCH"], group = grpSMC)
+swing_len   = input.int(25,     "Swing length",                minval = 3, group = grpSMC)
+show_hl     = input.bool(true,  "Strong / Weak High-Low",      group = grpSMC)
+present     = input.bool(true,  "Show ONLY current structure (else all)", group = grpSMC)
+show_liq    = input.bool(true,  "Liquidity levels",            group = grpSMC)
+liq_max     = input.int(15,     "Max liquidity levels per side", minval = 1, group = grpSMC)
+show_ema    = input.bool(true,  "Index EMA",                   group = grpSMC)
+ema_len     = input.int(20,     "EMA length",                  minval = 1, group = grpSMC)
+bull_css    = input.color(#84ea9a, "Bullish color (demand)", group = grpSMC)
+bear_css    = input.color(#e85252, "Bearish color (supply)", group = grpSMC)
+
+TRANSP = color.new(color.white, 100)
+
+t_bos   = "Break of Structure"
+t_choch = "CHoCH"
+t_shigh = "Strong High"
+t_wlow  = "Weak Low"
+t_slow  = "Strong Low"
+t_whigh = "Weak High"
+
+idx_ema = ta.ema(readiness, ema_len)
+plot(show_ema ? idx_ema : na, "Index EMA", color = color.new(color.purple, 0), linewidth = 2)
+
+swings_idx(len) =>
+    var int os = 0
+    upper = ta.highest(readiness, len)
+    lower = ta.lowest(readiness, len)
+    rl = readiness[len]
+    os := rl > upper ? 0 : rl < lower ? 1 : nz(os[1])
+    top = os == 0 and os[1] != 0 ? rl : 0.0
+    btm = os == 1 and os[1] != 1 ? rl : 0.0
+    [top, btm]
+
+[s_top, s_btm] = swings_idx(swing_len)
+
+var float top_y     = na
+var int   top_x     = na
+var bool  top_cross = false
+var float btm_y     = na
+var int   btm_x     = na
+var bool  btm_cross = false
+var int   trend     = 0
+var float trail_up   = na
+var int   trail_up_x = na
+var float trail_dn   = na
+var int   trail_dn_x = na
+
+if s_top != 0.0
+    top_y := s_top
+    top_x := bar_index - swing_len
+    top_cross := true
+    trail_up := s_top
+    trail_up_x := bar_index - swing_len
+if s_btm != 0.0
+    btm_y := s_btm
+    btm_x := bar_index - swing_len
+    btm_cross := true
+    trail_dn := s_btm
+    trail_dn_x := bar_index - swing_len
+
+if not na(readiness)
+    trail_up := na(trail_up) ? readiness : math.max(readiness, trail_up)
+    trail_up_x := readiness == trail_up ? bar_index : trail_up_x
+    trail_dn := na(trail_dn) ? readiness : math.min(readiness, trail_dn)
+    trail_dn_x := readiness == trail_dn ? bar_index : trail_dn_x
+
+var line  stLine = na
+var label stLbl  = na
+
+okShow(choch) =>
+    show_Struct and (struct_pick == "All" or (struct_pick == "BOS" and not choch) or (struct_pick == "CHoCH" and choch))
+
+// Flags for structure alerts
+bos_bull   = false
+bos_bear   = false
+choch_bull = false
+choch_bear = false
+
+if not na(top_y) and ta.crossover(readiness, top_y) and top_cross
+    choch = trend < 0
+    bos_bull   := not choch
+    choch_bull := choch
+    if okShow(choch)
+        if present
+            line.delete(stLine)
+            label.delete(stLbl)
+        stLine := line.new(top_x, top_y, bar_index, top_y, color = bull_css, style = line.style_solid)
+        stLbl  := label.new(int(math.avg(top_x, bar_index)), top_y, choch ? t_choch : t_bos, color = TRANSP, textcolor = bull_css, style = label.style_label_down, size = size.small)
+    top_cross := false
+    trend := 1
+
+if not na(btm_y) and ta.crossunder(readiness, btm_y) and btm_cross
+    choch = trend > 0
+    bos_bear   := not choch
+    choch_bear := choch
+    if okShow(choch)
+        if present
+            line.delete(stLine)
+            label.delete(stLbl)
+        stLine := line.new(btm_x, btm_y, bar_index, btm_y, color = bear_css, style = line.style_dashed)
+        stLbl  := label.new(int(math.avg(btm_x, bar_index)), btm_y, choch ? t_choch : t_bos, color = TRANSP, textcolor = bear_css, style = label.style_label_up, size = size.small)
+    btm_cross := false
+    trend := -1
+
+var line  extTop    = na
+var label extTopLbl = na
+var line  extBtm    = na
+var label extBtmLbl = na
+if show_hl and barstate.islast
+    line.delete(extTop)
+    label.delete(extTopLbl)
+    extTop    := line.new(trail_up_x, trail_up, bar_index + 20, trail_up, color = bear_css, style = line.style_dotted)
+    extTopLbl := label.new(bar_index + 20, trail_up, trend < 0 ? t_shigh : t_whigh, color = TRANSP, textcolor = bear_css, style = label.style_label_left, size = size.small)
+    line.delete(extBtm)
+    label.delete(extBtmLbl)
+    extBtm    := line.new(trail_dn_x, trail_dn, bar_index + 20, trail_dn, color = bull_css, style = line.style_dotted)
+    extBtmLbl := label.new(bar_index + 20, trail_dn, trend > 0 ? t_slow : t_wlow, color = TRANSP, textcolor = bull_css, style = label.style_label_left, size = size.small)
+
+// ---- Liquidity levels (with SWEEP vs RECLAIM classification) ----
+var line[]  liqUp  = array.new_line()
+var float[] liqUpY = array.new_float()
+var line[]  liqDn  = array.new_line()
+var float[] liqDnY = array.new_float()
+
+liq_sweep_up = false   // swept liquidity above (high taken)
+liq_sweep_dn = false   // swept liquidity below (low taken)
+
+if show_liq and s_top != 0.0
+    lnU = line.new(bar_index - swing_len, s_top, bar_index, s_top, color = color.new(bear_css, 40), style = line.style_dotted, extend = extend.right)
+    array.push(liqUp, lnU)
+    array.push(liqUpY, s_top)
+    if array.size(liqUp) > liq_max
+        line.delete(array.shift(liqUp))
+        array.shift(liqUpY)
+if show_liq and s_btm != 0.0
+    lnD = line.new(bar_index - swing_len, s_btm, bar_index, s_btm, color = color.new(bull_css, 40), style = line.style_dotted, extend = extend.right)
+    array.push(liqDn, lnD)
+    array.push(liqDnY, s_btm)
+    if array.size(liqDn) > liq_max
+        line.delete(array.shift(liqDn))
+        array.shift(liqDnY)
+
+if show_liq
+    iu = 0
+    while iu < array.size(liqUpY)
+        lvlU = array.get(liqUpY, iu)
+        if readiness > lvlU and readiness[1] <= lvlU
+            lU = array.get(liqUp, iu)
+            line.set_extend(lU, extend.none)
+            line.set_x2(lU, bar_index)
+            line.set_color(lU, color.new(color.gray, 60))
+            array.remove(liqUp, iu)
+            array.remove(liqUpY, iu)
+            liq_sweep_up := true
+        else
+            iu += 1
+    idn = 0
+    while idn < array.size(liqDnY)
+        lvlD = array.get(liqDnY, idn)
+        if readiness < lvlD and readiness[1] >= lvlD
+            lD = array.get(liqDn, idn)
+            line.set_extend(lD, extend.none)
+            line.set_x2(lD, bar_index)
+            line.set_color(lD, color.new(color.gray, 60))
+            array.remove(liqDn, idn)
+            array.remove(liqDnY, idn)
+            liq_sweep_dn := true
+        else
+            idn += 1
+
+// =====================================================================
+//  DIVERGENCES — index vs component breadth
+// =====================================================================
+grpDiv = "Divergences"
+show_div = input.bool(true, "Detect divergences", group = grpDiv)
+div_len  = input.int(5, "Divergence pivot lookback", minval = 2, group = grpDiv,
+     tooltip = "Compares index pivots against the component breadth. Divergence = index makes a more extreme high/low that the components fail to confirm.")
+
+// Simple average of valid component scores (proxy for internal breadth)
+cnt_v  = (na(ni_sc)?0:1) + (na(cs_sc)?0:1) + (na(ko_sc)?0:1) + (na(hs_sc)?0:1) + (na(vix_sc)?0:1)
+sum_v  = nz(ni_sc) + nz(cs_sc) + nz(ko_sc) + nz(hs_sc) + nz(vix_sc)
+breadth = cnt_v > 0 ? sum_v / cnt_v : na
+
+ph_idx = ta.pivothigh(readiness, div_len, div_len)
+pl_idx = ta.pivotlow(readiness,  div_len, div_len)
+
+var float lastPH_idx = na
+var float lastPH_brd = na
+var float lastPL_idx = na
+var float lastPL_brd = na
+
+bear_div = false
+bull_div = false
+
+if not na(ph_idx)
+    brd_at = breadth[div_len]
+    if not na(lastPH_idx) and not na(brd_at) and not na(lastPH_brd)
+        // index higher high but lower internal breadth = bearish divergence
+        bear_div := ph_idx > lastPH_idx and brd_at < lastPH_brd
+    lastPH_idx := ph_idx
+    lastPH_brd := brd_at
+
+if not na(pl_idx)
+    brd_at = breadth[div_len]
+    if not na(lastPL_idx) and not na(brd_at) and not na(lastPL_brd)
+        // index lower low but higher internal breadth = bullish divergence
+        bull_div := pl_idx < lastPL_idx and brd_at > lastPL_brd
+    lastPL_idx := pl_idx
+    lastPL_brd := brd_at
+
+plotshape(show_div and bear_div, "Bearish div", style = shape.triangledown, location = location.absolute,
+     color = bear_css, size = size.tiny, offset = -div_len, text = "÷")
+plotshape(show_div and bull_div, "Bullish div", style = shape.triangleup, location = location.absolute,
+     color = bull_css, size = size.tiny, offset = -div_len, text = "÷")
+
+// =====================================================================
+//  MOMENTUM — histogram
+// =====================================================================
+grpMom = "Momentum (histogram)"
+show_mom_hist = input.bool(true, "Show momentum histogram", group = grpMom)
+mom_up_css   = input.color(#26a69a, "Accelerating color", group = grpMom)
+mom_dn_css   = input.color(#ef5350, "Decelerating color", group = grpMom)
+// Lighter shade when momentum is losing strength (opposite 2nd derivative)
+mom_rising = not na(idx_mom) and not na(idx_mom[1]) ? idx_mom > idx_mom[1] : true
+mom_col = na(idx_mom) ? na :
+          idx_mom >= 0 ? (mom_rising ? mom_up_css : color.new(mom_up_css, 55)) :
+                         (mom_rising ? color.new(mom_dn_css, 55) : mom_dn_css)
+plot(show_mom_hist ? idx_mom : na, "Momentum", color = mom_col, style = plot.style_columns, linewidth = 2)
+
+// =====================================================================
+//  CONFLUENCE SCORE
+// =====================================================================
+grpConf = "Confluence"
+show_conf  = input.bool(true, "Mark confluence signals", group = grpConf)
+conf_min   = input.int(3, "Minimum strength to signal", minval = 1, maxval = 5, group = grpConf,
+     tooltip = "How many factors must align on the same side to trigger the confluence signal (1-5).")
+
+// Cross of the index EMA (computed here; reused in alerts)
+ema_cross_up = ta.crossover(readiness, idx_ema)
+ema_cross_dn = ta.crossunder(readiness, idx_ema)
+
+// BULLISH factors
+bull_f1 = bos_bull or choch_bull           // bullish structure
+bull_f2 = liq_sweep_dn                      // swept low liquidity (stop hunt) -> reversal up
+bull_f3 = bull_div                          // bullish divergence
+bull_f4 = ema_cross_up                      // crossed EMA up
+bull_f5 = not na(idx_mom) and idx_mom > 0 and mom_rising  // positive and rising momentum
+
+// BEARISH factors
+bear_f1 = bos_bear or choch_bear
+bear_f2 = liq_sweep_up
+bear_f3 = bear_div
+bear_f4 = ema_cross_dn
+bear_f5 = not na(idx_mom) and idx_mom < 0 and not mom_rising
+
+bull_strength = (bull_f1?1:0) + (bull_f2?1:0) + (bull_f3?1:0) + (bull_f4?1:0) + (bull_f5?1:0)
+bear_strength = (bear_f1?1:0) + (bear_f2?1:0) + (bear_f3?1:0) + (bear_f4?1:0) + (bear_f5?1:0)
+
+conf_bull = bull_strength >= conf_min and bull_strength > bear_strength
+conf_bear = bear_strength >= conf_min and bear_strength > bull_strength
+
+plotshape(show_conf and conf_bull, "Bullish confluence", style = shape.labelup, location = location.bottom,
+     color = bull_css, textcolor = color.black, size = size.small, text = "▲")
+plotshape(show_conf and conf_bear, "Bearish confluence", style = shape.labeldown, location = location.top,
+     color = bear_css, textcolor = color.black, size = size.small, text = "▼")
+
+// =====================================================================
+//  LIVE COMPONENTS TABLE — anchor debugging (with INVAL flag)
+// =====================================================================
+grpTbl = "Table"
+show_tbl = input.bool(true, "Show components table", group = grpTbl)
+tbl_pos  = input.string("Top right", "Table position",
+     options = ["Top right", "Top left", "Bottom right", "Bottom left"], group = grpTbl)
+
+f_pos(p) =>
+    p == "Top left" ? position.top_left :
+     p == "Bottom right" ? position.bottom_right :
+     p == "Bottom left" ? position.bottom_left : position.top_right
+
+tf_name = timeframe.isweekly ? "Weekly (W)" :
+          timeframe.ismonthly and timeframe.multiplier == 1  ? "Monthly (M)" :
+          timeframe.ismonthly and timeframe.multiplier == 3  ? "Quarterly (3M)" :
+          timeframe.ismonthly and timeframe.multiplier == 6  ? "Semiannual (6M)" :
+          timeframe.ismonthly and timeframe.multiplier == 12 ? "Annual (12M)" :
+          "Other TF -> uses " + fb_tf
+
+regime = na(readiness) ? "NO DATA" :
+          readiness >= lvl_mania ? "MANIA" :
+          readiness >= lvl_euf   ? "EUPHORIA" :
+          readiness >= lvl_hbull ? "HEALTHY BULL" :
+          readiness >= lvl_ebull ? "EARLY BULL" :
+          readiness >= lvl_recup ? "RECOVERY" : "BOTTOM / FEAR"
+zoneCol(v) => na(v) ? color.gray :
+          v >= lvl_mania ? col_mania :
+          v >= lvl_euf   ? col_euf :
+          v >= lvl_hbull ? col_hbull :
+          v >= lvl_ebull ? col_ebull :
+          v >= lvl_recup ? col_recup : col_fear
+regime_col = zoneCol(readiness)
+
+cycTxt(pS, pR, inv) => inv ? "INVAL" : (pS == pR or pS <= 0 or pR <= 0) ? "—" : pS < pR ? "ASC" : "DESC"
+cycCol(pS, pR, inv) => inv ? color.red : color.silver
+fmt(x) => na(x) ? "—" : str.tostring(x, "#.0")
+
+var table tb = table.new(f_pos(tbl_pos), 4, 8, border_width = 1, frame_width = 1, frame_color = color.new(color.gray, 50))
+if show_tbl and barstate.islast
+    table.clear(tb, 0, 0, 3, 7)
+    table.cell(tb, 0, 0, "EQC Asia", text_color = color.white, text_size = size.small, bgcolor = color.new(color.black, 20))
+    table.cell(tb, 1, 0, tf_name,    text_color = color.white, text_size = size.small, bgcolor = color.new(color.black, 20))
+    table.cell(tb, 2, 0, "Score",    text_color = color.white, text_size = size.small, bgcolor = color.new(color.black, 20))
+    table.cell(tb, 3, 0, "Cycle",    text_color = color.white, text_size = size.small, bgcolor = color.new(color.black, 20))
+
+    table.cell(tb, 0, 1, "NIKKEI", text_color = color.blue, text_size = size.small)
+    table.cell(tb, 1, 1, "w=" + str.tostring(w_ni, "#.00"), text_color = color.silver, text_size = size.small)
+    table.cell(tb, 2, 1, fmt(ni_sc), text_color = zoneCol(ni_sc), text_size = size.small, bgcolor = color.new(zoneCol(ni_sc), 82))
+    table.cell(tb, 3, 1, cycTxt(ni_s0, ni_r0, ni_inv), text_color = cycCol(ni_s0, ni_r0, ni_inv), text_size = size.small)
+
+    table.cell(tb, 0, 2, "CSI300", text_color = color.red, text_size = size.small)
+    table.cell(tb, 1, 2, "w=" + str.tostring(w_csi, "#.00"), text_color = color.silver, text_size = size.small)
+    table.cell(tb, 2, 2, fmt(cs_sc), text_color = zoneCol(cs_sc), text_size = size.small, bgcolor = color.new(zoneCol(cs_sc), 82))
+    table.cell(tb, 3, 2, cycTxt(cs_s0, cs_r0, cs_inv), text_color = cycCol(cs_s0, cs_r0, cs_inv), text_size = size.small)
+
+    table.cell(tb, 0, 3, "KOSPI", text_color = color.purple, text_size = size.small)
+    table.cell(tb, 1, 3, "w=" + str.tostring(w_kospi, "#.00"), text_color = color.silver, text_size = size.small)
+    table.cell(tb, 2, 3, fmt(ko_sc), text_color = zoneCol(ko_sc), text_size = size.small, bgcolor = color.new(zoneCol(ko_sc), 82))
+    table.cell(tb, 3, 3, cycTxt(ko_s0, ko_r0, ko_inv), text_color = cycCol(ko_s0, ko_r0, ko_inv), text_size = size.small)
+
+    table.cell(tb, 0, 4, "HSI", text_color = color.orange, text_size = size.small)
+    table.cell(tb, 1, 4, "w=" + str.tostring(w_hsi, "#.00"), text_color = color.silver, text_size = size.small)
+    table.cell(tb, 2, 4, fmt(hs_sc), text_color = zoneCol(hs_sc), text_size = size.small, bgcolor = color.new(zoneCol(hs_sc), 82))
+    table.cell(tb, 3, 4, cycTxt(hs_s0, hs_r0, hs_inv), text_color = cycCol(hs_s0, hs_r0, hs_inv), text_size = size.small)
+
+    table.cell(tb, 0, 5, "VIX", text_color = color.aqua, text_size = size.small)
+    table.cell(tb, 1, 5, "w=" + str.tostring(w_vix, "#.00"), text_color = color.silver, text_size = size.small)
+    table.cell(tb, 2, 5, fmt(vix_sc), text_color = zoneCol(vix_sc), text_size = size.small, bgcolor = color.new(zoneCol(vix_sc), 82))
+    table.cell(tb, 3, 5, "INV", text_color = color.silver, text_size = size.small)
+
+    table.cell(tb, 0, 6, "INDEX", text_color = color.white, text_size = size.small, bgcolor = color.new(color.black, 40))
+    table.cell(tb, 1, 6, "mom " + (na(idx_mom) ? "—" : (idx_mom >= 0 ? "+" : "") + str.tostring(idx_mom, "#.0")),
+         text_color = na(idx_mom) ? color.gray : (idx_mom >= 0 ? bull_css : bear_css), text_size = size.small, bgcolor = color.new(color.black, 40))
+    table.cell(tb, 2, 6, fmt(readiness), text_color = zoneCol(readiness), text_size = size.small, bgcolor = color.new(zoneCol(readiness), 70))
+    table.cell(tb, 3, 6, str.tostring(cnt_v) + "/5", text_color = color.silver, text_size = size.small, bgcolor = color.new(color.black, 40))
+
+    table.cell(tb, 0, 7, "REGIME", text_color = color.white, text_size = size.small, bgcolor = color.new(color.black, 60))
+    table.cell(tb, 1, 7, regime, text_color = color.white, text_size = size.small, bgcolor = color.new(regime_col, 30))
+    table.cell(tb, 2, 7, "trend", text_color = color.silver, text_size = size.small, bgcolor = color.new(color.black, 60))
+    table.cell(tb, 3, 7, trend > 0 ? "UP" : trend < 0 ? "DOWN" : "—",
+         text_color = trend > 0 ? bull_css : trend < 0 ? bear_css : color.gray, text_size = size.small, bgcolor = color.new(color.black, 60))
+
+// =====================================================================
+//  ALERTS
+// =====================================================================
+// Zone entries/exits
+enter_mania = ta.crossover(readiness, lvl_mania)
+exit_mania  = ta.crossunder(readiness, lvl_mania)
+enter_euf   = ta.crossover(readiness, lvl_euf)
+enter_hbull = ta.crossover(readiness, lvl_hbull)
+exit_hbull  = ta.crossunder(readiness, lvl_hbull)
+enter_ebull = ta.crossover(readiness, lvl_ebull)
+exit_ebull  = ta.crossunder(readiness, lvl_ebull)
+enter_recup = ta.crossover(readiness, lvl_recup)
+into_fear   = ta.crossunder(readiness, lvl_recup)
+
+alertcondition(enter_mania, "Entered MANIA",       "EQC Asia Index entered MANIA (>= mania level).")
+alertcondition(exit_mania,  "Left MANIA",          "EQC Asia Index left the MANIA zone.")
+alertcondition(enter_euf,   "Entered EUPHORIA",    "EQC Asia Index entered EUPHORIA.")
+alertcondition(enter_hbull, "Entered HEALTHY BULL","EQC Asia Index entered HEALTHY BULL.")
+alertcondition(exit_hbull,  "Lost HEALTHY BULL",   "EQC Asia Index lost the HEALTHY BULL level.")
+alertcondition(enter_ebull, "Entered EARLY BULL",  "EQC Asia Index entered EARLY BULL.")
+alertcondition(exit_ebull,  "Lost EARLY BULL",     "EQC Asia Index lost the EARLY BULL level (dropped to RECOVERY).")
+alertcondition(enter_recup, "Entered RECOVERY",    "EQC Asia Index entered RECOVERY.")
+alertcondition(into_fear,   "Entered FEAR",        "EQC Asia Index dropped into the BOTTOM / FEAR zone.")
+
+alertcondition(bos_bull,   "Bullish BOS",   "EQC Asia Index: bullish Break of Structure.")
+alertcondition(bos_bear,   "Bearish BOS",   "EQC Asia Index: bearish Break of Structure.")
+alertcondition(choch_bull, "Bullish CHoCH", "EQC Asia Index: bullish CHoCH (reversal up).")
+alertcondition(choch_bear, "Bearish CHoCH", "EQC Asia Index: bearish CHoCH (reversal down).")
+
+alertcondition(liq_sweep_up, "High sweep", "EQC Asia Index: high liquidity taken (sweep up).")
+alertcondition(liq_sweep_dn, "Low sweep",  "EQC Asia Index: low liquidity taken (sweep down).")
+
+alertcondition(bull_div, "Bullish divergence", "EQC Asia Index: BULLISH divergence (index vs internal breadth).")
+alertcondition(bear_div, "Bearish divergence", "EQC Asia Index: BEARISH divergence (index vs internal breadth).")
+
+alertcondition(ema_cross_up, "Crossed EMA up",   "EQC Asia Index crossed the EMA upward.")
+alertcondition(ema_cross_dn, "Crossed EMA down", "EQC Asia Index crossed the EMA downward.")
+
+alertcondition(conf_bull, "BULLISH confluence", "EQC Asia Index: BULLISH confluence (>= minimum aligned factors).")
+alertcondition(conf_bear, "BEARISH confluence", "EQC Asia Index: BEARISH confluence (>= minimum aligned factors).")
+
+// Cycle invalidations (Start crossed against the cycle)
+any_inval = ni_inv or cs_inv or ko_inv or hs_inv
+alertcondition(any_inval, "Cycle INVALIDATED", "EQC Asia Index: a component cycle was invalidated (price crossed the Start against the cycle).")
+
+// Aggregate alert (fires on any structural event — handy for a single alert)
+any_event = bos_bull or bos_bear or choch_bull or choch_bear or liq_sweep_up or liq_sweep_dn or bull_div or bear_div or enter_mania or into_fear
+alertcondition(any_event, "ANY EQC Asia event", "EQC Asia Index: event detected (structure / zone / divergence / liquidity).")
