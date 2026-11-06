@@ -3829,7 +3829,7 @@ function loadAvgDrawdown() {
   };
   const script = document.createElement('script');
   script.id = cb;
-  script.src = `https://docs.google.com/spreadsheets/d/${CLOSED_SHEET_ID}/gviz/tq?tqx=responseHandler:${cb}&gid=${CLOSED_GID}&range=I20`;
+  script.src = `https://docs.google.com/spreadsheets/d/${CLOSED_SHEET_ID}/gviz/tq?tqx=responseHandler:${cb}&gid=${CLOSED_GID}&range=P1`;
   script.onerror = () => { delete window[cb]; };
   document.head.appendChild(script);
 }
