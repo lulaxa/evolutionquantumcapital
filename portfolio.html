@@ -1391,12 +1391,12 @@ img, table { max-width: 100%; }
     </div>
     <div class="kpi-box reveal d1">
       <div class="kpi-label" data-i18n="kpi2_label">Best Trade</div>
-      <div class="kpi-value">+163%</div>
-      <div class="kpi-sub" data-i18n="kpi2_sub">IBRX - 163.64% gain</div>
+      <div class="kpi-value" id="kpi-best">-</div>
+      <div class="kpi-sub" id="kpi-best-sub">-</div>
     </div>
     <div class="kpi-box reveal d2">
       <div class="kpi-label" data-i18n="kpi3_label">Average R-Ratio</div>
-      <div class="kpi-value">1:3.1</div>
+      <div class="kpi-value" id="kpi-rr">-</div>
       <div class="kpi-sub" data-i18n="kpi3_sub">Reward/risk per trade</div>
     </div>
   </div>
@@ -1972,7 +1972,7 @@ function loadPartialPositions() {
         const tp1p   = rv(row, 3); const tp1q = rv(row, 4);
         const tp2p   = rv(row, 5); const tp2q = rv(row, 6);
         const tp3p   = rv(row, 7); const tp3q = rv(row, 8);
-        const realPnl= rv(row, 9);
+        const realPnl= rv(row, 11); // col 11 = PNL$ (cols 9/10 = TP4 price / QTD 4)
 
         const calcPct = (tpPrice) => {
           if (!tpPrice || !avgIn) return null;
@@ -1987,7 +1987,7 @@ function loadPartialPositions() {
           tp3pct:  tp3q > 0 ? fmt(calcPct(tp3p)) : '-',
           realPnl: realPnl !== null ? String(realPnl) : '-',
         };
-      }).filter(r => r.ticker && r.ticker !== '-' && !r.ticker.startsWith('Date('));
+      }).filter(r => r.ticker && r.ticker !== '-' && r.ticker.toUpperCase() !== 'TICKER' && !r.ticker.startsWith('Date('));
       renderPartialRows(rows);
     } catch(e) {
       console.error('Partial error:', e);
@@ -2032,6 +2032,20 @@ function renderClosedRows(rows) {
   const total = valid.reduce((sum, r) => sum + (r.realPnl || 0), 0);
   const kpi = document.getElementById('kpi-total');
   if (kpi && total !== 0) kpi.textContent = (total >= 0 ? '+$' : '-$') + Math.abs(total).toFixed(2);
+  // Best trade = maior PNL % (calculado em tempo real)
+  const withPct = valid.filter(r => r.pnlPct !== null && !isNaN(r.pnlPct));
+  if (withPct.length) {
+    const best = withPct.reduce((a, b) => (b.pnlPct > a.pnlPct ? b : a));
+    const bv = document.getElementById('kpi-best');
+    const bs = document.getElementById('kpi-best-sub');
+    if (bv) bv.textContent = '+' + Math.round(best.pnlPct) + '%';
+    if (bs) bs.textContent = best.ticker + ' - ' + best.pnlPct.toFixed(2) + '% ' + (document.documentElement.lang === 'pt' ? 'de ganho' : 'gain');
+  }
+  // Average R-Ratio em tempo real (só RR válidos e positivos; "NA" / negativos = sem SL registado)
+  const rrVals = valid.map(r => parseFloat(String(r.rrSetup).replace(/^1:/, '').replace(',', '.')))
+                      .filter(x => !isNaN(x) && x > 0);
+  const rrEl = document.getElementById('kpi-rr');
+  if (rrEl && rrVals.length) rrEl.textContent = '1:' + (rrVals.reduce((a, b) => a + b, 0) / rrVals.length).toFixed(1);
   tbody.innerHTML = top10closed.map(r => {
     const isPos = (r.realPnl || 0) >= 0;
     const cls   = isPos ? 'positive' : 'negative';
@@ -2075,7 +2089,7 @@ function loadClosedPositions() {
       const iPnlPct  = [cidx('pnl %'), cidx('pnl%'), cidx('pnl pct')].find(i => i !== -1) ?? 5;
       const iRrSetup = [cidx('rr'), cidx('trade rr'), cidx('r:r')].find(i => i !== -1) ?? 6;
       const iRealPnl = [cidx('real pnl'), cidx('pnl ($)'), cidx('real p&l'), cidx('lucro real')].find(i => i !== -1) ?? 7;
-      const iMae     = [cidx('mae %'), cidx('mae%'), cidx('mae')].find(i => i !== -1) ?? 9;
+      const iMae     = [cidx('mae %'), cidx('mae%'), cidx('mae')].find(i => i !== -1) ?? 8;
 
       console.log('Closed indices → ticker:', iTicker, '| tf:', iTf, '| priceIn:', iPriceIn, '| priceOut:', iPriceOut, '| pnlPct:', iPnlPct, '| rr:', iRrSetup, '| realPnl:', iRealPnl, '| mae:', iMae);
 
@@ -2098,7 +2112,8 @@ function loadClosedPositions() {
         let pnlPctVal = null;
         if (pctRaw !== null) {
           const n = typeof pctRaw === 'number' ? pctRaw : parseFloat(String(pctRaw).replace('%','').replace(',','.'));
-          pnlPctVal = Math.abs(n) < 2 ? n * 100 : n; // if decimal (e.g. 0.26), multiply by 100
+          // Sheet PNL% is always a decimal fraction (0.26 = 26%, 3.55 = 355%) → always ×100
+          pnlPctVal = typeof pctRaw === 'number' ? n * 100 : n;
         } else {
           const f = fv(row, iPnlPct).replace('%','').replace(',','.');
           if (f !== '-') pnlPctVal = parseFloat(f);
@@ -2114,7 +2129,7 @@ function loadClosedPositions() {
           maePct:   maeRaw !== null ? maeNum.toFixed(2) + '%' : '-',
           maeNum,
         };
-      }).filter(r => r.ticker && r.ticker !== '-' && !r.ticker.startsWith('Date('));
+      }).filter(r => r.ticker && r.ticker !== '-' && r.ticker.toUpperCase() !== 'TICKER' && !r.ticker.startsWith('Date('));
       renderClosedRows(rows);
     } catch(e) {
       console.error('Closed error:', e);
